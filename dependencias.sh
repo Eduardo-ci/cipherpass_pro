@@ -1,0 +1,1 @@
+pip install PySide6 zxcvbn cryptography platformdirs requests argon2-cffi qrcode[pil]

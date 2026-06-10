@@ -1,0 +1,1609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>650</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>CipherPass</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/icono_generador_g44.png</normaloff>:/icons/icono_generador_g44.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QMainWindow, QWidget { background-color: #2b2b2b; color: #f0f0f0; }
+QTabWidget::pane { border: 1px solid #444; }
+QLineEdit, QSpinBox, QComboBox { background-color: #353535; border: 1px solid #555; color: #fff; padding: 4px; border-radius: 3px; }
+QLineEdit:disabled, QSpinBox:disabled, QComboBox:disabled, QPushButton:disabled { background-color: #2a2a2a; color: #777; border-color: #444; }
+QPushButton { background-color: #0d6efd; border: 1px solid #0a58ca; color: #fff; padding: 6px; border-radius: 4px; }
+QPushButton:hover { background-color: #0b5ed7; }
+QPushButton:pressed { background-color: #0a58ca; }
+QTabBar::tab { background: #353535; color: #bbb; padding: 8px 12px; margin-right: 2px; border-top-left-radius: 4px; border-top-right-radius: 4px; }
+QTabBar::tab:selected { background: #505050; color: #fff; font-weight: bold; }
+QTabBar::tab:disabled { background: #2a2a2a; color: #555; }
+QProgressBar { border: 1px solid #555; border-radius: 4px; text-align: center; color: #fff; font-weight: bold; }
+QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_contrasena">
+       <attribute name="title">
+        <string>🔑 Senha</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_contrasena">
+        <item>
+         <layout class="QFormLayout" name="formLayout_contrasena_config">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_longitud">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Comprimento (5-128):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="spinBox_longitud">
+            <property name="minimum">
+             <number>5</number>
+            </property>
+            <property name="maximum">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>14</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_compliance">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame { background-color: #303030; border: 1px solid #444; border-radius: 4px; padding: 6px; margin-top: 4px; margin-bottom: 4px; }</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_compliance">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_compliance_header">
+             <item>
+              <widget class="QLabel" name="label_compliance">
+               <property name="text">
+                <string>&lt;b&gt;Modo de Conformidade:&lt;/b&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_compliance_pro_badge">
+               <property name="styleSheet">
+                <string notr="true">background-color: #0d6efd; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;</string>
+               </property>
+               <property name="text">
+                <string>PRO</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_compliance">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_compliance_controls">
+             <item>
+              <widget class="QComboBox" name="comboBox_compliance">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <item>
+                <property name="text">
+                 <string>── Modo manual ──</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Active Directory</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>AWS IAM</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>PCI-DSS</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>NIST 800-63B</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_manual_mode">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Modo Manual</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_compliance_badge">
+             <property name="visible">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_mayusculas">
+          <property name="text">
+           <string>A-Z (Maiúsculas)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_minusculas">
+          <property name="text">
+           <string>a-z (Minúsculas)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_numeros">
+          <property name="text">
+           <string>0-9 (Números)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_simbolos">
+          <property name="text">
+           <string>Símbolos (#%*@!%&amp;$? e mais)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_evitar_ambiguos">
+          <property name="text">
+           <string>Evitar caracteres ambíguos (ex.: l, 1, I, 0, O)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_c1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>10</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_contrasena_minimos">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_min_numeros">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo de números (0-9):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="spinBox_min_numeros">
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_min_especiales">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo de especiais:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinBox_min_especiales">
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="progressBar_fortaleza">
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="format">
+           <string>Força: %p%</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_generar_contrasena">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Gerar Senha</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_contrasena_resultado">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_contrasena">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_contrasena">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Copiar</string>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="spacer_c2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_frase">
+       <attribute name="title">
+        <string>🔏 Frase-senha</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_frase">
+        <item>
+         <layout class="QFormLayout" name="formLayout_frase_config">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_num_palabras">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Número de palavras (3-20):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="spinBox_num_palabras">
+            <property name="minimum">
+             <number>3</number>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="value">
+             <number>6</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_separador">
+            <property name="text">
+             <string>Separador:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_separador">
+            <property name="text">
+             <string>-</string>
+            </property>
+            <property name="maxLength">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_frase_aviso">
+          <property name="text">
+           <string>O valor deve estar entre 3 e 20. Use 6 palavras ou mais para gerar uma frase-senha segura.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_capitalizar">
+          <property name="text">
+           <string>Capitalizar (cada palavra começa com maiúscula)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_incluir_numeros">
+          <property name="text">
+           <string>Incluir número aleatório</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_f1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_generar_frase">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Gerar Frase-senha</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_frase_resultado">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_frase">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_frase">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_frase">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_usuario">
+       <attribute name="title">
+        <string>👤 Nome de usuário</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_usuario">
+        <item>
+         <layout class="QFormLayout" name="formLayout_usuario">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_tipo_usuario">
+            <property name="text">
+             <string>Tipo de usuário:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_tipo_usuario">
+            <item>
+             <property name="text">
+              <string>Palavra aleatória</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>E-mail</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Apelido</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_usuario_dominio">
+            <property name="text">
+             <string>Domínio (opcional):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_usuario_dominio">
+            <property name="placeholderText">
+             <string>ex.: empresa.com (sem @)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_usuario_tag">
+            <property name="text">
+             <string>Tag de serviço:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_usuario_tag">
+            <item>
+             <widget class="QCheckBox" name="checkBox_usuario_servicio">
+              <property name="text">
+               <string>Incluir (+tag)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_usuario_servicio">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>ex.: netflix</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="spacer_u1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_generar_usuario">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Gerar Nome de Usuário</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_usuario_resultado">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_usuario">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_usuario">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_usuario">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_validar">
+       <attribute name="title">
+        <string>🛡️ Validar</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_validar">
+        <item>
+         <widget class="QLabel" name="label_validar_info">
+          <property name="styleSheet">
+           <string notr="true">color: #aaa; font-style: italic; margin-bottom: 10px;</string>
+          </property>
+          <property name="text">
+           <string>Verifique quão rápido um invasor poderia quebrar sua senha.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_validar">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_validar_pass">
+            <property name="text">
+             <string>Senha:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_validar_input">
+            <item>
+             <widget class="QLineEdit" name="lineEdit_validar_pass">
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="placeholderText">
+               <string>Digite a senha...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_validar_ver">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>👁️</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_hibp">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame { background-color: #303030; border: 1px solid #444; border-radius: 4px; padding: 8px; margin-top: 4px; margin-bottom: 4px; }</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_hibp">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_hibp_header">
+             <item>
+              <widget class="QCheckBox" name="checkBox_hibp">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>🔒 Verificar no Have I Been Pwned</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_hibp_pro">
+               <property name="styleSheet">
+                <string notr="true">background-color: #0d6efd; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;</string>
+               </property>
+               <property name="text">
+                <string>PRO</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_hibp">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_hibp_controls">
+             <item>
+              <widget class="QPushButton" name="btn_hibp_check">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string>🔍 Verificar agora</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QProgressBar" name="progressBar_hibp">
+               <property name="visible">
+                <bool>false</bool>
+               </property>
+               <property name="maximum">
+                <number>0</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+               <property name="textVisible">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_hibp_resultado">
+             <property name="visible">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font-weight: bold; padding: 8px; background-color: #2b2b2b; border-radius: 4px;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_validar_entropia">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_validar_tiempo">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px; font-weight: bold; margin-bottom: 5px;</string>
+          </property>
+          <property name="text">
+           <string>Tempo estimado: -</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="progressBar_validar">
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="textVisible">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_validar_mensaje">
+          <property name="styleSheet">
+           <string notr="true">margin-top: 10px; font-weight: bold;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_validar">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+       <zorder>frame_hibp</zorder>
+       <zorder>label_validar_entropia</zorder>
+       <zorder>label_validar_info</zorder>
+       <zorder>label_validar_tiempo</zorder>
+       <zorder>progressBar_validar</zorder>
+       <zorder>label_validar_mensaje</zorder>
+      </widget>
+      <widget class="QWidget" name="tab_tokens">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <attribute name="title">
+        <string>🔐 Tokens API &amp; Nuvem</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_tokens">
+        <item>
+         <widget class="QLabel" name="label_tokens_pro">
+          <property name="styleSheet">
+           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
+          </property>
+          <property name="text">
+           <string>🔒 Funcionalidade PRO</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_tokens_info">
+          <property name="text">
+           <string>Gere tokens seguros para APIs, serviços em nuvem e UUIDs únicos.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_token_tipo">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_token_tipo">
+            <property name="text">
+             <string>Tipo de token:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_token_tipo">
+            <item>
+             <property name="text">
+              <string>Token URL-safe (secrets.token_urlsafe)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Token hexadecimal (secrets.token_hex)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>UUID v4 (uuid.uuid4)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Bearer Token (prefixo + token_urlsafe)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_token_length">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_token_length">
+            <property name="text">
+             <string>Comprimento (bytes):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="spinBox_token_length">
+            <property name="minimum">
+             <number>16</number>
+            </property>
+            <property name="maximum">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>32</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_generar_token">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Gerar Token</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_token_result">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_token_resultado">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_token">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="spacer_t1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_vault">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <attribute name="title">
+        <string>🔐 Cofre Cifrado</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_vault">
+        <item>
+         <widget class="QLabel" name="label_vault_pro">
+          <property name="styleSheet">
+           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
+          </property>
+          <property name="text">
+           <string>🔒 Funcionalidade PRO</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_vault_info">
+          <property name="text">
+           <string>Exporte e importe dados cifrados com Argon2id e AES-256. Requer senha mestra.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_export">
+          <property name="text">
+           <string>&lt;b&gt;Exportar Cofre&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_vault_kdf">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_vault_kdf">
+            <property name="toolTip">
+             <string>Função de derivação de chave. Argon2id é mais resistente a ataques GPU e de força bruta.</string>
+            </property>
+            <property name="text">
+             <string>Algoritmo KDF:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_vault_kdf">
+            <item>
+             <property name="text">
+              <string>Argon2id (recomendado)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>PBKDF2-SHA256 (fallback stdlib)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit_export_data">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="placeholderText">
+           <string>Digite os dados a serem cifrados (JSON, texto, etc.)...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_export_vault">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>🔒 Exportar e Cifrar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_v1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_import">
+          <property name="text">
+           <string>&lt;b&gt;Importar Cofre&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_import_file">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_import_path">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>Selecione o arquivo do cofre...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_browse_vault">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📁</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_import_vault">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>🔓 Importar e Decifrar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_imported_data">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit_import_data">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_vault_estado">
+          <property name="styleSheet">
+           <string notr="true">font-size: 13px; padding: 4px; border-radius: 3px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_v2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_totp">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <attribute name="title">
+        <string>📱 Gerador TOTP</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_totp">
+        <item>
+         <widget class="QLabel" name="label_totp_pro">
+          <property name="styleSheet">
+           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
+          </property>
+          <property name="text">
+           <string>🔒 Funcionalidade PRO</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_totp_info">
+          <property name="text">
+           <string>Gere segredos TOTP para autenticação de dois fatores (2FA/MFA).</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_totp_name">
+          <property name="text">
+           <string>&lt;b&gt;Nome do Serviço/Conta&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_totp">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_service_name">
+            <property name="text">
+             <string>Nome:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_service_name">
+            <property name="placeholderText">
+             <string>ex.: Google, GitHub, etc.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_generar_totp">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>🔑 Gerar Segredo TOTP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_totp_secret">
+          <property name="text">
+           <string>&lt;b&gt;Segredo Base32&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_totp_secret">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_totp_secret">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_totp">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_totp_uri">
+          <property name="text">
+           <string>&lt;b&gt;URI otpauth://&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_totp_uri">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_totp_uri">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_copiar_uri">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📋</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_totp_qr">
+          <property name="text">
+           <string>&lt;b&gt;Código QR&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_qr_image">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>O código QR aparecerá aqui</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_save_qr">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>💾 Salvar QR como PNG</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_t3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_pro">
+       <attribute name="title">
+        <string>⭐ Pro</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_pro">
+        <item>
+         <widget class="QLabel" name="label_pro_title">
+          <property name="text">
+           <string>&lt;h2&gt;🚀 CipherPass PRO&lt;/h2&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_pro_desc">
+          <property name="text">
+           <string>Desbloqueie todos os recursos avançados de segurança com uma licença perpétua de USD 20 por dispositivo.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_pro_features">
+          <property name="text">
+           <string>&lt;b&gt;Inclui:&lt;/b&gt;&lt;br/&gt;
+✓ Verificação no Have I Been Pwned (HIBP)&lt;br/&gt;
+✓ Cofre cifrado exportável com Argon2id&lt;br/&gt;
+✓ Gerador TOTP/MFA com código QR&lt;br/&gt;
+✓ Presets de conformidade (AD, AWS, PCI-DSS, NIST)&lt;br/&gt;
+✓ Gerador de tokens API e UUID</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_p1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_activate">
+          <property name="text">
+           <string>&lt;b&gt;Ativar Licença&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_license_input">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_license_key">
+            <property name="placeholderText">
+             <string>Digite sua chave de licença...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_activate_license">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Ativar</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_license_status">
+          <property name="styleSheet">
+           <string notr="true">font-weight: bold; padding: 8px; background-color: #353535; border-radius: 4px;</string>
+          </property>
+          <property name="text">
+           <string>Status: Não ativado</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_buy_license">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #28a745; border: 1px solid #218838; font-weight: bold; padding: 10px;</string>
+          </property>
+          <property name="text">
+           <string>🛒 Comprar Licença PRO (USD $19,99)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_p2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_deactivate">
+          <property name="text">
+           <string>&lt;b&gt;Desativar Licença&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_deactivate_license">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Desativar Licença PRO</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_p3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_footer">
+      <item>
+       <widget class="QLabel" name="label_idioma">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Idioma:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_idioma">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_footer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_licencia">
+        <property name="toolTip">
+         <string>Vá para a aba ⭐ Pro para ativar sua licença</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: #888; font-size: 11px;</string>
+        </property>
+        <property name="text">
+         <string>🔒 Versão Gratuita</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="g19.qrc"/>
+ </resources>
+ <connections/>
+</ui>

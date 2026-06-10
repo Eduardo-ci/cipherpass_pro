@@ -1,0 +1,37 @@
+# .gitignore
+__pycache__/
+build/
+dist/
+*.spec
+secret.key
+*.pyc
+.env
+.venv/
+venv/
+AppDir/
+CipherPass.AppDir/
+*.AppImage
+*.deb
+*.tar.gz
+cipherpass-deb/
+*.egg-info/
+.Python
+.envrc
+.env.local
+.idea/
+.vscode/
+*.log
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints
+*.sqlite3
+*.db
+Thumbs.db
+.DS_Store
+
+# Recursos generados de UI
+g19_rc.py
+
+# Traducciones compiladas
+resources/lang/*.qm
+resources/diceware/*.enc

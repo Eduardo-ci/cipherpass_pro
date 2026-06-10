@@ -1,0 +1,38 @@
+{
+  "Active Directory": {
+    "length": 14,
+    "upper": true,
+    "lower": true,
+    "nums": true,
+    "syms": true,
+    "min_n": 1,
+    "min_s": 1
+  },
+  "AWS IAM": {
+    "length": 16,
+    "upper": true,
+    "lower": true,
+    "nums": true,
+    "syms": true,
+    "min_n": 1,
+    "min_s": 1
+  },
+  "PCI-DSS": {
+    "length": 12,
+    "upper": true,
+    "lower": true,
+    "nums": true,
+    "syms": true,
+    "min_n": 1,
+    "min_s": 1
+  },
+  "NIST 800-63B": {
+    "length": 15,
+    "upper": true,
+    "lower": true,
+    "nums": false,
+    "syms": false,
+    "min_n": 0,
+    "min_s": 0
+  }
+}

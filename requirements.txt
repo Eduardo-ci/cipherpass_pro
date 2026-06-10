@@ -1,0 +1,27 @@
+# Interfaz Gráfica (Qt para Python)
+PySide6
+
+# Evaluación de fortaleza de contraseñas
+zxcvbn-python
+
+# Gestión de rutas de configuración del sistema
+platformdirs
+
+# Manejo del portapapeles
+pyperclip
+
+# Criptografía para diccionarios y claves
+cryptography
+
+# Criptografía avanzada (Bóveda PRO)
+argon2-cffi
+
+# Generación de códigos QR (TOTP PRO)
+qrcode
+pillow
+
+# Peticiones de red (HIBP y validación de licencia PRO)
+requests
+
+# Core Criptográfico y Lógica de Negocio (Instalado desde tu nuevo repositorio)
+cipherpass_core @ git+https://github.com/Eduardo-ci/cipherpass_core.git@main

@@ -1,0 +1,34 @@
+site_name: CipherPass PRO
+site_description: Documentación oficial y referencia de la API para CipherPass PRO.
+site_author: Eduardo Mallo
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: slate
+      primary: blue
+      accent: indigo
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_root_heading: true
+            show_source: false
+
+nav:
+  - Inicio: index.md
+  - Arquitectura de Seguridad: security_architecture.md
+  - Referencia API:
+      - Aplicación Principal: api/main.md
+      - Gestor de Licencias: api/license_manager.md
