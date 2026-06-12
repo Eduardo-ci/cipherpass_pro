@@ -80,7 +80,7 @@ class LicenseManager:
             headers = {"Accept": "application/json"}
             
             # Timeout corto para no congelar la UI indefinidamente
-            response = requests.post(url, data=payload, headers=headers, timeout=5)
+            response = requests.post(url, json=payload, headers=headers, timeout=5)
             
             if response.status_code == 200:
                 data = response.json()

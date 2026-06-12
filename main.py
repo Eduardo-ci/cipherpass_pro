@@ -56,6 +56,7 @@ logging.basicConfig(
 
 # --- CONSTANTES ---
 LANG_MAP: dict = {"Español": "es", "English": "en", "Português": "pt"}
+VERSION = "1.0.3"
 
 # --- GESTIÓN DE RUTAS ---
 def resource_path(relative_path: str) -> str:
@@ -341,6 +342,9 @@ class CipherPassApp(QMainWindow):
         self.ui.btn_activate_license.clicked.connect(self.handle_license_activation)
         self.ui.btn_deactivate_license.clicked.connect(self.handle_license_deactivation)
 
+        # Configurar menú superior
+        self._setup_menus()
+
         # Interceptar clics en pestañas y áreas deshabilitadas para mostrar CTA de PRO
         self.ui.tabWidget.tabBar().installEventFilter(self)
         self.ui.tab_contrasena.installEventFilter(self)
@@ -375,6 +379,57 @@ class CipherPassApp(QMainWindow):
             self.ui.label_licencia.setText("🔓 Versión PRO" if is_pro else "🔒 Versión Free")
         except AttributeError as e:
             logging.warning(f"No se pudo aplicar regla PRO a widget inexistente: {e}")
+
+    def _setup_menus(self) -> None:
+        """Configura la barra de menús superior."""
+        menu_bar = self.menuBar()
+        menu_bar.clear()  # Evitar duplicados al cambiar de idioma
+        
+        lang_code = self.current_locale.name().split("_")[0]
+        ayuda_text = {
+            "en": "Help",
+            "pt": "Ajuda"
+        }.get(lang_code, "Ayuda")
+        
+        acerca_text = {
+            "en": "About CipherPass...",
+            "pt": "Sobre CipherPass..."
+        }.get(lang_code, "Acerca de CipherPass...")
+        
+        help_menu = menu_bar.addMenu(ayuda_text)
+        about_action = help_menu.addAction(acerca_text)
+        about_action.triggered.connect(self.show_about_dialog)
+
+    @Slot()
+    def show_about_dialog(self) -> None:
+        """Muestra el diálogo de información de la aplicación."""
+        is_pro = self.license_manager.is_pro_active()
+        lang_code = self.current_locale.name().split("_")[0]
+        
+        estado = {
+            "en": "⭐ PRO (Activated)" if is_pro else "🔒 Free (Not activated)",
+            "pt": "⭐ PRO (Ativada)" if is_pro else "🔒 Free (Não ativada)"
+        }.get(lang_code, "⭐ PRO (Activada)" if is_pro else "🔒 Free (No activada)")
+        
+        version_lbl = {"en": "Version:", "pt": "Versão:"}.get(lang_code, "Versión:")
+        license_lbl = {"en": "Current license:", "pt": "Licença atual:"}.get(lang_code, "Licencia actual:")
+        desc_lbl = {
+            "en": "Desktop application designed to generate, validate, and protect cryptographic credentials ensuring your privacy offline-first.",
+            "pt": "Aplicativo de desktop projetado para gerar, validar e proteger credenciais criptográficas garantindo sua privacidade offline-first."
+        }.get(lang_code, "Aplicación de escritorio diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.")
+        visit_lbl = {"en": "Visit the official website", "pt": "Visitar o site oficial"}.get(lang_code, "Visitar el sitio web oficial")
+        about_title = {"en": "About CipherPass", "pt": "Sobre o CipherPass"}.get(lang_code, "Acerca de CipherPass")
+        
+        # QMessageBox.about interpreta HTML nativamente
+        texto_html = (
+            f"<h2>CipherPass</h2>"
+            f"<p><b>{version_lbl}</b> {VERSION}</p>"
+            f"<p><b>{license_lbl}</b> {estado}</p>"
+            f"<hr>"
+            f"<p>{desc_lbl}</p>"
+            f"<p><a href='https://github.com/tu-usuario/CipherPass_Pro'>{visit_lbl}</a></p>"
+        )
+        QMessageBox.about(self, about_title, texto_html)
 
     # --- FILTRO DE EVENTOS (INTERCEPTAR CLICS EN ÁREAS PRO) ---
     def eventFilter(self, obj: QObject, event: QEvent) -> bool:

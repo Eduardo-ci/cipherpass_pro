@@ -5,54 +5,58 @@
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey)
 ![Security](https://img.shields.io/badge/security-AES--GCM%20%7C%20Argon2id-red)
 
-**CipherPass** es una potente y segura aplicación de escritorio diseñada para generar, validar y proteger credenciales criptográficas. Construida con **Python** y **Qt (PySide6)**, se enfoca en la privacidad *offline-first*, garantizando que tus datos nunca abandonen tu dispositivo a menos que tú lo decidas.
+*Read this in other languages: English | Español*
 
 ---
 
-## ✨ Características
+## English
 
-CipherPass ofrece un modelo *Freemium* donde las herramientas esenciales siempre serán gratuitas, con opciones avanzadas disponibles para usuarios de **CipherPass PRO**.
+**CipherPass** is a powerful and secure desktop application designed to generate, validate, and protect cryptographic credentials. Built with **Python** and **Qt (PySide6)**, it focuses on *offline-first* privacy, ensuring your data never leaves your device unless you decide to do so.
 
-### 🟢 Versión Free (Gratuita)
-- **Generador de Contraseñas:** Crea contraseñas seguras ajustando longitud, números, símbolos y evitando caracteres ambiguos.
-- **Frases de Contraseña (Diceware):** Genera frases fáciles de recordar pero matemáticamente seguras usando diccionarios locales cifrados.
-- **Generador de Usuarios:** Crea alias y correos electrónicos con "tags" (ej. `user+netflix@gmail.com`) para rastrear el spam.
-- **Analizador de Fortaleza:** Comprueba el tiempo estimado de descifrado (*crack time*) utilizando el algoritmo `zxcvbn` y cálculos de entropía.
+### ✨ Features
 
-### ⭐ Versión PRO (Premium)
-- **Verificación HIBP (Have I Been Pwned):** Valida si tu contraseña ha sido expuesta en filtraciones de datos usando *k-Anonymity* (solo se envía el prefijo SHA-1, nunca tu contraseña).
-- **Bóveda Cifrada Exportable:** Cifra y exporta notas o JSONs usando **AES-GCM** y derivación de claves con **Argon2id** (o PBKDF2).
-- **Generador de TOTP (2FA):** Crea secretos Base32 y genera códigos QR compatibles con Google Authenticator o Authy.
-- **Perfiles de Cumplimiento (Compliance):** Fuerza la generación de contraseñas bajo normativas estrictas como **Active Directory, AWS IAM, PCI-DSS o NIST 800-63B**.
-- **Tokens API & Nube:** Genera cadenas Hexadecimales, URL-Safe, Bearer Tokens y UUIDv4 nativos.
+CipherPass offers a *Freemium* model where essential tools will always be free, with advanced options available for **CipherPass PRO** users.
 
----
+#### 🟢 Free Tier
+- **Password Generator:** Create secure passwords by adjusting length, numbers, symbols, and avoiding ambiguous characters.
+- **Passphrases (Diceware):** Generate easy-to-remember yet mathematically secure passphrases using encrypted local dictionaries.
+- **Username Generator:** Create aliases and emails with "tags" (e.g., `user+netflix@gmail.com`) to track spam.
+- **Strength Analyzer:** Check the estimated crack time using the `zxcvbn` algorithm and entropy calculations.
 
-## 🛡️ Seguridad y Criptografía
-
-La seguridad es el pilar de CipherPass. Este proyecto implementa estándares de la industria:
-
-- **Cifrado en reposo (Bóveda):** `AES-GCM` (Autenticación cifrada) asegurando confidencialidad e integridad.
-- **Derivación de Claves (KDF):** Usa `Argon2id` (configurado para consumir 256MB de RAM y prevenir ataques por GPU) y `PBKDF2-SHA256` como respaldo.
-- **Generación de Entropía:** Utiliza `secrets.SystemRandom()` (CSPRNG del sistema operativo), nunca generadores pseudoaleatorios predecibles como `random`.
-- **Saneamiento de Memoria:** Destrucción explícita (`del`) de contraseñas maestras y claves en memoria inmediatamente después de usarse.
-- **Base de datos Diceware:** Los diccionarios de palabras están cifrados localmente usando simetría `Fernet`.
+#### ⭐ PRO Tier (Premium)
+- **HIBP Verification (Have I Been Pwned):** Validate if your password has been exposed in data breaches using *k-Anonymity* (only the SHA-1 prefix is sent, never your password).
+- **Exportable Encrypted Vault:** Encrypt and export notes or JSONs using **AES-GCM** and key derivation with **Argon2id** (or PBKDF2).
+- **TOTP Generator (2FA):** Create Base32 secrets and generate QR codes compatible with Google Authenticator or Authy.
+- **Compliance Profiles:** Enforce password generation under strict regulations like **Active Directory, AWS IAM, PCI-DSS, or NIST 800-63B**.
+- **API & Cloud Tokens:** Generate Hexadecimal strings, URL-Safe tokens, Bearer Tokens, and native UUIDv4.
 
 ---
 
-## 🚀 Instalación
+### 🛡️ Security and Cryptography
 
-### Opción 1: Instalar mediante paquete `.deb` (Debian/Ubuntu)
-Si estás en Linux, puedes instalar la aplicación nativa compilada directamente:
+Security is the pillar of CipherPass. This project implements industry standards:
+
+- **Encryption at rest (Vault):** `AES-GCM` (Authenticated encryption) ensuring confidentiality and integrity.
+- **Key Derivation (KDF):** Uses `Argon2id` (configured to consume 256MB of RAM to prevent GPU attacks) and `PBKDF2-SHA256` as a fallback.
+- **Entropy Generation:** Uses `secrets.SystemRandom()` (OS CSPRNG), never predictable pseudo-random generators like `random`.
+- **Memory Sanitization:** Explicit destruction (`del`) of master passwords and keys in memory immediately after use.
+- **Diceware Database:** Word dictionaries are locally encrypted using symmetric `Fernet`.
+
+---
+
+### 🚀 Installation
+
+#### Option 1: Install via `.deb` package (Debian/Ubuntu)
+If you are on Linux, you can install the natively compiled application directly:
 
 ```bash
-# Descarga el paquete (reemplaza con la versión actual)
+# Download the package (replace with the current version)
 wget https://github.com/tu-usuario/CipherPass_Pro/releases/download/v1.0.3/cipherpass_1.0.3_amd64.deb
 
-# Instala el paquete
+# Install the package
 sudo dpkg -i cipherpass_1.0.3_amd64.deb
 
-# Si faltan dependencias, ejecuta:
+# If dependencies are missing, run:
 sudo apt-get install -f
 ```
 *Una vez instalada, búscalo en tu menú de aplicaciones o ejecuta `cipherpass` en la terminal.*
@@ -135,4 +139,8 @@ Puedes activar las funcionalidades PRO adquiriendo una clave de licencia.
 ¡Las contribuciones son bienvenidas! Si deseas reportar un error, solicitar una característica o enviar un *pull request*, siéntete libre de utilizar el gestor de Issues.
 
 ## 📄 Licencia
-El código base y la aplicación *Free* están disponibles para uso personal. El uso de las funcionalidades avanzadas está restringido por los [Términos y Condiciones de CipherPass PRO].
+**CipherPass PRO** es software de código cerrado (Propietario) bajo un modelo Freemium. 
+
+El uso de esta aplicación está regido por nuestro **Acuerdo de Licencia de Usuario Final (EULA)**, que prohíbe la distribución no autorizada, reventa, o ingeniería inversa del software y su sistema de licencias. Puedes leer los términos completos en el archivo `LICENSE` incluido en este repositorio.
+
+*Nota: El motor criptográfico subyacente (`cipherpass_core`) es de código abierto y está disponible de manera pública bajo sus propios términos de licencia (Dual Licensing).*
