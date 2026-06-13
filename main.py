@@ -46,6 +46,19 @@ from cipherpass_core.analyzers import StrengthAnalyzer
 from cipherpass_core.crypto_vault import VaultExporter
 from cipherpass_core.hibp import HIBPClient
 
+__all__ = [
+    "SettingsManager",
+    "ComplianceManager",
+    "CryptoManager",
+    "HIBPSignals",
+    "HIBPWorker",
+    "QRHelper",
+    "CipherPassApp",
+    "resource_path",
+    "LANG_MAP",
+    "VERSION"
+]
+
 # --- CONFIGURACIÓN DE LOGGING ---
 logging.basicConfig(
     level=logging.INFO,
