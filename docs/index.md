@@ -9,4 +9,3 @@ En este sitio encontrarás toda la información técnica necesaria para entender
 * **Inicio:** Esta página de bienvenida.
 * **Referencia API:** Contiene la documentación auto-generada del código fuente, incluyendo clases, métodos, parámetros y retornos.
   * [Aplicación Principal](api/main.md): Core de generación, análisis y criptografía (`main.py`).
-  * Gestor de Licencias: Sistema de activación y validación (`license_manager.py`).

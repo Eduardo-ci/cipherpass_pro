@@ -1,15 +1,3 @@
-DISEÑO DEL SISTEMA DE LICENCIAS:
-- Clase nueva: LicenseManager (archivo separado license_manager.py)
-- Validación: clave de licencia + hardware ID (uuid.getnode()) hasheados con SHA-256, almacenados en QSettings
-- Distribución de claves: compatible con Lemon Squeezy (no requiere servidor propio)
-- Upgrade instantáneo: LicenseManager.validate() habilita todos los widgets PRO sin reiniciar
-
-IMPLEMENTACIÓN EN UI:
-- Los archivos .ui contienen TODOS los widgets (Free + PRO); los PRO arrancan con setEnabled(False)
-- Un método _apply_pro_gates() en CipherPassApp aplica el estado de todos los widgets PRO de una vez
-- Al hacer clic en un widget PRO bloqueado: mostrar QDialog con CTA de activación
-- Indicador visual: badge "PRO" o ícono de candado en cada elemento bloqueado
-
 FEATURES POR TIER:
 Free: generador de contraseñas, frases Diceware, usernames, analizador de fortaleza básico
 PRO: tokens API/cloud, compliance presets, verificación HIBP, bóveda cifrada exportable, generador TOTP/MFA
