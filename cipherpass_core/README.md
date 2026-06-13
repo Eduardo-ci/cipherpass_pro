@@ -3,7 +3,6 @@
 ![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Security](https://img.shields.io/badge/security-AES--GCM%20%7C%20Argon2id-red)
 ![License](https://img.shields.io/badge/license-AGPL_3.0-blue)
-![Dual License](https://img.shields.io/badge/license-Dual_Licensing-orange)
 
 *Read this in other languages: English | Español*
 
@@ -11,7 +10,7 @@
 
 ## English
 
-**CipherPass Core** is the underlying, open-source cryptographic engine that powers the **CipherPass PRO** desktop application. It provides a suite of tools for generating, analyzing, and protecting credentials with a strong focus on privacy (*offline-first*).
+**CipherPass Core** is the underlying cryptographic engine that powers the open-source **CipherPass** desktop application. It provides a suite of tools for generating, analyzing, and protecting credentials with a strong focus on privacy (*offline-first*).
 
 By maintaining this core as open-source, we guarantee full transparency in the algorithms and methods used to handle the most sensitive data.
 
@@ -63,22 +62,19 @@ This module is designed to ensure the least possible exposure of secrets:
 - Passwords are never sent in plaintext to any external server.
 - Explicit memory sanitization after critical operations is facilitated.
 
-### 📦 CipherPass PRO (Desktop Application)
+### 📦 CipherPass (Desktop Application)
 
 If you are looking for an elegant graphical interface, visual vault exports, QR code generation for TOTP, and compliance profiles, discover the desktop application powered by this engine on the official website of **CipherPass PRO**.
 
-### 📄 License (Dual Licensing)
+### 📄 License
 
-This project uses a **Dual Licensing** model to ensure that open-source remains free while protecting the work from unauthorized commercial uses:
-
-1. **Open Source License (GNU AGPLv3):** You are free to audit, study, and use this source code in personal or open-source projects. However, if you integrate this core into a software or web service and distribute/offer it to the public, **you are obligated** to release your own source code under the same terms (AGPLv3).
-2. **Commercial License:** If you represent a company and wish to use `cipherpass_core` in a closed-source proprietary software, commercial application, or SaaS product (and do not wish to publish your source code), please contact the developers to purchase a commercial license.
+This project is licensed under the **GNU AGPLv3**. You are free to audit, study, and use this source code. If you integrate this core into a software or web service and distribute/offer it to the public, **you are obligated** to release your own source code under the same terms (AGPLv3).
 
 ---
 
 ## Español
 
-**CipherPass Core** es el motor criptográfico subyacente y de código abierto que impulsa la aplicación de escritorio **CipherPass PRO**. Proporciona una suite de herramientas de generación, análisis y protección de credenciales enfocadas en la privacidad (*offline-first*).
+**CipherPass Core** es el motor criptográfico subyacente que impulsa la aplicación libre de escritorio **CipherPass**. Proporciona una suite de herramientas de generación, análisis y protección de credenciales enfocadas en la privacidad (*offline-first*).
 
 Al mantener este núcleo como código abierto, garantizamos total transparencia en los algoritmos y métodos utilizados para manejar los datos más sensibles.
 
@@ -130,13 +126,10 @@ Este módulo está diseñado para que los secretos tengan la menor exposición p
 - No se envían contraseñas en texto plano a ningún servidor externo.
 - Se facilita el saneamiento de memoria tras operaciones críticas.
 
-### 📦 CipherPass PRO (Aplicación de Escritorio)
+### 📦 CipherPass (Aplicación de Escritorio)
 
-Si buscas una interfaz gráfica elegante, exportación visual de bóvedas, lectura de códigos QR para TOTP y perfiles de cumplimiento normativo (Compliance), descubre la aplicación de escritorio impulsada por este motor en la web oficial de **CipherPass PRO**.
+Si buscas una interfaz gráfica elegante, exportación visual de bóvedas, lectura de códigos QR para TOTP y perfiles de cumplimiento normativo (Compliance), descubre la aplicación de escritorio en este mismo repositorio.
 
-### 📄 Licencia (Dual Licensing)
+### 📄 Licencia
 
-Este proyecto utiliza un modelo de **Licencia Doble (Dual Licensing)** para garantizar que el código abierto siga siendo libre, mientras se protege el trabajo de usos comerciales privativos no autorizados:
-
-1. **Licencia Open Source (GNU AGPLv3):** Eres libre de auditar, estudiar y utilizar este código fuente en proyectos personales o de código abierto. Sin embargo, si integras este núcleo en un software o servicio web y lo distribuyes/ofreces al público, **estás obligado** a liberar tu propio código fuente bajo los mismos términos (AGPLv3).
-2. **Licencia Comercial:** Si representas a una empresa y deseas utilizar `cipherpass_core` en un software privativo cerrado, aplicación comercial, o producto SaaS (y no deseas publicar tu código fuente), por favor contacta a los desarrolladores para adquirir una licencia comercial.
+Este proyecto está liberado bajo la licencia **GNU AGPLv3**. Eres libre de auditar, estudiar y utilizar este código fuente. Si integras este núcleo en un software o servicio web y lo distribuyes/ofreces al público, **estás obligado** a liberar tu propio código fuente bajo los mismos términos (AGPLv3).

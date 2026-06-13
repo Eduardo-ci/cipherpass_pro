@@ -20,8 +20,5 @@ argon2-cffi
 qrcode
 pillow
 
-# Peticiones de red (HIBP y validación de licencia PRO)
-requests
-
 # Core Criptográfico y Lógica de Negocio (Instalado desde tu nuevo repositorio)
 cipherpass_core @ git+https://github.com/Eduardo-ci/cipherpass_core.git@main

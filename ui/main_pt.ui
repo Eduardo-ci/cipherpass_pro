@@ -77,9 +77,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
         </item>
         <item>
          <widget class="QFrame" name="frame_compliance">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="styleSheet">
            <string notr="true">QFrame { background-color: #303030; border: 1px solid #444; border-radius: 4px; padding: 6px; margin-top: 4px; margin-bottom: 4px; }</string>
           </property>
@@ -96,16 +93,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
               <widget class="QLabel" name="label_compliance">
                <property name="text">
                 <string>&lt;b&gt;Modo de Conformidade:&lt;/b&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_compliance_pro_badge">
-               <property name="styleSheet">
-                <string notr="true">background-color: #0d6efd; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;</string>
-               </property>
-               <property name="text">
-                <string>PRO</string>
                </property>
               </widget>
              </item>
@@ -128,9 +115,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
             <layout class="QHBoxLayout" name="horizontalLayout_compliance_controls">
              <item>
               <widget class="QComboBox" name="comboBox_compliance">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
                <item>
                 <property name="text">
                  <string>── Modo manual ──</string>
@@ -160,9 +144,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
              </item>
              <item>
               <widget class="QPushButton" name="btn_manual_mode">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
                <property name="maximumSize">
                 <size>
                  <width>120</width>
@@ -702,9 +683,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
         </item>
         <item>
          <widget class="QFrame" name="frame_hibp">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="styleSheet">
            <string notr="true">QFrame { background-color: #303030; border: 1px solid #444; border-radius: 4px; padding: 8px; margin-top: 4px; margin-bottom: 4px; }</string>
           </property>
@@ -719,21 +697,8 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
             <layout class="QHBoxLayout" name="horizontalLayout_hibp_header">
              <item>
               <widget class="QCheckBox" name="checkBox_hibp">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
                <property name="text">
                 <string>🔒 Verificar no Have I Been Pwned</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_hibp_pro">
-               <property name="styleSheet">
-                <string notr="true">background-color: #0d6efd; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;</string>
-               </property>
-               <property name="text">
-                <string>PRO</string>
                </property>
               </widget>
              </item>
@@ -756,9 +721,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
             <layout class="QHBoxLayout" name="horizontalLayout_hibp_controls">
              <item>
               <widget class="QPushButton" name="btn_hibp_check">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
@@ -869,23 +831,10 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
        <zorder>label_validar_mensaje</zorder>
       </widget>
       <widget class="QWidget" name="tab_tokens">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <attribute name="title">
         <string>🔐 Tokens API &amp; Nuvem</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_tokens">
-        <item>
-         <widget class="QLabel" name="label_tokens_pro">
-          <property name="styleSheet">
-           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
-          </property>
-          <property name="text">
-           <string>🔒 Funcionalidade PRO</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QLabel" name="label_tokens_info">
           <property name="text">
@@ -1011,23 +960,10 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
        </layout>
       </widget>
       <widget class="QWidget" name="tab_vault">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <attribute name="title">
         <string>🔐 Cofre Cifrado</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_vault">
-        <item>
-         <widget class="QLabel" name="label_vault_pro">
-          <property name="styleSheet">
-           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
-          </property>
-          <property name="text">
-           <string>🔒 Funcionalidade PRO</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QLabel" name="label_vault_info">
           <property name="text">
@@ -1202,23 +1138,10 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
        </layout>
       </widget>
       <widget class="QWidget" name="tab_totp">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <attribute name="title">
         <string>📱 Gerador TOTP</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_totp">
-        <item>
-         <widget class="QLabel" name="label_totp_pro">
-          <property name="styleSheet">
-           <string notr="true">background-color: #0d6efd; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold;</string>
-          </property>
-          <property name="text">
-           <string>🔒 Funcionalidade PRO</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QLabel" name="label_totp_info">
           <property name="text">
@@ -1389,161 +1312,6 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_pro">
-       <attribute name="title">
-        <string>⭐ Pro</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_pro">
-        <item>
-         <widget class="QLabel" name="label_pro_title">
-          <property name="text">
-           <string>&lt;h2&gt;🚀 CipherPass PRO&lt;/h2&gt;</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_pro_desc">
-          <property name="text">
-           <string>Desbloqueie todos os recursos avançados de segurança com uma licença perpétua de USD 20 por dispositivo.</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_pro_features">
-          <property name="text">
-           <string>&lt;b&gt;Inclui:&lt;/b&gt;&lt;br/&gt;
-✓ Verificação no Have I Been Pwned (HIBP)&lt;br/&gt;
-✓ Cofre cifrado exportável com Argon2id&lt;br/&gt;
-✓ Gerador TOTP/MFA com código QR&lt;br/&gt;
-✓ Presets de conformidade (AD, AWS, PCI-DSS, NIST)&lt;br/&gt;
-✓ Gerador de tokens API e UUID</string>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer_p1">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_activate">
-          <property name="text">
-           <string>&lt;b&gt;Ativar Licença&lt;/b&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_license_input">
-          <item>
-           <widget class="QLineEdit" name="lineEdit_license_key">
-            <property name="placeholderText">
-             <string>Digite sua chave de licença...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_activate_license">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="text">
-             <string>Ativar</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_license_status">
-          <property name="styleSheet">
-           <string notr="true">font-weight: bold; padding: 8px; background-color: #353535; border-radius: 4px;</string>
-          </property>
-          <property name="text">
-           <string>Status: Não ativado</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn_buy_license">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #28a745; border: 1px solid #218838; font-weight: bold; padding: 10px;</string>
-          </property>
-          <property name="text">
-           <string>🛒 Comprar Licença PRO (USD $19,99)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer_p2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_deactivate">
-          <property name="text">
-           <string>&lt;b&gt;Desativar Licença&lt;/b&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn_deactivate_license">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>Desativar Licença PRO</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer_p3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
     <item>
@@ -1586,14 +1354,11 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
       </item>
       <item>
        <widget class="QLabel" name="label_licencia">
-        <property name="toolTip">
-         <string>Vá para a aba ⭐ Pro para ativar sua licença</string>
-        </property>
         <property name="styleSheet">
          <string notr="true">color: #888; font-size: 11px;</string>
         </property>
         <property name="text">
-         <string>🔒 Versão Gratuita</string>
+         <string>🔓 Open Source</string>
         </property>
        </widget>
       </item>

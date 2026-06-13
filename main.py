@@ -41,7 +41,6 @@ from PySide6.QtCore import (
 from PySide6.QtGui import QClipboard, QPixmap, QImage
 from PySide6.QtUiTools import QUiLoader
 
-from license_manager import LicenseManager
 from cipherpass_core.generators import PasswordEngine, TOTPEngine, DEFAULT_SYMBOLS
 from cipherpass_core.analyzers import StrengthAnalyzer
 from cipherpass_core.crypto_vault import VaultExporter
@@ -212,7 +211,6 @@ class CipherPassApp(QMainWindow):
         super().__init__()
         self.settings = SettingsManager()
         self.engine = PasswordEngine(cipher_suite=CryptoManager.get_cipher_suite())
-        self.license_manager = LicenseManager(self.settings)
         self.vault_exporter = VaultExporter()
         self.threadpool = QThreadPool()
         
@@ -338,47 +336,8 @@ class CipherPassApp(QMainWindow):
         self.ui.btn_copiar_uri.clicked.connect(lambda: self.copy_to_clipboard(self.ui.lineEdit_totp_uri))
         self.ui.btn_save_qr.clicked.connect(self.save_qr_ui)
 
-        # 6. Licencia
-        self.ui.btn_activate_license.clicked.connect(self.handle_license_activation)
-        self.ui.btn_deactivate_license.clicked.connect(self.handle_license_deactivation)
-
         # Configurar menú superior
         self._setup_menus()
-
-        # Interceptar clics en pestañas y áreas deshabilitadas para mostrar CTA de PRO
-        self.ui.tabWidget.tabBar().installEventFilter(self)
-        self.ui.tab_contrasena.installEventFilter(self)
-        self.ui.tab_validar.installEventFilter(self)
-
-        self._apply_pro_gates()
-
-    def _apply_pro_gates(self) -> None:
-        """Bloquea o desbloquea funcionalidades según el estado de la licencia."""
-        is_pro = self.license_manager.is_pro_active()
-        try:
-            self.ui.tab_tokens.setEnabled(is_pro)
-            self.ui.tab_vault.setEnabled(is_pro)
-            self.ui.tab_totp.setEnabled(is_pro)
-            
-            self.ui.frame_compliance.setEnabled(is_pro)
-            self.ui.comboBox_compliance.setEnabled(is_pro)
-            self.ui.btn_manual_mode.setEnabled(is_pro)
-            
-            self.ui.frame_hibp.setEnabled(is_pro)
-            self.ui.checkBox_hibp.setEnabled(is_pro)
-            self.ui.btn_hibp_check.setEnabled(is_pro)
-
-            self.ui.label_license_status.setText("Estado: ACTIVADO (PRO)" if is_pro else "Estado: No activado (Free)")
-            self.ui.label_license_status.setStyleSheet(
-                "font-weight: bold; padding: 8px; border-radius: 4px; background-color: #198754;" if is_pro else 
-                "font-weight: bold; padding: 8px; border-radius: 4px; background-color: #353535;"
-            )
-            self.ui.btn_deactivate_license.setEnabled(is_pro)
-            self.ui.lineEdit_license_key.setEnabled(not is_pro)
-            self.ui.btn_activate_license.setEnabled(not is_pro)
-            self.ui.label_licencia.setText("🔓 Versión PRO" if is_pro else "🔒 Versión Free")
-        except AttributeError as e:
-            logging.warning(f"No se pudo aplicar regla PRO a widget inexistente: {e}")
 
     def _setup_menus(self) -> None:
         """Configura la barra de menús superior."""
@@ -403,20 +362,19 @@ class CipherPassApp(QMainWindow):
     @Slot()
     def show_about_dialog(self) -> None:
         """Muestra el diálogo de información de la aplicación."""
-        is_pro = self.license_manager.is_pro_active()
         lang_code = self.current_locale.name().split("_")[0]
         
         estado = {
-            "en": "⭐ PRO (Activated)" if is_pro else "🔒 Free (Not activated)",
-            "pt": "⭐ PRO (Ativada)" if is_pro else "🔒 Free (Não ativada)"
-        }.get(lang_code, "⭐ PRO (Activada)" if is_pro else "🔒 Free (No activada)")
+            "en": "GNU AGPLv3 (Open Source)",
+            "pt": "GNU AGPLv3 (Código Aberto)"
+        }.get(lang_code, "GNU AGPLv3 (Código Abierto)")
         
         version_lbl = {"en": "Version:", "pt": "Versão:"}.get(lang_code, "Versión:")
-        license_lbl = {"en": "Current license:", "pt": "Licença atual:"}.get(lang_code, "Licencia actual:")
+        license_lbl = {"en": "License:", "pt": "Licença:"}.get(lang_code, "Licencia:")
         desc_lbl = {
-            "en": "Desktop application designed to generate, validate, and protect cryptographic credentials ensuring your privacy offline-first.",
-            "pt": "Aplicativo de desktop projetado para gerar, validar e proteger credenciais criptográficas garantindo sua privacidade offline-first."
-        }.get(lang_code, "Aplicación de escritorio diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.")
+            "en": "Open source desktop application designed to generate, validate, and protect cryptographic credentials ensuring your privacy offline-first.",
+            "pt": "Aplicativo de código aberto projetado para gerar, validar e proteger credenciais criptográficas garantindo sua privacidade offline-first."
+        }.get(lang_code, "Aplicación de código abierto diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.")
         visit_lbl = {"en": "Visit the official website", "pt": "Visitar o site oficial"}.get(lang_code, "Visitar el sitio web oficial")
         about_title = {"en": "About CipherPass", "pt": "Sobre o CipherPass"}.get(lang_code, "Acerca de CipherPass")
         
@@ -430,65 +388,6 @@ class CipherPassApp(QMainWindow):
             f"<p><a href='https://github.com/tu-usuario/CipherPass_Pro'>{visit_lbl}</a></p>"
         )
         QMessageBox.about(self, about_title, texto_html)
-
-    # --- FILTRO DE EVENTOS (INTERCEPTAR CLICS EN ÁREAS PRO) ---
-    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
-        if event.type() == QEvent.MouseButtonPress and not self.license_manager.is_pro_active():
-            # Interceptar clics en las Pestañas (TabBar)
-            if obj == self.ui.tabWidget.tabBar():
-                index = obj.tabAt(event.position().toPoint())
-                if index != -1:
-                    target_widget = self.ui.tabWidget.widget(index)
-                    pro_tabs = [self.ui.tab_tokens, self.ui.tab_vault, self.ui.tab_totp]
-                    if target_widget in pro_tabs:
-                        self.show_pro_cta()
-                        return True  # Consume el evento
-            
-            # Interceptar clics en el recuadro de Compliance
-            elif obj == self.ui.tab_contrasena:
-                if self.ui.frame_compliance.geometry().contains(event.position().toPoint()):
-                    self.show_pro_cta()
-                    return True
-
-            # Interceptar clics en el recuadro de HIBP
-            elif obj == self.ui.tab_validar:
-                if self.ui.frame_hibp.geometry().contains(event.position().toPoint()):
-                    self.show_pro_cta()
-                    return True
-
-        return super().eventFilter(obj, event)
-
-    def show_pro_cta(self) -> None:
-        """Muestra el diálogo de llamada a la acción para la versión PRO."""
-        msg = QMessageBox(self)
-        msg.setWindowTitle(QCoreApplication.translate("CipherPassApp", "🔒 Función PRO Requerida"))
-        msg.setText(QCoreApplication.translate("CipherPassApp", "Esta característica es exclusiva de la versión CipherPass PRO."))
-        msg.setInformativeText(QCoreApplication.translate("CipherPassApp", "¿Deseas ir a la pestaña de activación para introducir tu licencia o adquirir una?"))
-        msg.setIcon(QMessageBox.Information)
-        btn_yes = msg.addButton(QCoreApplication.translate("CipherPassApp", "Ir a PRO"), QMessageBox.ActionRole)
-        msg.addButton(QCoreApplication.translate("CipherPassApp", "Cancelar"), QMessageBox.RejectRole)
-        
-        msg.exec()
-        if msg.clickedButton() == btn_yes:
-            pro_index = self.ui.tabWidget.indexOf(self.ui.tab_pro)
-            if pro_index != -1:
-                self.ui.tabWidget.setCurrentIndex(pro_index)
-
-    # --- SLOTS PRO Y LICENCIA ---
-    @Slot()
-    def handle_license_activation(self) -> None:
-        key = self.ui.lineEdit_license_key.text()
-        if self.license_manager.activate_license(key):
-            QMessageBox.information(self, "¡Éxito!", "Licencia CipherPass PRO activada correctamente.")
-            self._apply_pro_gates()
-        else:
-            QMessageBox.warning(self, "Error", "Clave de licencia inválida.")
-
-    @Slot()
-    def handle_license_deactivation(self) -> None:
-        self.license_manager.deactivate_license()
-        self._apply_pro_gates()
-        QMessageBox.information(self, "Desactivado", "Tu licencia ha sido removida del dispositivo.")
 
     # --- SLOTS ORIGINALES DE UI ---
     @Slot()
