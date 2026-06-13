@@ -22,6 +22,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          paths: ["."]
           options:
             show_root_heading: true
             show_source: false
@@ -31,4 +32,3 @@ nav:
   - Arquitectura de Seguridad: security_architecture.md
   - Referencia API:
       - Aplicación Principal: api/main.md
-      - Gestor de Licencias: api/license_manager.md
