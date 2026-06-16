@@ -74,12 +74,21 @@ fetch_core() {
         # Se usa SSH para clonar sin pedir contraseña (requiere llaves SSH configuradas)
         git clone "git@github.com:${gh_user}/cipherpass_core.git" cipherpass_core
     fi
-    # SEGURIDAD (A-02): Se recomienda anclar a un commit o tag firmado conocido
-    # para mitigar el riesgo de supply-chain. Descomentar y ajustar:
-    # local EXPECTED_COMMIT="<SHA_DEL_COMMIT_VERIFICADO>"
-    # local actual_commit
-    # actual_commit=$(git -C cipherpass_core rev-parse HEAD)
-    # [ "${actual_commit}" = "${EXPECTED_COMMIT}" ] || echo_err "Hash del commit de cipherpass_core no coincide. Posible manipulación."
+    # SEGURIDAD (A-02): Verificación estricta contra un commit conocido
+    # Hash actual del repositorio público obtenido hoy:
+    local EXPECTED_COMMIT="025db8e9f88251accfc9a09f64483c216fc1c080"
+    
+    # Solo verificamos si realmente es un repositorio clonado (evita errores con tu código local)
+    if [ -d "cipherpass_core/.git" ]; then
+        local actual_commit
+        actual_commit=$(git -C cipherpass_core rev-parse HEAD)
+        if [ "${actual_commit}" != "${EXPECTED_COMMIT}" ]; then
+            echo_err "Hash de cipherpass_core (${actual_commit:0:7}) no coincide con el esperado (${EXPECTED_COMMIT:0:7}). ¡Posible manipulación de código!"
+        fi
+        echo_info "✅ Integridad verificada correctamente (Commit seguro: ${actual_commit:0:7})"
+    else
+        echo_warn "Se omitió la verificación de seguridad A-02 porque estás usando la carpeta local (sin .git)."
+    fi
 }
 
 # ⚙️ Paso 2: Compilación con Nuitka (Código C Nativo)
