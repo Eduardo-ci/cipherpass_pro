@@ -23,19 +23,23 @@ def main():
     totp_parser = subparsers.add_parser("totp", help="Genera un secreto TOTP")
 
     # --- Comando: hibp ---
-    hibp_parser = subparsers.add_parser("hibp", help="Comprueba si una contraseña ha sido expuesta")
-    hibp_parser.add_argument("password", type=str, help="Contraseña a verificar")
+    # SEGURIDAD (A-03): La contraseña se pide con getpass para evitar que
+    # quede expuesta en el historial del shell o en la lista de procesos (ps aux).
+    hibp_parser = subparsers.add_parser("hibp", help="Comprueba si una contraseña ha sido expuesta (se pedirá de forma segura)")
 
     # --- Comando: vault-export ---
+    # SEGURIDAD (B-03): Se elimina el flag -p/--password para evitar que la
+    # contraseña maestra quede en el historial del shell o en la lista de procesos.
+    # La contraseña siempre se pide de forma interactiva con getpass.
     vault_export_parser = subparsers.add_parser("vault-export", help="Cifra un texto para la bóveda (AES-GCM)")
     vault_export_parser.add_argument("data", help="Texto a cifrar (usa '-' para leer de la entrada estándar)")
-    vault_export_parser.add_argument("-p", "--password", help="Contraseña maestra (si se omite, se pedirá de forma segura)")
     vault_export_parser.add_argument("--argon2", action="store_true", help="Usar Argon2id para derivación de claves")
 
     # --- Comando: vault-import ---
+    # SEGURIDAD (B-03): Igual que vault-export, la contraseña siempre se pide
+    # de forma interactiva para no exponerla en el historial ni en los procesos.
     vault_import_parser = subparsers.add_parser("vault-import", help="Descifra una bóveda exportada")
     vault_import_parser.add_argument("data", help="JSON de la bóveda cifrada (usa '-' para leer de la entrada estándar)")
-    vault_import_parser.add_argument("-p", "--password", help="Contraseña maestra (si se omite, se pedirá de forma segura)")
 
     args = parser.parse_args()
 
@@ -55,20 +59,27 @@ def main():
     elif args.command == "totp":
         print(TOTPEngine.generate_secret())
     elif args.command == "hibp":
-        count, error = HIBPClient.check_password(args.password)
+        # SEGURIDAD (A-03): Usar getpass para no exponer la contraseña
+        password = getpass.getpass("🔑 Contraseña a verificar (oculta): ")
+        count, error = HIBPClient.check_password(password)
+        del password
         print(f"Expuesta {count} veces" if count > 0 else ("Segura (0 veces)" if count == 0 else f"Error: {error}"))
         
     elif args.command == "vault-export":
         data = sys.stdin.read() if args.data == '-' else args.data
-        password = args.password or getpass.getpass("🔑 Contraseña maestra: ")
+        # SEGURIDAD (B-03): Siempre usar getpass para la contraseña maestra
+        password = getpass.getpass("🔑 Contraseña maestra: ")
         exporter = VaultExporter()
         print(exporter.export_vault(data, password, args.argon2))
+        del password
         
     elif args.command == "vault-import":
         data = sys.stdin.read() if args.data == '-' else args.data
-        password = args.password or getpass.getpass("🔑 Contraseña maestra: ")
+        # SEGURIDAD (B-03): Siempre usar getpass para la contraseña maestra
+        password = getpass.getpass("🔑 Contraseña maestra: ")
         exporter = VaultExporter()
         result = exporter.import_vault(data, password)
+        del password
         if result:
             print(result)
         else:

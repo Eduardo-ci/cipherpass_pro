@@ -3,7 +3,13 @@ __pycache__/
 build/
 dist/
 *.spec
+# Claves y secretos criptográficos — NUNCA versionar
 secret.key
+config/
+**/*.key
+*.pem
+*.p12
+*.pfx
 *.pyc
 .env
 .venv/

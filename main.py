@@ -60,8 +60,11 @@ __all__ = [
 ]
 
 # --- CONFIGURACIÓN DE LOGGING ---
+# SEGURIDAD (M-03): En producción (ejecutable compilado), se usa nivel WARNING
+# para evitar filtrar rutas del sistema de archivos en logs compartidos.
+_log_level = logging.WARNING if getattr(sys, 'frozen', False) else logging.INFO
 logging.basicConfig(
-    level=logging.INFO,
+    level=_log_level,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)],
 )
@@ -176,7 +179,13 @@ class CryptoManager:
             
         except Exception as e:
             logging.error(f"Error crítico al gestionar la clave: {e}")
-            return Fernet(Fernet.generate_key())
+            # SEGURIDAD (M-02): NO continuar con una clave efímera.
+            # Una clave efímera se pierde al cerrar la app, haciendo ilegibles
+            # todos los archivos cifrados previamente sin ningún aviso al usuario.
+            raise RuntimeError(
+                f"No se puede inicializar la clave de cifrado local en '{key_file}'. "
+                f"Verifica los permisos del directorio de configuración. Error: {e}"
+            ) from e
 
 # --- WORKER ASÍNCRONO PARA HIBP ---
 class HIBPSignals(QObject):
@@ -398,7 +407,7 @@ class CipherPassApp(QMainWindow):
             f"<p><b>{license_lbl}</b> {estado}</p>"
             f"<hr>"
             f"<p>{desc_lbl}</p>"
-            f"<p><a href='https://github.com/tu-usuario/CipherPass_Pro'>{visit_lbl}</a></p>"
+            f"<p><a href='https://www.cipherpass.com'>{visit_lbl}</a></p>"
         )
         QMessageBox.about(self, about_title, texto_html)
 

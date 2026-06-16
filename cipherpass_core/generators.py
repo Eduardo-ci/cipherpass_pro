@@ -69,6 +69,17 @@ class PasswordEngine:
             self.secure_rng.shuffle(pwd)
             candidate = "".join(pwd[:length])
 
+            # SEGURIDAD (M-04): Verificar explícitamente que el candidato cumple
+            # los mínimos requeridos después del shuffle y el slice. El shuffle
+            # podría mover los caracteres obligatorios fuera del slice [:length]
+            # si la lista tuviera más elementos que length.
+            actual_nums = sum(1 for c in candidate if c in string.digits)
+            actual_syms = sum(1 for c in candidate if c in DEFAULT_SYMBOLS)
+            if use_nums and actual_nums < min_nums:
+                continue
+            if use_syms and actual_syms < min_specs:
+                continue
+
             score = zxcvbn(candidate)["score"]
             if score >= ZXCVBN_MIN_SCORE:
                 return candidate

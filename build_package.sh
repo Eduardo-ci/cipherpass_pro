@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -e
+# set -u  → falla si se usa una variable no definida
+# set -o pipefail → falla si cualquier comando de un pipeline falla
+set -euo pipefail
 
 # 📦 Configuración del paquete
 APP_NAME="cipherpass"
@@ -40,14 +42,24 @@ setup_venv() {
     python3 -m venv "$VENV_DIR"
     source "$VENV_DIR/bin/activate"
     
-    echo_info "📥 Instalando dependencias..."
+    echo_info "📥 Instalando dependencias desde requirements.txt (con hashes verificados si disponibles)..."
     pip install --quiet --upgrade pip setuptools wheel
-    pip install --quiet PySide6 zxcvbn cryptography platformdirs nuitka qrcode pillow requests argon2-cffi
+    if [ -f "requirements.txt" ]; then
+        pip install --quiet -r requirements.txt
+    else
+        echo_warn "requirements.txt no encontrado. Instalando sin versiones fijadas (menos seguro)."
+        pip install --quiet PySide6 zxcvbn cryptography platformdirs nuitka qrcode pillow requests argon2-cffi
+    fi
 }
 
 # 📥 Paso 1.5: Sincronizar el Core Criptográfico (Submódulo)
 fetch_core() {
-    GH_USER="TU_USUARIO" # <-- ¡Reemplaza aquí con tu usuario real de GitHub!
+    # SEGURIDAD (A-02): GH_USER debe estar definido como variable de entorno o
+    # en un archivo .env antes de ejecutar este script. La sintaxis :? termina
+    # el script con error si la variable está vacía o sin definir.
+    # Ejemplo de uso: GH_USER=mi_usuario_github ./build_package.sh
+    local gh_user="${GH_USER:?'ERROR: La variable GH_USER debe estar definida. Ej: GH_USER=mi_usuario ./build_package.sh'}"
+    
     echo_info "🌐 Obteniendo el núcleo criptográfico (cipherpass_core)..."
     if [ -d "cipherpass_core/.git" ]; then
         echo_info "Actualizando el repositorio público local..."
@@ -55,8 +67,14 @@ fetch_core() {
     else
         echo_info "Clonando repositorio público cipherpass-core..."
         # Se usa SSH para clonar sin pedir contraseña (requiere llaves SSH configuradas)
-        git clone git@github.com:${GH_USER}/cipherpass-core.git cipherpass_core
+        git clone "git@github.com:${gh_user}/cipherpass-core.git" cipherpass_core
     fi
+    # SEGURIDAD (A-02): Se recomienda anclar a un commit o tag firmado conocido
+    # para mitigar el riesgo de supply-chain. Descomentar y ajustar:
+    # local EXPECTED_COMMIT="<SHA_DEL_COMMIT_VERIFICADO>"
+    # local actual_commit
+    # actual_commit=$(git -C cipherpass_core rev-parse HEAD)
+    # [ "${actual_commit}" = "${EXPECTED_COMMIT}" ] || echo_err "Hash del commit de cipherpass_core no coincide. Posible manipulación."
 }
 
 # ⚙️ Paso 2: Compilación con Nuitka (Código C Nativo)
@@ -76,7 +94,7 @@ build_executable() {
         --disable-console \
         main.py
     
-    [ -f "$DIST_DIR/$APP_NAME" ] || echo_err "Fallo en la compilación. Revisa la salida de PyInstaller"
+    [ -f "$DIST_DIR/$APP_NAME" ] || echo_err "Fallo en la compilación. Revisa la salida de Nuitka"
 }
 
 # 📁 Paso 3: Estructura del paquete Debian
