@@ -67,7 +67,7 @@ fetch_core() {
     else
         echo_info "Clonando repositorio público cipherpass-core..."
         # Se usa SSH para clonar sin pedir contraseña (requiere llaves SSH configuradas)
-        git clone "git@github.com:${gh_user}/cipherpass-core.git" cipherpass_core
+        git clone "git@github.com:${gh_user}/cipherpass_core.git" cipherpass_core
     fi
     # SEGURIDAD (A-02): Se recomienda anclar a un commit o tag firmado conocido
     # para mitigar el riesgo de supply-chain. Descomentar y ajustar:

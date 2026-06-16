@@ -21,7 +21,7 @@ Para empezar a programar en CipherPass, sigue estos pasos:
 1. **Haz un Fork del repositorio** haciendo clic en el botón "Fork" en la parte superior derecha de la página de GitHub.
 2. **Clona tu Fork localmente:**
    ```bash
-   git clone https://github.com/TU_USUARIO/CipherPass_Pro.git
+   git clone https://github.com/Eduardo-ci/cipherpass_pro.git
    cd CipherPass_Pro
    ```
 3. **Crea un entorno virtual:**
