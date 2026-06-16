@@ -26,6 +26,7 @@ echo_err()  { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 # ✅ Validaciones iniciales
 check_prerequisites() {
     command -v python3 >/dev/null 2>&1 || echo_err "python3 no encontrado"
+    command -v python3-config >/dev/null 2>&1 || echo_err "Cabeceras de Python no encontradas, requeridas por Nuitka (instala: sudo apt install python3-dev)"
     command -v dpkg-deb >/dev/null 2>&1 || echo_err "dpkg-deb no encontrado (instala: sudo apt install dpkg)"
     command -v gcc >/dev/null 2>&1 || echo_err "Compilador C (gcc) no encontrado (instala: sudo apt install build-essential)"
     command -v patchelf >/dev/null 2>&1 || echo_err "patchelf no encontrado, requerido por Nuitka (instala: sudo apt install patchelf)"
@@ -46,6 +47,8 @@ setup_venv() {
     pip install --quiet --upgrade pip setuptools wheel
     if [ -f "requirements.txt" ]; then
         pip install --quiet -r requirements.txt
+        # Instalar Nuitka explícitamente ya que es una dependencia de construcción y no suele estar en requirements.txt
+        pip install --quiet nuitka
     else
         echo_warn "requirements.txt no encontrado. Instalando sin versiones fijadas (menos seguro)."
         pip install --quiet PySide6 zxcvbn cryptography platformdirs nuitka qrcode pillow requests argon2-cffi
@@ -64,8 +67,10 @@ fetch_core() {
     if [ -d "cipherpass_core/.git" ]; then
         echo_info "Actualizando el repositorio público local..."
         git -C cipherpass_core pull origin main
+    elif [ -d "cipherpass_core" ]; then
+        echo_warn "La carpeta 'cipherpass_core' ya existe pero no es un repositorio Git. Se usará la versión local sin actualizar."
     else
-        echo_info "Clonando repositorio público cipherpass-core..."
+        echo_info "Clonando repositorio público cipherpass_core..."
         # Se usa SSH para clonar sin pedir contraseña (requiere llaves SSH configuradas)
         git clone "git@github.com:${gh_user}/cipherpass_core.git" cipherpass_core
     fi
