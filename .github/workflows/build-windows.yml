@@ -1,0 +1,54 @@
+name: Build Windows Executable
+
+on:
+  workflow_dispatch:  # Permite ejecutar el workflow manualmente desde la pestaña "Actions"
+  release:
+    types: [created]  # Se ejecuta automáticamente si creas un release en GitHub
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Código Principal
+        uses: actions/checkout@v4
+
+      - name: Checkout cipherpass_core (Núcleo Criptográfico)
+        uses: actions/checkout@v4
+        with:
+          repository: Eduardo-ci/cipherpass_core
+          path: cipherpass_core
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar Dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nuitka
+
+      - name: Compilar con Nuitka
+        run: |
+          python -m nuitka `
+            --standalone `
+            --onefile `
+            --enable-plugin=pyside6 `
+            --include-data-dir="resources=resources" `
+            --include-data-dir="ui=ui" `
+            --include-package=cipherpass_core `
+            --output-dir="dist" `
+            --output-filename="cipherpass.exe" `
+            --remove-output `
+            --disable-console `
+            --assume-yes-for-downloads `
+            main.py
+
+      - name: Subir Artefacto (Ejecutable Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cipherpass-windows-exe
+          path: dist/cipherpass.exe
