@@ -106,23 +106,23 @@ Una vez instalada, puedes usar el comando `cipherpass-cli` de forma global.
 ```bash
 # Generate a 24-character password, avoiding ambiguities
 # Generar una contraseña de 24 caracteres evitando ambiguos
-python cipherpass_cli.py generate --length 24 --avoid-ambiguous
+cipherpass-cli generate --length 24 --avoid-ambiguous
 
 # Generate a secret TOTP
 # Generar un secreto TOTP
-python cipherpass_cli.py totp
+cipherpass-cli totp
 
 # Check if a password has been compromised
 # Comprobar si una contraseña está comprometida
-python cipherpass_cli.py hibp "mi_contraseña_secreta"
+cipherpass-cli hibp "mi_contraseña_secreta"
 
 # Encrypt the contents of a file directly to the vault
 # Cifrar el contenido de un archivo directamente hacia la bóveda
-cat secreto.txt | python cipherpass_cli.py vault-export - --argon2
+cat secreto.txt | cipherpass-cli vault-export - --argon2
 
 # Decrypt content
 # Descifrar contenido
-cat boveda.cpv | python cipherpass_cli.py vault-import -
+cat boveda.cpv | cipherpass-cli vault-import -
 ```
 
 ---
