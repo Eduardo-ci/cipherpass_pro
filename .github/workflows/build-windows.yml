@@ -16,11 +16,7 @@ jobs:
       - name: Checkout Código Principal
         uses: actions/checkout@v4
 
-      - name: Checkout cipherpass_core (Núcleo Criptográfico)
-        uses: actions/checkout@v4
-        with:
-          repository: Eduardo-ci/cipherpass_core
-          path: cipherpass_core
+
 
       - name: Configurar Python
         uses: actions/setup-python@v5
