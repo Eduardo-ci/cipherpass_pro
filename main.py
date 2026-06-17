@@ -718,6 +718,14 @@ class CipherPassApp(QMainWindow):
             QMessageBox.warning(self, "Error", "No hay un código QR para guardar.")
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print("CipherPass - Generador y validador de contraseñas criptográficas")
+        print("\nUso:")
+        print("  cipherpass             Inicia la aplicación gráfica")
+        print("  cipherpass-cli         Inicia la interfaz de línea de comandos (CLI)")
+        print("\nPara ver las opciones de la CLI, ejecuta: cipherpass-cli --help")
+        sys.exit(0)
+
     app = QApplication(sys.argv)
     window = CipherPassApp()
     sys.exit(app.exec())
