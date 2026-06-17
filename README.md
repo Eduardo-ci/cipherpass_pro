@@ -92,6 +92,16 @@ CipherPass includes a terminal tool (`cipherpass_cli.py`) ideal for **SysAdmins,
 
 CipherPass incluye una herramienta de terminal (`cipherpass_cli.py`) ideal para **SysAdmins, DevOps y automatización de pipelines (CI/CD)**. Permite generar credenciales, validar seguridad y cifrar secretos directamente desde la consola, pudiendo enlazarse con otras herramientas mediante la entrada estándar (`stdin`).
 
+### Standalone CLI Installation / Instalación independiente de la CLI
+If you only need the CLI (e.g., on a server), you can install it globally with a single command without cloning the entire repository:
+Si solo necesitas la CLI (ej. en un servidor), puedes instalarla globalmente con un solo comando sin necesidad de clonar el repositorio completo:
+
+```bash
+curl -sL https://raw.githubusercontent.com/Eduardo-ci/cipherpass_pro/main/install_cli.sh | sudo bash
+```
+Once installed, you can use the `cipherpass-cli` command globally.
+Una vez instalada, puedes usar el comando `cipherpass-cli` de forma global.
+
 **Examples of use/ Ejemplos de uso:**
 ```bash
 # Generate a 24-character password, avoiding ambiguities
