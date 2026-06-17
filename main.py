@@ -285,7 +285,7 @@ class CipherPassApp(QMainWindow):
         if not icon.isNull():
             self.setWindowIcon(icon)
             
-        filepath = resource_path(os.path.join("resources", "diceware", f"diceware_{lang_code}.enc"))
+        filepath = resource_path(os.path.join("resources", "dic", f"diceware_{lang_code}.txt"))
         self.engine.load_diceware(filepath)
         self.connect_ui_elements()
 

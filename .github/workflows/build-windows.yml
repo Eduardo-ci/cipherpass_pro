@@ -39,6 +39,7 @@ jobs:
           python -m nuitka `
             --standalone `
             --onefile `
+            --windows-icon-from-ico="resources\icons\cipherpass.ico" `
             --enable-plugin=pyside6 `
             --include-data-dir="resources=resources" `
             --include-data-dir="ui=ui" `
@@ -50,8 +51,11 @@ jobs:
             --assume-yes-for-downloads `
             main.py
 
-      - name: Subir Artefacto (Ejecutable Windows)
+      - name: Crear Instalador con Inno Setup
+        run: iscc installer.iss
+
+      - name: Subir Artefacto (Instalador Windows)
         uses: actions/upload-artifact@v4
         with:
-          name: cipherpass-windows-exe
-          path: dist/cipherpass.exe
+          name: cipherpass-windows-setup
+          path: dist/CipherPass_Setup.exe

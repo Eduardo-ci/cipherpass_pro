@@ -26,13 +26,9 @@ class PasswordEngine:
             logging.warning(f"Archivo diceware no encontrado: {filepath}")
             return
         try:
-            with open(filepath, "rb") as f:
-                data = f.read()
-                if self.cipher_suite:
-                    decrypted = self.cipher_suite.decrypt(data).decode("utf-8")
-                else:
-                    decrypted = data.decode("utf-8")
-            self.diceware_words = [w.strip() for w in decrypted.split("\n") if w.strip()]
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
+            self.diceware_words = [w.strip() for w in content.split("\n") if w.strip()]
         except Exception as e:
             logging.error(f"Error cargando Diceware: {e}")
 
