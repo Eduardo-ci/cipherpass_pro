@@ -22,6 +22,11 @@ def main():
     # --- Comando: totp ---
     totp_parser = subparsers.add_parser("totp", help="Genera un secreto TOTP")
 
+    # --- Comando: token ---
+    token_parser = subparsers.add_parser("token", help="Genera un token seguro para APIs o un UUID v4")
+    token_parser.add_argument("-m", "--mode", type=int, choices=[0, 1, 2, 3], default=0, help="Tipo de token (0: URL-safe, 1: Hexadecimal, 2: UUIDv4, 3: Bearer)")
+    token_parser.add_argument("-l", "--length", type=int, default=32, help="Longitud en bytes para modos 0, 1 y 3 (default: 32)")
+
     # --- Comando: hibp ---
     # SEGURIDAD (A-03): La contraseña se pide con getpass para evitar que
     # quede expuesta en el historial del shell o en la lista de procesos (ps aux).
@@ -58,6 +63,9 @@ def main():
         print(pwd)
     elif args.command == "totp":
         print(TOTPEngine.generate_secret())
+    elif args.command == "token":
+        engine = PasswordEngine()
+        print(engine.generate_api_token(mode=args.mode, length=args.length))
     elif args.command == "hibp":
         # SEGURIDAD (A-03): Usar getpass para no exponer la contraseña
         password = getpass.getpass("🔑 Contraseña a verificar (oculta): ")
