@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Opciones estrictas de bash para tolerancia a fallos:
+# -e: Detiene el script si cualquier comando falla.
+# -u: Falla si se intenta utilizar una variable no definida.
+# -o pipefail: El código de salida de un pipeline es el del último comando que falló.
+
 # Colores para la salida
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -18,10 +23,29 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+# ==========================================
+# CONFIGURACIÓN DE INSTALACIÓN
+# ==========================================
+# Cambia estas versiones por un tag específico (ej. 'v1.0.3') o un hash de commit
+# para garantizar instalaciones inmutables y 100% predecibles en producción.
+CLI_VERSION="v1.0.3"
+CORE_VERSION="v1.0.3"
+
+# Ubicación del ejecutable global
 BIN_LINK="/usr/local/bin/cipherpass-cli"
 
-# Determinar modo de ejecución (Local vs Standalone)
-# Si el archivo está dentro de un entorno que tiene cipherpass_cli.py, usamos modo local.
+# Validar dependencias esenciales
+for cmd in python3 git; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo_err "Dependencia faltante: '$cmd'. Por favor, instálalo antes de continuar."
+    fi
+done
+
+# ==========================================
+# DETERMINAR MODO DE EJECUCIÓN
+# ==========================================
+# Local: Instalación orientada a desarrollo (se asume repositorio clonado).
+# Standalone: Instalación global en el sistema (descarga e instala en /opt).
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 
 if [ -f "$CURRENT_DIR/cipherpass_cli.py" ] && [ -d "$CURRENT_DIR/cipherpass_core" ]; then
@@ -39,25 +63,28 @@ else
     
     mkdir -p "$INSTALL_DIR"
     
-    echo_info "Descargando cipherpass_cli.py..."
+    echo_info "Descargando cipherpass_cli.py (versión: $CLI_VERSION)..."
     if command -v curl >/dev/null 2>&1; then
-        curl -sL "https://raw.githubusercontent.com/Eduardo-ci/cipherpass_pro/main/cipherpass_cli.py" -o "$CLI_SCRIPT"
+        curl -fsSL "https://raw.githubusercontent.com/Eduardo-ci/cipherpass_pro/${CLI_VERSION}/cipherpass_cli.py" -o "$CLI_SCRIPT" || echo_err "Fallo al descargar cipherpass_cli.py."
     elif command -v wget >/dev/null 2>&1; then
-        wget -qO "$CLI_SCRIPT" "https://raw.githubusercontent.com/Eduardo-ci/cipherpass_pro/main/cipherpass_cli.py"
+        wget -qO "$CLI_SCRIPT" "https://raw.githubusercontent.com/Eduardo-ci/cipherpass_pro/${CLI_VERSION}/cipherpass_cli.py" || echo_err "Fallo al descargar cipherpass_cli.py."
     else
         echo_err "Necesitas tener instalado 'curl' o 'wget' para descargar los archivos."
     fi
     chmod +x "$CLI_SCRIPT"
     
     if [ ! -d "$INSTALL_DIR/cipherpass_core" ]; then
-        echo_info "Clonando repositorio criptográfico base (cipherpass_core)..."
-        if ! command -v git >/dev/null 2>&1; then
-            echo_err "Se requiere 'git' instalado para descargar el core criptográfico."
-        fi
+        echo_info "Clonando repositorio criptográfico base (versión: $CORE_VERSION)..."
         git clone -q "https://github.com/Eduardo-ci/cipherpass_core.git" "$INSTALL_DIR/cipherpass_core"
+        git -C "$INSTALL_DIR/cipherpass_core" checkout -q "$CORE_VERSION"
     else
-        echo_info "Actualizando repositorio criptográfico base..."
-        git -C "$INSTALL_DIR/cipherpass_core" pull -q origin main
+        echo_info "Actualizando repositorio criptográfico base (versión: $CORE_VERSION)..."
+        git -C "$INSTALL_DIR/cipherpass_core" fetch -q origin
+        git -C "$INSTALL_DIR/cipherpass_core" checkout -q "$CORE_VERSION"
+        # Solo hacemos pull si estamos en una rama (no en un hash/tag fijo)
+        if git -C "$INSTALL_DIR/cipherpass_core" symbolic-ref -q HEAD >/dev/null 2>&1; then
+             git -C "$INSTALL_DIR/cipherpass_core" pull -q origin "$CORE_VERSION"
+        fi
     fi
 fi
 
@@ -67,8 +94,10 @@ echo_info "Preparando CipherPass CLI en $INSTALL_DIR..."
 if [ ! -d "$VENV_DIR" ]; then
     echo_info "Creando entorno virtual aislado para dependencias..."
     
-    # Si ejecutamos en la carpeta local, podríamos querer asignar permisos al usuario normal
-    # En /opt, usualmente root es el dueño, pero es seguro que el entorno virtual lo sea.
+    # Prevención de escalada accidental de permisos en desarrollo:
+    # Si la instalación es local, creamos el entorno virtual a nombre del usuario
+    # original (SUDO_USER) para no dejar carpetas propiedad de root en su workspace.
+    # En instalaciones standalone (/opt), el dueño será root (comportamiento estándar).
     if [ "$INSTALL_DIR" == "$CURRENT_DIR" ] && [ -n "${SUDO_USER:-}" ]; then
         sudo -u "$SUDO_USER" python3 -m venv "$VENV_DIR"
         PIP_CMD="sudo -u $SUDO_USER $VENV_DIR/bin/pip"
@@ -83,7 +112,8 @@ if [ ! -d "$VENV_DIR" ]; then
         $PIP_CMD install --quiet -r "$INSTALL_DIR/requirements.txt"
     else
         # Dependencias core de la CLI si no hay requirements.txt
-        $PIP_CMD install --quiet cryptography platformdirs argon2-cffi requests zxcvbn qrcode
+        # NOTA: En un entorno de producción estricto, es mejor fijar las versiones exactas aquí (ej. cryptography==42.0.5)
+        $PIP_CMD install --quiet cryptography platformdirs argon2-cffi requests zxcvbn qrcode rich
     fi
 else
     echo_info "Entorno virtual (.venv) ya existente."
@@ -97,7 +127,7 @@ cat > "$BIN_LINK" << EOF
 # Ejecuta el script dentro de su propio entorno virtual aislado
 
 source "$VENV_DIR/bin/activate"
-python3 "$CLI_SCRIPT" "\$@"
+exec python3 "$CLI_SCRIPT" "\$@"
 EOF
 
 chmod +x "$BIN_LINK"

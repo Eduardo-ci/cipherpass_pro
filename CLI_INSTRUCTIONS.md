@@ -1,4 +1,133 @@
-# Manual de Uso: CipherPass CLI
+# CipherPass CLI - User Manual / Manual de Uso
+
+*(Scroll down for the Spanish version / Desplázate hacia abajo para la versión en español)*
+
+---
+
+# 🇬🇧 English Version
+
+`cipherpass-cli` is a cryptographic tool designed for SysAdmins, offering features such as password generation, validation against exposed password databases (Have I Been Pwned), and secure data encryption/decryption (vaults).
+
+## Basic Usage
+```bash
+cipherpass-cli [command] [arguments...]
+```
+
+### Global Arguments
+*   `--json`: Outputs the result as a raw, machine-readable JSON object instead of formatted text. Ideal for bash scripts and CI/CD pipelines.
+
+---
+
+## Available Commands
+
+### 1. `generate`
+Generates a secure, cryptographically strong password.
+
+**Optional arguments:**
+*   `-l`, `--length <integer>`: Defines the length of the generated password (default: `16`).
+*   `--no-upper`: Excludes uppercase letters.
+*   `--no-nums`: Excludes numbers.
+*   `--no-syms`: Excludes symbols or special characters.
+*   `--avoid-ambiguous`: Avoids ambiguous characters that can be visually confused (like `I`, `l`, `1`, `O`, `0`).
+*   `-c`, `--copy`: Copies the generated password directly to the system clipboard instead of printing it to standard output.
+*   `--analyze`: Evaluates the password's entropy and strength using `zxcvbn`, displaying a formatted table with the score and estimated crack time.
+
+**Examples:**
+```bash
+# Generate a standard 16-character password
+cipherpass-cli generate
+
+# Generate and analyze a 24-character password, then copy it to clipboard
+cipherpass-cli generate -l 24 --analyze -c
+```
+
+---
+
+### 2. `totp`
+Generates a new random Base32 secret, ready to be used in two-factor authentication (TOTP) apps like Google Authenticator or Authy.
+
+**Optional arguments:**
+*   `-c`, `--copy`: Copies the generated secret to the system clipboard.
+
+**Example:**
+```bash
+cipherpass-cli totp -c
+```
+
+---
+
+### 3. `hibp`
+Checks if a password has been exposed in data breaches using the *Have I Been Pwned* (HIBP) API.
+
+**🛡️ Built-in Security:** To prevent password leakage, the password is **never** passed as a command-line argument. The tool will securely prompt you for it (hidden input). 
+*Automation:* If you pipe data into this command, it will silently read from standard input (`stdin`) instead of prompting interactively.
+
+**Example:**
+```bash
+# Interactive mode
+cipherpass-cli hibp
+
+# Automation / Pipeline mode
+echo "mypassword123" | cipherpass-cli hibp --json
+```
+
+---
+
+### 4. `vault-export`
+Encrypts text or confidential information using AES-GCM to be stored in a secure vault, producing a JSON string with the encrypted data.
+
+**🛡️ Built-in Security:** The master password is always requested interactively.
+
+**Arguments:**
+*   `data` *(required)*: The text you want to encrypt. Provide the text directly or use `-` to read from standard input (*stdin*).
+*   `--argon2` *(optional)*: Forces the use of the Argon2id algorithm to derive the cryptographic key, providing better security against brute-force attacks.
+
+**Examples:**
+```bash
+cipherpass-cli vault-export "My top secret info" --argon2
+echo "Secret text" | cipherpass-cli vault-export -
+```
+
+---
+
+### 5. `vault-import`
+Takes the JSON data from a previously exported vault and decrypts it, returning the original plain text.
+
+**🛡️ Built-in Security:** The master password is always requested interactively.
+
+**Arguments:**
+*   `data` *(required)*: The JSON containing the encrypted data. Use `-` to read from standard input.
+
+**Example:**
+```bash
+cat vault.json | cipherpass-cli vault-import -
+```
+
+---
+
+### 6. `token`
+Generates a secure token to be used in APIs, cloud services, or universal unique identifiers (UUID v4).
+
+**Optional arguments:**
+*   `-m`, `--mode <0|1|2|3>`: Specifies the format of the generated token. (Default: `0`).
+    *   `0`: URL-safe (Base64url without padding).
+    *   `1`: Hexadecimal.
+    *   `2`: UUID v4.
+    *   `3`: Bearer Token (URL-safe prefixed with `Bearer `).
+*   `-l`, `--length <integer>`: Defines the length of the token in bytes for modes 0, 1, and 3 (Default: `32`).
+*   `-c`, `--copy`: Copies the generated token to the system clipboard.
+
+**Examples:**
+```bash
+cipherpass-cli token --mode 2
+cipherpass-cli token -m 3 -l 64 -c
+```
+
+<br><br><br>
+
+---
+
+# 🇪🇸 Versión en Español
 
 `cipherpass-cli` es una herramienta criptográfica diseñada para SysAdmins que ofrece funcionalidades como la generación de contraseñas, validación en bases de datos de contraseñas expuestas y cifrado/descifrado seguro de datos (bóvedas).
 
@@ -7,29 +136,32 @@
 cipherpass-cli [comando] [argumentos...]
 ```
 
+### Argumentos Globales
+*   `--json`: Muestra el resultado como un objeto JSON puro en lugar de texto formateado. Ideal para integrarlo en scripts de bash y pipelines CI/CD.
+
 ---
 
 ## Comandos Disponibles
-
-A continuación se detallan los comandos soportados, su propósito y los argumentos que aceptan.
 
 ### 1. `generate`
 Genera una contraseña segura y criptográficamente fuerte.
 
 **Argumentos opcionales:**
 *   `-l`, `--length <entero>`: Define la longitud de la contraseña generada (por defecto es `16`).
-*   `--no-upper`: Excluye las letras mayúsculas de la contraseña.
+*   `--no-upper`: Excluye las letras mayúsculas.
 *   `--no-nums`: Excluye los números.
 *   `--no-syms`: Excluye los símbolos o caracteres especiales.
-*   `--avoid-ambiguous`: Evita incluir caracteres ambiguos que pueden ser fáciles de confundir visualmente (como `I`, `l`, `1`, `O`, `0`).
+*   `--avoid-ambiguous`: Evita incluir caracteres ambiguos que pueden ser fáciles de confundir visualmente (`I`, `l`, `1`, `O`, `0`).
+*   `-c`, `--copy`: Copia la contraseña generada directamente al portapapeles del sistema en lugar de imprimirla en pantalla.
+*   `--analyze`: Evalúa la entropía y fortaleza de la contraseña usando `zxcvbn`, mostrando una tabla con la puntuación y el tiempo estimado de crackeo.
 
 **Ejemplos de uso:**
 ```bash
 # Generar una contraseña estándar de 16 caracteres
 cipherpass-cli generate
 
-# Generar una contraseña de 24 caracteres sin símbolos ni caracteres ambiguos
-cipherpass-cli generate -l 24 --no-syms --avoid-ambiguous
+# Generar y analizar una contraseña de 24 caracteres, y copiar al portapapeles
+cipherpass-cli generate -l 24 --analyze -c
 ```
 
 ---
@@ -37,12 +169,12 @@ cipherpass-cli generate -l 24 --no-syms --avoid-ambiguous
 ### 2. `totp`
 Genera un nuevo secreto aleatorio en Base32, listo para ser utilizado en aplicaciones de autenticación de dos factores (TOTP) como Google Authenticator o Authy.
 
-**Argumentos:**
-*   *(No requiere argumentos adicionales)*
+**Argumentos opcionales:**
+*   `-c`, `--copy`: Copia el secreto generado al portapapeles.
 
 **Ejemplo de uso:**
 ```bash
-cipherpass-cli totp
+cipherpass-cli totp -c
 ```
 
 ---
@@ -50,15 +182,16 @@ cipherpass-cli totp
 ### 3. `hibp`
 Comprueba si una contraseña ha sido expuesta en filtraciones de datos, haciendo uso de la API de *Have I Been Pwned* (HIBP).
 
-**🛡️ Seguridad Integrada:** Para prevenir la filtración de tu contraseña, esta **nunca** se pasa como argumento de la línea de comandos (evitando que quede expuesta en el `history` del shell o al comando `ps`). La herramienta te la solicitará de forma segura (oculta) durante la ejecución.
-
-**Argumentos:**
-*   *(No requiere argumentos adicionales)*
+**🛡️ Seguridad Integrada:** Para prevenir la filtración de tu contraseña, esta **nunca** se pasa como argumento de la línea de comandos. La herramienta te la solicitará de forma segura (oculta) durante la ejecución. 
+*Automatización:* Si pasas datos a través de tuberías (pipes), el comando leerá silenciosamente desde la entrada estándar (`stdin`) sin bloquearse con prompts interactivos.
 
 **Ejemplo de uso:**
 ```bash
+# Modo interactivo
 cipherpass-cli hibp
-# La consola solicitará: "🔑 Contraseña a verificar (oculta): "
+
+# Modo automatizado / Pipes
+echo "miclavesecreta" | cipherpass-cli hibp --json
 ```
 
 ---
@@ -70,14 +203,11 @@ Cifra un texto o información confidencial utilizando AES-GCM para ser almacenad
 
 **Argumentos:**
 *   `data` *(requerido)*: El texto que deseas cifrar. Puedes proporcionar el texto directamente, o usar el guion `-` para que la herramienta lea la información desde la entrada estándar (*stdin*).
-*   `--argon2` *(opcional)*: Fuerza el uso del algoritmo Argon2id para derivar la clave criptográfica en lugar del algoritmo predeterminado. Esto brinda una mayor seguridad frente a ataques de fuerza bruta.
+*   `--argon2` *(opcional)*: Fuerza el uso del algoritmo Argon2id para derivar la clave criptográfica en lugar del algoritmo predeterminado.
 
 **Ejemplos de uso:**
 ```bash
-# Pasando el texto como argumento (requiere entrecomillado si hay espacios)
 cipherpass-cli vault-export "Mi información ultrasecreta" --argon2
-
-# Usando la entrada estándar (ideal para scripts o pipes)
 echo "Texto secreto" | cipherpass-cli vault-export -
 ```
 
@@ -91,12 +221,8 @@ Recibe los datos en formato JSON de una bóveda previamente exportada y los desc
 **Argumentos:**
 *   `data` *(requerido)*: El JSON que contiene los datos cifrados. También acepta `-` para leer desde la entrada estándar.
 
-**Ejemplos de uso:**
+**Ejemplo de uso:**
 ```bash
-# Pasando el JSON directamente como argumento
-cipherpass-cli vault-import '{"iv": "...", "salt": "...", "ciphertext": "..."}'
-
-# Leyendo el archivo exportado a través de la entrada estándar
 cat boveda.json | cipherpass-cli vault-import -
 ```
 
@@ -107,24 +233,15 @@ Genera un token seguro para ser utilizado en APIs, servicios en la nube, o ident
 
 **Argumentos opcionales:**
 *   `-m`, `--mode <0|1|2|3>`: Especifica el formato del token generado. (Por defecto: `0`).
-    *   `0`: URL-safe (Base64url sin relleno). Ideal para tokens de sesión y URLs.
-    *   `1`: Hexadecimal. Ideal para hashes o claves simétricas puras.
-    *   `2`: UUID v4. Formato estándar universal.
+    *   `0`: URL-safe (Base64url sin relleno).
+    *   `1`: Hexadecimal.
+    *   `2`: UUID v4.
     *   `3`: Bearer Token. Mismo que el modo `0` pero con el prefijo `Bearer `.
-*   `-l`, `--length <entero>`: Define la longitud del token en bytes para los modos 0, 1 y 3 (Por defecto: `32`). *Nota: Un token URL-safe o Hexadecimal será más largo en caracteres finales.*
+*   `-l`, `--length <entero>`: Define la longitud del token en bytes para los modos 0, 1 y 3 (Por defecto: `32`).
+*   `-c`, `--copy`: Copia el token generado al portapapeles.
 
 **Ejemplos de uso:**
 ```bash
-# Generar un token URL-safe de 32 bytes (comportamiento por defecto)
-cipherpass-cli token
-
-# Generar un UUID v4 estándar
 cipherpass-cli token --mode 2
-
-# Generar un token Hexadecimal de 16 bytes
-cipherpass-cli token -m 1 -l 16
-
-# Generar un token Bearer para usar en cabeceras HTTP de 64 bytes
-cipherpass-cli token -m 3 -l 64
+cipherpass-cli token -m 3 -l 64 -c
 ```
-
