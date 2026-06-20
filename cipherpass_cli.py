@@ -31,6 +31,8 @@ def main():
 
     # --- Comando: totp ---
     totp_parser = subparsers.add_parser("totp", help="Generates a TOTP secret")
+    totp_parser.add_argument("-a", "--account", default="user@example.com", help="Account name for the TOTP URI")
+    totp_parser.add_argument("-i", "--issuer", default="CipherPass", help="Issuer for the TOTP URI")
     totp_parser.add_argument("-c", "--copy", action="store_true", help="Copy output to clipboard")
 
     # --- Comando: token ---
@@ -96,14 +98,16 @@ def main():
 
     elif args.command == "totp":
         secret = TOTPEngine.generate_secret()
+        uri = TOTPEngine.build_uri(secret, account_name=args.account, issuer=args.issuer)
         if args.json:
-            print(json.dumps({"totp_secret": secret}))
+            print(json.dumps({"totp_secret": secret, "totp_uri": uri}))
         else:
             if args.copy:
-                pyperclip.copy(secret)
-                console.print("[bold green]✔ TOTP Secret copied to clipboard![/bold green]")
+                pyperclip.copy(uri)
+                console.print("[bold green]✔ TOTP URI copied to clipboard![/bold green]")
             else:
-                console.print(f"[bold cyan]{secret}[/bold cyan]")
+                console.print(f"Secret: [bold cyan]{secret}[/bold cyan]")
+                console.print(f"URI: [bold cyan]{uri}[/bold cyan]")
 
     elif args.command == "token":
         engine = PasswordEngine()

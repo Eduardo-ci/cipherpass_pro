@@ -692,7 +692,7 @@ class CipherPassApp(QMainWindow):
     def generate_totp_ui(self) -> None:
         name = self.ui.lineEdit_service_name.text().strip() or "ServicioDesconocido"
         secret = TOTPEngine.generate_secret()
-        uri = TOTPEngine.build_uri(secret, name)
+        uri = TOTPEngine.build_uri(secret, account_name="User", issuer=name)
 
         self.ui.lineEdit_totp_secret.setText(secret)
         self.ui.lineEdit_totp_uri.setText(uri)

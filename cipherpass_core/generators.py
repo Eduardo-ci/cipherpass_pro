@@ -4,6 +4,7 @@ import secrets
 import logging
 import uuid
 import base64
+import urllib.parse
 from typing import List
 
 from zxcvbn import zxcvbn
@@ -131,4 +132,6 @@ class TOTPEngine:
 
     @staticmethod
     def build_uri(secret: str, account_name: str, issuer: str = "CipherPass") -> str:
-        return f"otpauth://totp/{issuer}:{account_name}?secret={secret}&issuer={issuer}"
+        encoded_issuer = urllib.parse.quote(issuer)
+        encoded_account = urllib.parse.quote(account_name)
+        return f"otpauth://totp/{encoded_issuer}:{encoded_account}?secret={secret}&issuer={encoded_issuer}"
