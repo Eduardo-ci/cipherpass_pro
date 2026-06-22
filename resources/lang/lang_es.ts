@@ -4,212 +4,257 @@
 <context>
     <name>CipherPassApp</name>
     <message>
-        <location filename="../../main.py" line="445"/>
+        <location filename="../../main.py" line="404"/>
+        <source>Ayuda</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="405"/>
+        <source>Acerca de CipherPass...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="406"/>
+        <source>Idioma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="436"/>
+        <source>GNU AGPLv3 (Código Abierto)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="437"/>
+        <source>Versión:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="438"/>
+        <source>Licencia:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="439"/>
+        <source>Aplicación de código abierto diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="440"/>
+        <source>Visitar el sitio web oficial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="441"/>
+        <source>Acerca de CipherPass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../main.py" line="485"/>
         <source>Tiempo estimado:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="453"/>
+        <location filename="../../main.py" line="493"/>
         <source>Instantáneo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="455"/>
+        <location filename="../../main.py" line="495"/>
         <source>{int(seconds)} s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="457"/>
+        <location filename="../../main.py" line="497"/>
         <source>{int(seconds/60)} min</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="459"/>
+        <location filename="../../main.py" line="499"/>
         <source>{int(seconds/3600)} h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="461"/>
+        <location filename="../../main.py" line="501"/>
         <source>{int(seconds/86400)} días</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="463"/>
+        <location filename="../../main.py" line="503"/>
         <source>{int(seconds/31536000)} años</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="464"/>
+        <location filename="../../main.py" line="504"/>
         <source>Siglos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="518"/>
+        <location filename="../../main.py" line="563"/>
         <source>Selecciona opciones</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="527"/>
+        <location filename="../../main.py" line="572"/>
         <source>Error: Sin diccionario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="537"/>
+        <location filename="../../main.py" line="582"/>
         <source>Tiempo estimado: -</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="540"/>
+        <location filename="../../main.py" line="585"/>
         <source>Ingresa una contraseña...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="599"/>
+        <location filename="../../main.py" line="644"/>
         <source>Bloqueado por Política:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="612"/>
+        <location filename="../../main.py" line="657"/>
         <source>Vacío</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="612"/>
+        <location filename="../../main.py" line="657"/>
         <source>Ingresa una contraseña para validar.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="618"/>
+        <location filename="../../main.py" line="663"/>
         <source>Consultando de forma anónima...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="632"/>
+        <location filename="../../main.py" line="677"/>
         <source>⚠️ Error:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="636"/>
+        <location filename="../../main.py" line="681"/>
         <source>✅ Excelente. Esta contraseña no aparece en brechas de datos conocidas.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="639"/>
+        <location filename="../../main.py" line="684"/>
         <source>🚨 PELIGRO: Esta contraseña ha sido expuesta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="640"/>
+        <location filename="../../main.py" line="685"/>
         <source>veces.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="648"/>
-        <location filename="../../main.py" line="676"/>
-        <location filename="../../main.py" line="696"/>
-        <location filename="../../main.py" line="727"/>
+        <location filename="../../main.py" line="693"/>
+        <location filename="../../main.py" line="721"/>
+        <location filename="../../main.py" line="741"/>
+        <location filename="../../main.py" line="772"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="648"/>
+        <location filename="../../main.py" line="693"/>
         <source>No hay datos para exportar.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="651"/>
+        <location filename="../../main.py" line="696"/>
         <source>Cifrar Bóveda</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="651"/>
-        <location filename="../../main.py" line="679"/>
+        <location filename="../../main.py" line="696"/>
+        <location filename="../../main.py" line="724"/>
         <source>Ingresa la contraseña maestra:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="657"/>
+        <location filename="../../main.py" line="702"/>
         <source>Guardar Bóveda</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="661"/>
+        <location filename="../../main.py" line="706"/>
         <source>✅ Bóveda exportada exitosamente.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="664"/>
+        <location filename="../../main.py" line="709"/>
         <source>Fallo al exportar:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="665"/>
+        <location filename="../../main.py" line="710"/>
         <source>Error Crítico</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="669"/>
+        <location filename="../../main.py" line="714"/>
         <source>Abrir Bóveda</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="676"/>
+        <location filename="../../main.py" line="721"/>
         <source>Archivo no encontrado.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="679"/>
+        <location filename="../../main.py" line="724"/>
         <source>Descifrar Bóveda</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="688"/>
+        <location filename="../../main.py" line="733"/>
         <source>✅ Bóveda descifrada exitosamente.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="691"/>
+        <location filename="../../main.py" line="736"/>
         <source>Acceso Denegado</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="691"/>
+        <location filename="../../main.py" line="736"/>
         <source>Contraseña maestra incorrecta o archivo dañado.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="692"/>
+        <location filename="../../main.py" line="737"/>
         <source>❌ Fallo de descifrado.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="695"/>
+        <location filename="../../main.py" line="740"/>
         <source>Fallo de E/S:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="715"/>
+        <location filename="../../main.py" line="760"/>
         <source>Módulo &apos;qrcode&apos; no instalado.
 Usa el secreto manual.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="722"/>
+        <location filename="../../main.py" line="767"/>
         <source>Guardar Código QR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="725"/>
+        <location filename="../../main.py" line="770"/>
         <source>Éxito</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="725"/>
+        <location filename="../../main.py" line="770"/>
         <source>Código QR guardado correctamente.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.py" line="727"/>
+        <location filename="../../main.py" line="772"/>
         <source>No hay un código QR para guardar.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,1129 +319,433 @@ Usa el secreto manual.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/main_en.ui" line="20"/>
-        <location filename="../../ui/main_es.ui" line="20"/>
-        <location filename="../../ui/main_pt.ui" line="20"/>
+        <location filename="../../ui/main.ui" line="20"/>
         <source>CipherPass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="51"/>
-        <source>🔑 Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="59"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Length (5-128):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="95"/>
-        <source>&lt;b&gt;Compliance Mode:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="120"/>
-        <source>── Manual mode ──</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="125"/>
-        <location filename="../../ui/main_es.ui" line="125"/>
-        <location filename="../../ui/main_pt.ui" line="125"/>
+        <location filename="../../ui/main.ui" line="125"/>
         <source>Active Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="130"/>
-        <location filename="../../ui/main_es.ui" line="130"/>
-        <location filename="../../ui/main_pt.ui" line="130"/>
+        <location filename="../../ui/main.ui" line="130"/>
         <source>AWS IAM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="135"/>
-        <location filename="../../ui/main_es.ui" line="135"/>
-        <location filename="../../ui/main_pt.ui" line="135"/>
+        <location filename="../../ui/main.ui" line="135"/>
         <source>PCI-DSS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="140"/>
-        <location filename="../../ui/main_es.ui" line="140"/>
-        <location filename="../../ui/main_pt.ui" line="140"/>
+        <location filename="../../ui/main.ui" line="140"/>
         <source>NIST 800-63B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="154"/>
-        <source>Manual Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="179"/>
-        <source>A-Z (Uppercase)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="189"/>
-        <source>a-z (Lowercase)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="199"/>
-        <source>0-9 (Numbers)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="209"/>
-        <source>Symbols (#%*@!%&amp;$? and more)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="219"/>
-        <source>Avoid ambiguous characters (e.g., l, 1, I, 0, O)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="241"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum numbers (0-9):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="258"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum specials:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="280"/>
-        <source>Strength: %p%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="290"/>
-        <source>Generate Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="318"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="321"/>
-        <location filename="../../ui/main_en.ui" line="459"/>
-        <location filename="../../ui/main_en.ui" line="604"/>
-        <location filename="../../ui/main_en.ui" line="941"/>
-        <location filename="../../ui/main_en.ui" line="1236"/>
-        <location filename="../../ui/main_en.ui" line="1273"/>
-        <location filename="../../ui/main_es.ui" line="321"/>
-        <location filename="../../ui/main_es.ui" line="459"/>
-        <location filename="../../ui/main_es.ui" line="604"/>
-        <location filename="../../ui/main_es.ui" line="941"/>
-        <location filename="../../ui/main_es.ui" line="1236"/>
-        <location filename="../../ui/main_es.ui" line="1273"/>
-        <location filename="../../ui/main_pt.ui" line="321"/>
-        <location filename="../../ui/main_pt.ui" line="459"/>
-        <location filename="../../ui/main_pt.ui" line="604"/>
-        <location filename="../../ui/main_pt.ui" line="941"/>
-        <location filename="../../ui/main_pt.ui" line="1236"/>
-        <location filename="../../ui/main_pt.ui" line="1273"/>
+        <location filename="../../ui/main.ui" line="321"/>
+        <location filename="../../ui/main.ui" line="459"/>
+        <location filename="../../ui/main.ui" line="604"/>
+        <location filename="../../ui/main.ui" line="941"/>
+        <location filename="../../ui/main.ui" line="1236"/>
+        <location filename="../../ui/main.ui" line="1273"/>
         <source>📋</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="344"/>
-        <source>🔏 Passphrase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="352"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of words (3-20):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="372"/>
-        <source>Separator:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="379"/>
-        <location filename="../../ui/main_es.ui" line="379"/>
-        <location filename="../../ui/main_pt.ui" line="379"/>
+        <location filename="../../ui/main.ui" line="379"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="391"/>
-        <source>Value must be between 3 and 20. Use 6 words or more to generate a secure passphrase.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="401"/>
-        <source>Capitalize (Each word starts with uppercase)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="408"/>
-        <source>Include random number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="431"/>
-        <source>Generate Passphrase</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="482"/>
-        <source>👤 Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="490"/>
-        <source>User Type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="498"/>
-        <source>Random word</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="503"/>
-        <source>Email</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="508"/>
-        <location filename="../../ui/main_es.ui" line="508"/>
+        <location filename="../../ui/main.ui" line="508"/>
         <source>Alias</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="516"/>
-        <source>Domain (Optional):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="523"/>
-        <source>e.g., company.com (without @)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="530"/>
-        <source>Service Tag:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="539"/>
-        <source>Include (+tag)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="549"/>
-        <source>e.g., netflix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="576"/>
-        <source>Generate Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="627"/>
-        <source>🛡️ Validate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="636"/>
-        <source>Check how fast an attacker could crack your password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="648"/>
-        <source>Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="660"/>
-        <source>Enter password...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="673"/>
-        <location filename="../../ui/main_es.ui" line="673"/>
-        <location filename="../../ui/main_pt.ui" line="673"/>
+        <location filename="../../ui/main.ui" line="673"/>
         <source>👁️</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="701"/>
-        <source>🔒 Check in Have I Been Pwned</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="728"/>
-        <source>🔍 Check now</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="785"/>
-        <source>Estimated time: -</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="835"/>
-        <source>🔐 API &amp; Cloud Tokens</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="841"/>
-        <source>Generate secure tokens for APIs, cloud services, and unique UUIDs.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="853"/>
-        <source>Token Type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="861"/>
-        <location filename="../../ui/main_es.ui" line="861"/>
+        <location filename="../../ui/main.ui" line="861"/>
         <source>URL-safe Token (secrets.token_urlsafe)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="866"/>
-        <location filename="../../ui/main_es.ui" line="866"/>
+        <location filename="../../ui/main.ui" line="866"/>
         <source>Hexadecimal Token (secrets.token_hex)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="871"/>
-        <location filename="../../ui/main_es.ui" line="871"/>
-        <location filename="../../ui/main_pt.ui" line="871"/>
+        <location filename="../../ui/main.ui" line="871"/>
         <source>UUID v4 (uuid.uuid4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="876"/>
-        <source>Bearer Token (prefix + token_urlsafe)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="888"/>
-        <source>Length (bytes):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="913"/>
-        <source>Generate Token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="964"/>
-        <source>🔐 Encrypted Vault</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="970"/>
-        <source>Export and import encrypted data with Argon2id and AES-256. Requires master password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="980"/>
-        <source>&lt;b&gt;Export Vault&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="989"/>
-        <source>Key derivation function. Argon2id is more resistant to GPU and brute-force attacks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="992"/>
-        <source>KDF Algorithm:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1000"/>
-        <source>Argon2id (recommended)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1005"/>
-        <location filename="../../ui/main_es.ui" line="1005"/>
-        <location filename="../../ui/main_pt.ui" line="1005"/>
+        <location filename="../../ui/main.ui" line="1005"/>
         <source>PBKDF2-SHA256 (fallback stdlib)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="1021"/>
-        <source>Enter data to encrypt (JSON, text, etc.)...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1031"/>
-        <source>🔒 Export and Encrypt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1051"/>
-        <source>&lt;b&gt;Import Vault&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1063"/>
-        <source>Select vault file...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1076"/>
-        <location filename="../../ui/main_es.ui" line="1076"/>
-        <location filename="../../ui/main_pt.ui" line="1076"/>
+        <location filename="../../ui/main.ui" line="1076"/>
         <source>📁</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_en.ui" line="1088"/>
-        <source>🔓 Import and Decrypt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1142"/>
-        <source>📱 TOTP Generator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1148"/>
-        <source>Generate TOTP secrets for two-factor authentication (2FA/MFA).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1158"/>
-        <source>&lt;b&gt;Issuer and Account&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1167"/>
-        <source>Issuer:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1174"/>
-        <source>e.g., Google, GitHub, etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1181"/>
-        <source>Account:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1188"/>
-        <source>e.g., user@gmail.com</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1201"/>
-        <source>🔑 Generate TOTP Secret</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1208"/>
-        <source>&lt;b&gt;Base32 Secret&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1245"/>
-        <source>&lt;b&gt;otpauth:// URI&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1282"/>
-        <source>&lt;b&gt;QR Code&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1295"/>
-        <source>QR code will appear here</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1311"/>
-        <source>💾 Save QR as PNG</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1340"/>
-        <source>Language:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_en.ui" line="1376"/>
-        <location filename="../../ui/main_es.ui" line="1376"/>
-        <location filename="../../ui/main_pt.ui" line="1376"/>
+        <location filename="../../ui/main.ui" line="1376"/>
         <source>🔓 Open Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="51"/>
+        <location filename="../../ui/main.ui" line="51"/>
         <source>🔑 Contraseña</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="59"/>
+        <location filename="../../ui/main.ui" line="59"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Longitud (5 -128):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="95"/>
+        <location filename="../../ui/main.ui" line="95"/>
         <source>&lt;b&gt;Modo Compliance:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="120"/>
-        <location filename="../../ui/main_pt.ui" line="120"/>
+        <location filename="../../ui/main.ui" line="120"/>
         <source>── Modo manual ──</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="154"/>
-        <location filename="../../ui/main_pt.ui" line="154"/>
+        <location filename="../../ui/main.ui" line="154"/>
         <source>Modo Manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="179"/>
+        <location filename="../../ui/main.ui" line="179"/>
         <source>A-Z (Mayúsculas)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="189"/>
-        <location filename="../../ui/main_pt.ui" line="189"/>
+        <location filename="../../ui/main.ui" line="189"/>
         <source>a-z (Minúsculas)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="199"/>
-        <location filename="../../ui/main_pt.ui" line="199"/>
+        <location filename="../../ui/main.ui" line="199"/>
         <source>0-9 (Números)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="209"/>
+        <location filename="../../ui/main.ui" line="209"/>
         <source>Símbolos (#%*@!%&amp;$? y más)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="219"/>
+        <location filename="../../ui/main.ui" line="219"/>
         <source>Evitar caracteres ambiguos (ej. l, 1, I, 0, O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="241"/>
-        <location filename="../../ui/main_pt.ui" line="241"/>
+        <location filename="../../ui/main.ui" line="241"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo de números (0-9):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="258"/>
+        <location filename="../../ui/main.ui" line="258"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo de especiales:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="280"/>
+        <location filename="../../ui/main.ui" line="280"/>
         <source>Fortaleza: %p%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="290"/>
+        <location filename="../../ui/main.ui" line="290"/>
         <source>Generar Contraseña</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="318"/>
-        <location filename="../../ui/main_pt.ui" line="318"/>
+        <location filename="../../ui/main.ui" line="318"/>
         <source>Copiar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="344"/>
+        <location filename="../../ui/main.ui" line="344"/>
         <source>🔏 Frase de Contraseña</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="352"/>
+        <location filename="../../ui/main.ui" line="352"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Número de palabras (3 - 20):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="372"/>
-        <location filename="../../ui/main_pt.ui" line="372"/>
+        <location filename="../../ui/main.ui" line="372"/>
         <source>Separador:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="391"/>
+        <location filename="../../ui/main.ui" line="391"/>
         <source>El valor debe estar entre 3 y 20. Usa 6 palabras o más para generar una frase de contraseña segura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="401"/>
+        <location filename="../../ui/main.ui" line="401"/>
         <source>Capitalizar (Cada palabra inicia con mayúscula)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="408"/>
+        <location filename="../../ui/main.ui" line="408"/>
         <source>Incluir número aleatorio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="431"/>
+        <location filename="../../ui/main.ui" line="431"/>
         <source>Generar Frase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="482"/>
+        <location filename="../../ui/main.ui" line="482"/>
         <source>👤 Usuario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="490"/>
+        <location filename="../../ui/main.ui" line="490"/>
         <source>Tipo de Usuario:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="498"/>
+        <location filename="../../ui/main.ui" line="498"/>
         <source>Palabra aleatoria</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="503"/>
+        <location filename="../../ui/main.ui" line="503"/>
         <source>Correo electrónico</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="516"/>
+        <location filename="../../ui/main.ui" line="516"/>
         <source>Dominio (Opcional):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="523"/>
+        <location filename="../../ui/main.ui" line="523"/>
         <source>ej. empresa.com (sin @)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="530"/>
+        <location filename="../../ui/main.ui" line="530"/>
         <source>Tag de Servicio:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="539"/>
-        <location filename="../../ui/main_pt.ui" line="539"/>
+        <location filename="../../ui/main.ui" line="539"/>
         <source>Incluir (+tag)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="549"/>
+        <location filename="../../ui/main.ui" line="549"/>
         <source>ej. netflix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="576"/>
+        <location filename="../../ui/main.ui" line="576"/>
         <source>Generar Usuario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="627"/>
-        <location filename="../../ui/main_pt.ui" line="627"/>
+        <location filename="../../ui/main.ui" line="627"/>
         <source>🛡️ Validar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="636"/>
+        <location filename="../../ui/main.ui" line="636"/>
         <source>Comprueba qué tan rápido un atacante podría descifrar tu contraseña.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="648"/>
+        <location filename="../../ui/main.ui" line="648"/>
         <source>Contraseña:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="660"/>
+        <location filename="../../ui/main.ui" line="660"/>
         <source>Ingresa contraseña...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="701"/>
+        <location filename="../../ui/main.ui" line="701"/>
         <source>🔒 Verificar en Have I Been Pwned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="728"/>
+        <location filename="../../ui/main.ui" line="728"/>
         <source>🔍 Verificar ahora</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="785"/>
+        <location filename="../../ui/main.ui" line="785"/>
         <source>Tiempo estimado: -</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="835"/>
+        <location filename="../../ui/main.ui" line="835"/>
         <source>🔐 Tokens API &amp; Nube</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="841"/>
+        <location filename="../../ui/main.ui" line="841"/>
         <source>Genera tokens seguros para APIs, servicios cloud y UUIDs únicos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="853"/>
+        <location filename="../../ui/main.ui" line="853"/>
         <source>Tipo de Token:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="876"/>
+        <location filename="../../ui/main.ui" line="876"/>
         <source>Bearer Token (prefijo + token_urlsafe)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="888"/>
+        <location filename="../../ui/main.ui" line="888"/>
         <source>Longitud (bytes):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="913"/>
+        <location filename="../../ui/main.ui" line="913"/>
         <source>Generar Token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="964"/>
+        <location filename="../../ui/main.ui" line="964"/>
         <source>🔐 Bóveda Cifrada</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="970"/>
+        <location filename="../../ui/main.ui" line="970"/>
         <source>Exporta e importa datos cifrados con Argon2id y AES-256. Requiere contraseña maestra.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="980"/>
+        <location filename="../../ui/main.ui" line="980"/>
         <source>&lt;b&gt;Exportar Bóveda&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="989"/>
+        <location filename="../../ui/main.ui" line="989"/>
         <source>Función de derivación de clave. Argon2id es más resistente a ataques GPU y de fuerza bruta.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="992"/>
-        <location filename="../../ui/main_pt.ui" line="992"/>
+        <location filename="../../ui/main.ui" line="992"/>
         <source>Algoritmo KDF:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1000"/>
-        <location filename="../../ui/main_pt.ui" line="1000"/>
+        <location filename="../../ui/main.ui" line="1000"/>
         <source>Argon2id (recomendado)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1021"/>
+        <location filename="../../ui/main.ui" line="1021"/>
         <source>Ingresa los datos a cifrar (JSON, texto, etc.)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1031"/>
+        <location filename="../../ui/main.ui" line="1031"/>
         <source>🔒 Exportar y Cifrar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1051"/>
+        <location filename="../../ui/main.ui" line="1051"/>
         <source>&lt;b&gt;Importar Bóveda&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1063"/>
+        <location filename="../../ui/main.ui" line="1063"/>
         <source>Selecciona archivo de bóveda...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1088"/>
+        <location filename="../../ui/main.ui" line="1088"/>
         <source>🔓 Importar y Descifrar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1142"/>
+        <location filename="../../ui/main.ui" line="1142"/>
         <source>📱 Generador TOTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1148"/>
+        <location filename="../../ui/main.ui" line="1148"/>
         <source>Genera secretos TOTP para autenticación de dos factores (2FA/MFA).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1158"/>
+        <location filename="../../ui/main.ui" line="1158"/>
         <source>&lt;b&gt;Emisor y Cuenta&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1167"/>
+        <location filename="../../ui/main.ui" line="1167"/>
         <source>Emisor:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1174"/>
+        <location filename="../../ui/main.ui" line="1174"/>
         <source>ej. Google, GitHub, etc.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1181"/>
+        <location filename="../../ui/main.ui" line="1181"/>
         <source>Cuenta:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1188"/>
+        <location filename="../../ui/main.ui" line="1188"/>
         <source>ej. usuario@gmail.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1201"/>
+        <location filename="../../ui/main.ui" line="1201"/>
         <source>🔑 Generar Secreto TOTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1208"/>
+        <location filename="../../ui/main.ui" line="1208"/>
         <source>&lt;b&gt;Secreto Base32&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1245"/>
-        <location filename="../../ui/main_pt.ui" line="1245"/>
+        <location filename="../../ui/main.ui" line="1245"/>
         <source>&lt;b&gt;URI otpauth://&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1282"/>
-        <location filename="../../ui/main_pt.ui" line="1282"/>
+        <location filename="../../ui/main.ui" line="1282"/>
         <source>&lt;b&gt;Código QR&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1295"/>
+        <location filename="../../ui/main.ui" line="1295"/>
         <source>El código QR aparecerá aquí</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1311"/>
+        <location filename="../../ui/main.ui" line="1311"/>
         <source>💾 Guardar QR como PNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../ui/main_es.ui" line="1340"/>
-        <location filename="../../ui/main_pt.ui" line="1340"/>
+        <location filename="../../ui/main.ui" line="1340"/>
         <source>Idioma:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="51"/>
-        <source>🔑 Senha</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="59"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Comprimento (5-128):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="95"/>
-        <source>&lt;b&gt;Modo de Conformidade:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="179"/>
-        <source>A-Z (Maiúsculas)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="209"/>
-        <source>Símbolos (#%*@!%&amp;$? e mais)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="219"/>
-        <source>Evitar caracteres ambíguos (ex.: l, 1, I, 0, O)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="258"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo de especiais:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="280"/>
-        <source>Força: %p%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="290"/>
-        <source>Gerar Senha</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="344"/>
-        <source>🔏 Frase-senha</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="352"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Número de palavras (3-20):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="391"/>
-        <source>O valor deve estar entre 3 e 20. Use 6 palavras ou mais para gerar uma frase-senha segura.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="401"/>
-        <source>Capitalizar (cada palavra começa com maiúscula)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="408"/>
-        <source>Incluir número aleatório</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="431"/>
-        <source>Gerar Frase-senha</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="482"/>
-        <source>👤 Nome de usuário</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="490"/>
-        <source>Tipo de usuário:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="498"/>
-        <source>Palavra aleatória</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="503"/>
-        <source>E-mail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="508"/>
-        <source>Apelido</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="516"/>
-        <source>Domínio (opcional):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="523"/>
-        <source>ex.: empresa.com (sem @)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="530"/>
-        <source>Tag de serviço:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="549"/>
-        <source>ex.: netflix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="576"/>
-        <source>Gerar Nome de Usuário</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="636"/>
-        <source>Verifique quão rápido um invasor poderia quebrar sua senha.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="648"/>
-        <source>Senha:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="660"/>
-        <source>Digite a senha...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="701"/>
-        <source>🔒 Verificar no Have I Been Pwned</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="728"/>
-        <source>🔍 Verificar agora</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="785"/>
-        <source>Tempo estimado: -</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="835"/>
-        <source>🔐 Tokens API &amp; Nuvem</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="841"/>
-        <source>Gere tokens seguros para APIs, serviços em nuvem e UUIDs únicos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="853"/>
-        <source>Tipo de token:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="861"/>
-        <source>Token URL-safe (secrets.token_urlsafe)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="866"/>
-        <source>Token hexadecimal (secrets.token_hex)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="876"/>
-        <source>Bearer Token (prefixo + token_urlsafe)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="888"/>
-        <source>Comprimento (bytes):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="913"/>
-        <source>Gerar Token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="964"/>
-        <source>🔐 Cofre Cifrado</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="970"/>
-        <source>Exporte e importe dados cifrados com Argon2id e AES-256. Requer senha mestra.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="980"/>
-        <source>&lt;b&gt;Exportar Cofre&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="989"/>
-        <source>Função de derivação de chave. Argon2id é mais resistente a ataques GPU e de força bruta.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1021"/>
-        <source>Digite os dados a serem cifrados (JSON, texto, etc.)...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1031"/>
-        <source>🔒 Exportar e Cifrar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1051"/>
-        <source>&lt;b&gt;Importar Cofre&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1063"/>
-        <source>Selecione o arquivo do cofre...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1088"/>
-        <source>🔓 Importar e Decifrar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1142"/>
-        <source>📱 Gerador TOTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1148"/>
-        <source>Gere segredos TOTP para autenticação de dois fatores (2FA/MFA).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1158"/>
-        <source>&lt;b&gt;Emissor e Conta&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1167"/>
-        <source>Emissor:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1174"/>
-        <source>ex.: Google, GitHub, etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1181"/>
-        <source>Conta:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1188"/>
-        <source>ex.: usuario@gmail.com</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1201"/>
-        <source>🔑 Gerar Segredo TOTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1208"/>
-        <source>&lt;b&gt;Segredo Base32&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1295"/>
-        <source>O código QR aparecerá aqui</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_pt.ui" line="1311"/>
-        <source>💾 Salvar QR como PNG</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

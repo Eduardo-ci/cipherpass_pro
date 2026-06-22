@@ -6,6 +6,7 @@ import time
 import logging
 import json
 import uuid
+import glob
 from typing import List, Tuple, Optional, Dict, Any
 
 # --- DEPENDENCIAS OPCIONALES/NUEVAS ---
@@ -55,7 +56,6 @@ __all__ = [
     "QRHelper",
     "CipherPassApp",
     "resource_path",
-    "LANG_MAP",
     "VERSION"
 ]
 
@@ -70,7 +70,6 @@ logging.basicConfig(
 )
 
 # --- CONSTANTES ---
-LANG_MAP: dict = {"Español": "es", "English": "en", "Português": "pt"}
 VERSION = "1.0.3"
 
 # --- GESTIÓN DE RUTAS ---
@@ -259,13 +258,11 @@ class CipherPassApp(QMainWindow):
             logging.warning(f"No se pudo cargar la traducción para: {lang_code}")
 
     def load_ui_file(self) -> None:
-        lang_code = self.current_locale.name().split("_")[0]
-        ui_file_path = resource_path(os.path.join("ui", f"main_{lang_code}.ui"))
+        ui_file_path = resource_path(os.path.join("ui", "main.ui"))
         
         if not os.path.exists(ui_file_path):
-            logging.warning(f"UI {ui_file_path} no encontrada. Fallback a (es).")
-            ui_file_path = resource_path(os.path.join("ui", "main_es.ui"))
-            lang_code = "es"
+            logging.error(f"UI {ui_file_path} no encontrada.")
+            return
 
         loader = QUiLoader()
         file = QFile(ui_file_path)
@@ -285,16 +282,47 @@ class CipherPassApp(QMainWindow):
         if not icon.isNull():
             self.setWindowIcon(icon)
             
+        lang_code = self.current_locale.name().split("_")[0]
         filepath = resource_path(os.path.join("resources", "dic", f"diceware_{lang_code}.txt"))
+        if not os.path.exists(filepath):
+            filepath = resource_path(os.path.join("resources", "dic", "diceware_en.txt"))
         self.engine.load_diceware(filepath)
         self.connect_ui_elements()
+
+    def get_clean_language_name(self, code: str) -> str:
+        # Evitar regionalismos de QLocale (ej. "American English" -> "English")
+        clean_names = {
+            "es": "Español",
+            "en": "English",
+            "pt": "Português",
+            "fr": "Français",
+            "it": "Italiano",
+            "de": "Deutsch"
+        }
+        if code in clean_names:
+            return clean_names[code]
+        name = QLocale(code).nativeLanguageName() or code.upper()
+        name = name.split("(")[0].strip() # Remover región si la tiene
+        return name[0].upper() + name[1:] if name else code.upper()
 
     def connect_ui_elements(self) -> None:
         # 1. Idioma
         self.ui.comboBox_idioma.blockSignals(True)
         self.ui.comboBox_idioma.clear()
-        for lang_name, code in LANG_MAP.items():
-            self.ui.comboBox_idioma.addItem(lang_name, code)
+        
+        lang_dir = resource_path(os.path.join("resources", "lang"))
+        lang_map_dynamic = {}
+        for lf in glob.glob(os.path.join(lang_dir, "lang_*.qm")):
+            code = os.path.basename(lf).replace("lang_", "").replace(".qm", "")
+            native_name = self.get_clean_language_name(code)
+            lang_map_dynamic[native_name] = code
+            
+        if not lang_map_dynamic:
+            lang_map_dynamic["Español"] = "es"
+            
+        for name in sorted(lang_map_dynamic.keys()):
+            self.ui.comboBox_idioma.addItem(name, lang_map_dynamic[name])
+            
         current_code = self.current_locale.name().split("_")[0]
         idx = self.ui.comboBox_idioma.findData(current_code)
         if idx != -1: self.ui.comboBox_idioma.setCurrentIndex(idx)
@@ -373,39 +401,44 @@ class CipherPassApp(QMainWindow):
         menu_bar = self.menuBar()
         menu_bar.clear()  # Evitar duplicados al cambiar de idioma
         
-        lang_code = self.current_locale.name().split("_")[0]
-        ayuda_text = {
-            "en": "Help",
-            "pt": "Ajuda"
-        }.get(lang_code, "Ayuda")
+        ayuda_text = QCoreApplication.translate("CipherPassApp", "Ayuda")
+        acerca_text = QCoreApplication.translate("CipherPassApp", "Acerca de CipherPass...")
+        idioma_text = QCoreApplication.translate("CipherPassApp", "Idioma")
         
-        acerca_text = {
-            "en": "About CipherPass...",
-            "pt": "Sobre CipherPass..."
-        }.get(lang_code, "Acerca de CipherPass...")
+        # Menú Idioma
+        lang_menu = menu_bar.addMenu(idioma_text)
         
+        lang_dir = resource_path(os.path.join("resources", "lang"))
+        for lf in sorted(glob.glob(os.path.join(lang_dir, "lang_*.qm"))):
+            code = os.path.basename(lf).replace("lang_", "").replace(".qm", "")
+            native_name = self.get_clean_language_name(code)
+            action = lang_menu.addAction(native_name)
+            # Usar un lambda con valor por defecto para capturar el código correctamente
+            action.triggered.connect(lambda checked=False, c=code: self.change_language_code(c))
+        
+        # Menú Ayuda
         help_menu = menu_bar.addMenu(ayuda_text)
         about_action = help_menu.addAction(acerca_text)
         about_action.triggered.connect(self.show_about_dialog)
 
+    @Slot(str)
+    def change_language_code(self, lang_code: str) -> None:
+        current = self.current_locale.name().split("_")[0]
+        if lang_code and lang_code != current:
+            self.current_locale = QLocale(lang_code)
+            self.settings.set_language(lang_code)
+            self.load_translation(lang_code)
+            self.load_ui_file()
+
     @Slot()
     def show_about_dialog(self) -> None:
         """Muestra el diálogo de información de la aplicación."""
-        lang_code = self.current_locale.name().split("_")[0]
-        
-        estado = {
-            "en": "GNU AGPLv3 (Open Source)",
-            "pt": "GNU AGPLv3 (Código Aberto)"
-        }.get(lang_code, "GNU AGPLv3 (Código Abierto)")
-        
-        version_lbl = {"en": "Version:", "pt": "Versão:"}.get(lang_code, "Versión:")
-        license_lbl = {"en": "License:", "pt": "Licença:"}.get(lang_code, "Licencia:")
-        desc_lbl = {
-            "en": "Open source desktop application designed to generate, validate, and protect cryptographic credentials ensuring your privacy offline-first.",
-            "pt": "Aplicativo de código aberto projetado para gerar, validar e proteger credenciais criptográficas garantindo sua privacidade offline-first."
-        }.get(lang_code, "Aplicación de código abierto diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.")
-        visit_lbl = {"en": "Visit the official website", "pt": "Visitar o site oficial"}.get(lang_code, "Visitar el sitio web oficial")
-        about_title = {"en": "About CipherPass", "pt": "Sobre o CipherPass"}.get(lang_code, "Acerca de CipherPass")
+        estado = QCoreApplication.translate("CipherPassApp", "GNU AGPLv3 (Código Abierto)")
+        version_lbl = QCoreApplication.translate("CipherPassApp", "Versión:")
+        license_lbl = QCoreApplication.translate("CipherPassApp", "Licencia:")
+        desc_lbl = QCoreApplication.translate("CipherPassApp", "Aplicación de código abierto diseñada para generar, validar y proteger credenciales criptográficas asegurando tu privacidad offline-first.")
+        visit_lbl = QCoreApplication.translate("CipherPassApp", "Visitar el sitio web oficial")
+        about_title = QCoreApplication.translate("CipherPassApp", "Acerca de CipherPass")
         
         # QMessageBox.about interpreta HTML nativamente
         texto_html = (
