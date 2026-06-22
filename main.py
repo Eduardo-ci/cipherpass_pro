@@ -37,9 +37,9 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import (
     QLocale, QTranslator, Slot, QIODevice, QFile, QSettings, 
-    QCoreApplication, QObject, Signal, QRunnable, QThreadPool, QEvent
+    QCoreApplication, QObject, Signal, QRunnable, QThreadPool, QEvent, QUrl
 )
-from PySide6.QtGui import QClipboard, QPixmap, QImage
+from PySide6.QtGui import QClipboard, QPixmap, QImage, QDesktopServices
 from PySide6.QtUiTools import QUiLoader
 
 from cipherpass_core.generators import PasswordEngine, TOTPEngine, DEFAULT_SYMBOLS
@@ -401,25 +401,64 @@ class CipherPassApp(QMainWindow):
         menu_bar = self.menuBar()
         menu_bar.clear()  # Evitar duplicados al cambiar de idioma
         
-        ayuda_text = QCoreApplication.translate("CipherPassApp", "Ayuda")
-        acerca_text = QCoreApplication.translate("CipherPassApp", "Acerca de CipherPass...")
+        # Textos Traducibles
+        archivo_text = QCoreApplication.translate("CipherPassApp", "Archivo")
+        salir_text = QCoreApplication.translate("CipherPassApp", "Salir")
+        
+        herramientas_text = QCoreApplication.translate("CipherPassApp", "Herramientas")
+        limpiar_portapapeles_text = QCoreApplication.translate("CipherPassApp", "Limpiar Portapapeles")
+        
+        opciones_text = QCoreApplication.translate("CipherPassApp", "Opciones")
         idioma_text = QCoreApplication.translate("CipherPassApp", "Idioma")
         
-        # Menú Idioma
-        lang_menu = menu_bar.addMenu(idioma_text)
+        ayuda_text = QCoreApplication.translate("CipherPassApp", "Ayuda")
+        docs_text = QCoreApplication.translate("CipherPassApp", "Documentación en línea")
+        acerca_text = QCoreApplication.translate("CipherPassApp", "Acerca de CipherPass...")
+        
+        # --- 1. Menú Archivo ---
+        file_menu = menu_bar.addMenu(archivo_text)
+        quit_action = file_menu.addAction(salir_text)
+        quit_action.triggered.connect(self.quit_app_action)
+        
+        # --- 2. Menú Herramientas ---
+        tools_menu = menu_bar.addMenu(herramientas_text)
+        clear_clip_action = tools_menu.addAction(limpiar_portapapeles_text)
+        clear_clip_action.triggered.connect(self.clear_clipboard_action)
+        
+        # --- 3. Menú Opciones ---
+        options_menu = menu_bar.addMenu(opciones_text)
+        lang_menu = options_menu.addMenu(idioma_text)
         
         lang_dir = resource_path(os.path.join("resources", "lang"))
         for lf in sorted(glob.glob(os.path.join(lang_dir, "lang_*.qm"))):
             code = os.path.basename(lf).replace("lang_", "").replace(".qm", "")
             native_name = self.get_clean_language_name(code)
             action = lang_menu.addAction(native_name)
-            # Usar un lambda con valor por defecto para capturar el código correctamente
             action.triggered.connect(lambda checked=False, c=code: self.change_language_code(c))
         
-        # Menú Ayuda
+        # --- 4. Menú Ayuda ---
         help_menu = menu_bar.addMenu(ayuda_text)
+        docs_action = help_menu.addAction(docs_text)
+        docs_action.triggered.connect(self.open_documentation_action)
+        help_menu.addSeparator()
         about_action = help_menu.addAction(acerca_text)
         about_action.triggered.connect(self.show_about_dialog)
+
+    @Slot()
+    def quit_app_action(self) -> None:
+        QApplication.quit()
+
+    @Slot()
+    def clear_clipboard_action(self) -> None:
+        QApplication.clipboard().clear()
+        QMessageBox.information(self, 
+            QCoreApplication.translate("CipherPassApp", "Portapapeles Limpio"), 
+            QCoreApplication.translate("CipherPassApp", "El portapapeles ha sido borrado por seguridad.")
+        )
+
+    @Slot()
+    def open_documentation_action(self) -> None:
+        QDesktopServices.openUrl(QUrl("https://github.com/Eduardo-ci/cipherpass_pro"))
 
     @Slot(str)
     def change_language_code(self, lang_code: str) -> None:
