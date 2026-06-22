@@ -30,6 +30,7 @@
 
 * **Multi-language Support / Soporte multilingüe:** Available in English, Spanish, and Portuguese.
   Disponible en inglés, español y portugués.
+  *(See how to add a new language in the section below / Mira cómo agregar un nuevo idioma en la sección de abajo).*
 
 ---
 
@@ -138,6 +139,19 @@ mkdocs serve
 ```
 Then, open `http://127.0.0.1:8000` in your web browser.
 Luego, abre `http://127.0.0.1:8000` en tu navegador web.
+
+---
+
+## 🌍 Contributing a New Language / Contribuir con un nuevo idioma
+
+Thanks to our dynamic i18n system, adding a new language (e.g., French `fr`) is extremely simple:
+Gracias a nuestro sistema i18n dinámico, agregar un nuevo idioma (ej. Francés `fr`) es extremadamente simple:
+
+1. Add your language code to `update_translations.sh`. / Agrega el código de tu idioma a `update_translations.sh`.
+2. Run `./update_translations.sh` to generate the `.ts` source file. / Ejecuta el script para generar el archivo fuente `.ts`.
+3. Open `resources/lang/lang_fr.ts` with **Qt Linguist** and translate the strings. / Abre el archivo con **Qt Linguist** y traduce los textos.
+4. Run `./update_translations.sh` again to compile the `.qm` binary. / Ejecuta el script nuevamente para compilar el binario `.qm`.
+5. Restart CipherPass. Your language will automatically appear in the top Menu Bar! / ¡Reinicia CipherPass y tu idioma aparecerá automáticamente en el menú superior!
 
 ---
 
