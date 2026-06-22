@@ -24,6 +24,14 @@ SolidCompression=yes
 ; Permisos (Privilegios mínimos si es posible, pero usualmente admin)
 PrivilegesRequired=admin
 
+[Languages]
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[CustomMessages]
+spanish.UninstallShortcut=Desinstalar CipherPass
+english.UninstallShortcut=Uninstall CipherPass
+
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
@@ -35,7 +43,7 @@ Source: "dist\cipherpass.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; Acceso directo en el menú de inicio
 Name: "{group}\CipherPass"; Filename: "{app}\cipherpass.exe"; IconFilename: "{app}\cipherpass.exe"
 ; Acceso directo de desinstalación en el menú de inicio
-Name: "{group}\Desinstalar CipherPass"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallShortcut}"; Filename: "{uninstallexe}"
 ; Acceso directo en el escritorio (opcional)
 Name: "{autodesktop}\CipherPass"; Filename: "{app}\cipherpass.exe"; Tasks: desktopicon
 
