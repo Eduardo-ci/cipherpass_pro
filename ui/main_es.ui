@@ -1155,7 +1155,7 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
         <item>
          <widget class="QLabel" name="label_totp_name">
           <property name="text">
-           <string>&lt;b&gt;Nombre del Servicio/Cuenta&lt;/b&gt;</string>
+           <string>&lt;b&gt;Emisor y Cuenta&lt;/b&gt;</string>
           </property>
          </widget>
         </item>
@@ -1164,7 +1164,7 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
           <item row="0" column="0">
            <widget class="QLabel" name="label_service_name">
             <property name="text">
-             <string>Nombre:</string>
+             <string>Emisor:</string>
             </property>
            </widget>
           </item>
@@ -1175,6 +1175,21 @@ QProgressBar::chunk { background-color: #0d6efd; border-radius: 3px; }
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_account_name">
+            <property name="text">
+             <string>Cuenta:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_account_name">
+            <property name="placeholderText">
+             <string>ej. usuario@gmail.com</string>
+            </property>
+           </widget>
+          </item>
+
          </layout>
         </item>
         <item>

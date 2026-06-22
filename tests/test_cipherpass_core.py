@@ -35,14 +35,13 @@ class TestPasswordEngine(unittest.TestCase):
 class TestTOTPEngine(unittest.TestCase):
     def test_generate_secret(self):
         secret = TOTPEngine.generate_secret()
-        self.assertTrue(len(secret) >= 16)
-        self.assertNotIn("=", secret, "El secreto Base32 no debe contener padding")
+        self.assertEqual(len(secret), 32)
+        self.assertTrue(secret.isupper())
 
     def test_build_uri(self):
-        uri = TOTPEngine.build_uri("SECRET12345", "test@example.com")
-        self.assertTrue(uri.startswith("otpauth://totp/CipherPass:test@example.com"))
-        self.assertIn("secret=SECRET12345", uri)
-        self.assertIn("issuer=CipherPass", uri)
+        uri = TOTPEngine.build_uri("JBSWY3DPEHPK3PXP", "test@example.com")
+        self.assertTrue(uri.startswith("otpauth://totp/test%40example.com?"))
+        self.assertIn("secret=JBSWY3DPEHPK3PXP", uri)
 
 class TestStrengthAnalyzer(unittest.TestCase):
     def test_entropy_preview(self):

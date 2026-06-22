@@ -8,6 +8,9 @@ try:
 except ImportError:
     HAS_REQUESTS = False
 
+def QT_TRANSLATE_NOOP(context, text):
+    return text
+
 class HIBPClient:
     """Cliente para interactuar con la API de Have I Been Pwned usando K-Anonymity."""
     
@@ -15,7 +18,7 @@ class HIBPClient:
     def check_password(password: str) -> Tuple[int, str]:
         """Consulta la contraseña en HIBP de forma anónima."""
         if not HAS_REQUESTS:
-            return -1, "La librería 'requests' no está instalada."
+            return -1, QT_TRANSLATE_NOOP("CipherPassApp", "La librería 'requests' no está instalada.")
             
         sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
         prefix = sha1_hash[:5]
@@ -31,10 +34,11 @@ class HIBPClient:
                 count = next((int(count) for h, count in hashes if h == suffix), 0)
                 return count, ""
             else:
-                return -1, f"Error HTTP {response.status_code}"
+                error_prefix = QT_TRANSLATE_NOOP("CipherPassApp", "Error HTTP")
+                return -1, f"{error_prefix} {response.status_code}"
         except Exception as e:
             logging.error(f"Fallo de red HIBP: {e}")
-            return -1, "Error de conexión o timeout."
+            return -1, QT_TRANSLATE_NOOP("CipherPassApp", "Error de conexión o timeout.")
         finally:
             del password
             del sha1_hash

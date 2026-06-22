@@ -123,6 +123,8 @@ class PasswordEngine:
         if mode == 3: return "Bearer " + secrets.token_urlsafe(length)
         return ""
 
+import re
+
 class TOTPEngine:
     """Provee secretos Base32 y generación de URI para 2FA."""
     
@@ -131,7 +133,75 @@ class TOTPEngine:
         return base64.b32encode(secrets.token_bytes(20)).decode('utf-8').replace('=', '')
 
     @staticmethod
-    def build_uri(secret: str, account_name: str, issuer: str = "CipherPass") -> str:
-        encoded_issuer = urllib.parse.quote(issuer)
-        encoded_account = urllib.parse.quote(account_name)
-        return f"otpauth://totp/{encoded_issuer}:{encoded_account}?secret={secret}&issuer={encoded_issuer}"
+    def validate_and_sanitize_input(val: str, field_name: str, max_len: int = 100) -> str:
+        if not val:
+            raise ValueError(f"El campo '{field_name}' no puede estar vacío.")
+        
+        # Trim whitespace
+        val = val.strip()
+        
+        if not val:
+            raise ValueError(f"El campo '{field_name}' no puede consistir solo de espacios.")
+            
+        if len(val) > max_len:
+            raise ValueError(f"El campo '{field_name}' excede la longitud máxima de {max_len} caracteres.")
+            
+        # Reject control characters
+        if re.search(r'[\x00-\x1F\x7F]', val):
+            raise ValueError(f"El campo '{field_name}' contiene caracteres de control no permitidos.")
+            
+        return val
+
+    @staticmethod
+    def build_uri(secret: str, account_name: str, issuer: str = "") -> str:
+        """
+        Construye una URI otpauth://totp/ compatible con Google Authenticator y Authy.
+        
+        Sigue el estándar (Key URI Format):
+        - Valida el formato Base32 del secreto.
+        - Sanitiza y codifica el account_name e issuer.
+        - Construye la URI con urllib.parse para evitar inyecciones.
+        """
+        # Validate Secret
+        if not secret:
+            raise ValueError("El secreto TOTP no puede estar vacío.")
+        
+        # Secret must be valid Base32 (A-Z, 2-7, optional = padding)
+        # remove padding for validation if present
+        clean_secret = secret.replace('=', '').upper()
+        if not re.match(r'^[A-Z2-7]+$', clean_secret):
+            raise ValueError("El secreto TOTP debe ser una cadena Base32 válida (A-Z, 2-7).")
+            
+        # Validate and sanitize account_name
+        account_name = TOTPEngine.validate_and_sanitize_input(account_name, "account_name")
+        
+        # Validate and sanitize issuer (optional)
+        if issuer:
+            issuer = TOTPEngine.validate_and_sanitize_input(issuer, "issuer")
+            
+        # 1. LABEL = issuer:account_name
+        # Both must be url encoded with safe='' first
+        encoded_account = urllib.parse.quote(account_name, safe='')
+        
+        if issuer:
+            encoded_issuer = urllib.parse.quote(issuer, safe='')
+            label = f"{encoded_issuer}:{encoded_account}"
+        else:
+            label = encoded_account
+
+        # 4. Query string parameters
+        # Parameters must be built as a dict and urlencoded
+        params = {
+            'secret': secret,  # No manual encoding needed, urlencode handles it
+            'algorithm': 'SHA1',
+            'digits': 6,
+            'period': 30
+        }
+        
+        if issuer:
+            params['issuer'] = issuer
+
+        # urlencode safely encodes all parameters
+        query_string = urllib.parse.urlencode(params)
+        
+        return f"otpauth://totp/{label}?{query_string}"

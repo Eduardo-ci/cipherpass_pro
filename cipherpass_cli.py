@@ -15,12 +15,37 @@ from cipherpass_core.crypto_vault import VaultExporter
 console = Console()
 
 def main():
-    parser = argparse.ArgumentParser(description="CipherPass CLI - Cryptographic Tool")
-    parser.add_argument("--json", action="store_true", help="Output raw JSON instead of formatted text")
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    parser = argparse.ArgumentParser(
+        description="CipherPass CLI - Advanced Cryptographic Tool\nSecurely generate passwords, tokens, check data breaches, and manage encrypted vaults.",
+        epilog="""
+Examples of common tasks:
+  1. Generate a 20-character password, analyze it and copy to clipboard:
+     cipherpass-cli generate -l 20 --analyze --copy
+  
+  2. Generate a TOTP secret for an authenticator app:
+     cipherpass-cli totp -a user@example.com -i MyCompany
+  
+  3. Check if a password was exposed in data breaches (interactive):
+     cipherpass-cli hibp
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument("--json", action="store_true", help="Output raw JSON instead of formatted text (useful for scripting)")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands", required=True)
 
     # --- Comando: generate ---
-    gen_parser = subparsers.add_parser("generate", help="Generates a secure password")
+    gen_parser = subparsers.add_parser(
+        "generate", 
+        help="Generates a secure password",
+        description="Generates a cryptographically secure random password using the system's CSPRNG.",
+        epilog="""
+Examples:
+  cipherpass-cli generate                        (Default 16 chars)
+  cipherpass-cli generate -l 24 --no-syms -c     (24 chars, no symbols, copy)
+  cipherpass-cli generate --analyze              (Show entropy and crack time)
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     gen_parser.add_argument("-l", "--length", type=int, default=16, help="Password length (default: 16)")
     gen_parser.add_argument("--no-upper", action="store_true", help="Exclude uppercase letters")
     gen_parser.add_argument("--no-nums", action="store_true", help="Exclude numbers")
@@ -30,13 +55,34 @@ def main():
     gen_parser.add_argument("--analyze", action="store_true", help="Analyze password entropy and strength")
 
     # --- Comando: totp ---
-    totp_parser = subparsers.add_parser("totp", help="Generates a TOTP secret")
-    totp_parser.add_argument("-a", "--account", default="user@example.com", help="Account name for the TOTP URI")
-    totp_parser.add_argument("-i", "--issuer", default="CipherPass", help="Issuer for the TOTP URI")
+    totp_parser = subparsers.add_parser(
+        "totp", 
+        help="Generates a TOTP secret and URI",
+        description="Generates a Time-Based One-Time Password (TOTP) secret base32 key and its provisioning URI (otpauth://).",
+        epilog="""
+Examples:
+  cipherpass-cli totp -a admin@company.com -i "Prod Server"
+  cipherpass-cli totp -a user -i "Local VPN" --copy
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    totp_parser.add_argument("-a", "--account", required=True, help="Account name for the TOTP URI")
+    totp_parser.add_argument("-i", "--issuer", required=True, help="Issuer for the TOTP URI")
     totp_parser.add_argument("-c", "--copy", action="store_true", help="Copy output to clipboard")
 
     # --- Comando: token ---
-    token_parser = subparsers.add_parser("token", help="Generates a secure token for APIs or a UUID v4")
+    token_parser = subparsers.add_parser(
+        "token", 
+        help="Generates a secure token for APIs or a UUID v4",
+        description="Generates random URL-safe or hexadecimal tokens, Bearer strings, or UUIDs for API keys or session identifiers.",
+        epilog="""
+Examples:
+  cipherpass-cli token -m 0 -l 64     (64-byte URL-safe token)
+  cipherpass-cli token -m 2           (Standard UUID v4)
+  cipherpass-cli token -m 3 -l 32     (Bearer token)
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     token_parser.add_argument("-m", "--mode", type=int, choices=[0, 1, 2, 3], default=0, help="Token type (0: URL-safe, 1: Hexadecimal, 2: UUIDv4, 3: Bearer)")
     token_parser.add_argument("-l", "--length", type=int, default=32, help="Length in bytes for modes 0, 1 and 3 (default: 32)")
     token_parser.add_argument("-c", "--copy", action="store_true", help="Copy output to clipboard")
@@ -44,20 +90,50 @@ def main():
     # --- Comando: hibp ---
     # SEGURIDAD (A-03): La contraseña se pide con getpass para evitar que
     # quede expuesta en el historial del shell o en la lista de procesos (ps aux).
-    hibp_parser = subparsers.add_parser("hibp", help="Checks if a password has been exposed (will prompt securely)")
+    hibp_parser = subparsers.add_parser(
+        "hibp", 
+        help="Checks if a password has been exposed in data breaches",
+        description="Checks the Have I Been Pwned API using K-Anonymity. The password is never sent in plaintext; only the first 5 characters of its SHA-1 hash are transmitted.",
+        epilog="""
+Examples:
+  cipherpass-cli hibp                     (Prompts securely without showing chars)
+  echo "mypassword" | cipherpass-cli hibp (Reads from stdin for scripts)
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
 
     # --- Comando: vault-export ---
     # SEGURIDAD (B-03): Se elimina el flag -p/--password para evitar que la
     # contraseña maestra quede en el historial del shell o en la lista de procesos.
     # La contraseña siempre se pide de forma interactiva con getpass.
-    vault_export_parser = subparsers.add_parser("vault-export", help="Encrypts text for the vault (AES-GCM)")
+    vault_export_parser = subparsers.add_parser(
+        "vault-export", 
+        help="Encrypts text/JSON for the vault (AES-GCM)",
+        description="Encrypts arbitrary text using AES-256-GCM. The master key is derived securely via PBKDF2 or Argon2id.",
+        epilog="""
+Examples:
+  echo '{"secret": 123}' | cipherpass-cli vault-export - --argon2 > vault.cpv
+  cipherpass-cli vault-export "My secret message"
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     vault_export_parser.add_argument("data", help="Text to encrypt (use '-' to read from stdin)")
     vault_export_parser.add_argument("--argon2", action="store_true", help="Use Argon2id for key derivation")
 
     # --- Comando: vault-import ---
     # SEGURIDAD (B-03): Igual que vault-export, la contraseña siempre se pide
     # de forma interactiva para no exponerla en el historial ni en los procesos.
-    vault_import_parser = subparsers.add_parser("vault-import", help="Decrypts an exported vault")
+    vault_import_parser = subparsers.add_parser(
+        "vault-import", 
+        help="Decrypts an exported vault (AES-GCM)",
+        description="Decrypts a vault file or string using the master password.",
+        epilog="""
+Examples:
+  cat vault.cpv | cipherpass-cli vault-import -
+  cipherpass-cli vault-import "eyJhbG..." 
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     vault_import_parser.add_argument("data", help="JSON of the encrypted vault (use '-' to read from stdin)")
 
     args = parser.parse_args()

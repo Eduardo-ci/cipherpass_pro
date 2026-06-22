@@ -350,6 +350,8 @@ class CipherPassApp(QMainWindow):
         self.ui.comboBox_compliance.currentIndexChanged.connect(self.apply_compliance_preset)
         self.ui.btn_manual_mode.clicked.connect(self.enable_manual_mode)
         self.ui.btn_hibp_check.clicked.connect(self.check_hibp)
+        self.ui.btn_hibp_check.setEnabled(self.ui.checkBox_hibp.isChecked())
+        self.ui.checkBox_hibp.toggled.connect(self.ui.btn_hibp_check.setEnabled)
         self.ui.btn_export_vault.clicked.connect(self.export_vault_ui)
         self.ui.btn_import_vault.clicked.connect(self.import_vault_ui)
         self.ui.btn_browse_vault.clicked.connect(self.browse_vault_file)
@@ -358,6 +360,11 @@ class CipherPassApp(QMainWindow):
         self.ui.btn_copiar_uri.clicked.connect(lambda: self.copy_to_clipboard(self.ui.lineEdit_totp_uri))
         self.ui.btn_save_qr.clicked.connect(self.save_qr_ui)
 
+        self.ui.btn_generar_totp.setEnabled(False)
+        self.ui.btn_save_qr.setEnabled(False)
+        self.ui.lineEdit_service_name.textChanged.connect(self.validate_totp_inputs)
+        self.ui.lineEdit_account_name.textChanged.connect(self.validate_totp_inputs)
+        
         # Configurar menú superior
         self._setup_menus()
 
@@ -442,7 +449,8 @@ class CipherPassApp(QMainWindow):
         time_text = self._format_crack_time(crack_seconds)
         
         if warning: msg += f" ({warning})"
-        self.ui.label_validar_tiempo.setText(f"Tiempo estimado: {time_text}")
+        time_text_prefix = QCoreApplication.translate("CipherPassApp", "Tiempo estimado:")
+        self.ui.label_validar_tiempo.setText(f"{time_text_prefix} {time_text}")
         self.ui.progressBar_validar.setValue(val)
         self.ui.progressBar_validar.setStyleSheet(f"QProgressBar::chunk {{ background-color: {color}; }}")
         self.ui.label_validar_mensaje.setText(msg)
@@ -504,6 +512,11 @@ class CipherPassApp(QMainWindow):
         if req > length:
             self.ui.spinBox_longitud.setValue(req)
 
+    @Slot()
+    def validate_totp_inputs(self) -> None:
+        has_text = bool(self.ui.lineEdit_service_name.text().strip() and self.ui.lineEdit_account_name.text().strip())
+        self.ui.btn_generar_totp.setEnabled(has_text)
+
     # --- SLOTS GENERACIÓN ---
     def generate_password_ui(self) -> None:
         self.ui.btn_generar_contrasena.setEnabled(False)
@@ -514,7 +527,7 @@ class CipherPassApp(QMainWindow):
             self.ui.checkBox_minusculas.isChecked(), self.ui.checkBox_numeros.isChecked(),
             self.ui.checkBox_simbolos.isChecked(), self.ui.checkBox_evitar_ambiguos.isChecked()
         )
-        self.ui.lineEdit_contrasena.setText(pwd if pwd else "Selecciona opciones")
+        self.ui.lineEdit_contrasena.setText(pwd if pwd else QCoreApplication.translate("CipherPassApp", "Selecciona opciones"))
         self.update_password_strength()
         self.ui.btn_generar_contrasena.setEnabled(True)
 
@@ -523,7 +536,7 @@ class CipherPassApp(QMainWindow):
             self.ui.spinBox_num_palabras.value(), self.ui.checkBox_capitalizar.isChecked(),
             self.ui.checkBox_incluir_numeros.isChecked(), self.ui.lineEdit_separador.text()
         )
-        self.ui.lineEdit_frase.setText(phrase if phrase else "Error: Sin diccionario")
+        self.ui.lineEdit_frase.setText(phrase if phrase else QCoreApplication.translate("CipherPassApp", "Error: Sin diccionario"))
 
     def generate_username_ui(self) -> None:
         username = self.engine.generate_username(
@@ -533,7 +546,7 @@ class CipherPassApp(QMainWindow):
         self.ui.lineEdit_usuario.setText(username)
 
     def reset_validar_ui(self) -> None:
-        self.ui.label_validar_tiempo.setText("Tiempo estimado: -")
+        self.ui.label_validar_tiempo.setText(QCoreApplication.translate("CipherPassApp", "Tiempo estimado: -"))
         self.ui.progressBar_validar.setValue(0)
         self.ui.progressBar_validar.setStyleSheet("")
         self.ui.label_validar_mensaje.setText(QCoreApplication.translate("CipherPassApp", "Ingresa una contraseña..."))
@@ -595,7 +608,8 @@ class CipherPassApp(QMainWindow):
         for ctrl in controls:
             ctrl.setEnabled(False)
             
-        self.ui.label_compliance_badge.setText(f"Bloqueado por Política: {preset_name}")
+        policy_prefix = QCoreApplication.translate("CipherPassApp", "Bloqueado por Política:")
+        self.ui.label_compliance_badge.setText(f"{policy_prefix} {preset_name}")
         self.ui.label_compliance_badge.setVisible(True)
         self.update_password_strength()
 
@@ -607,13 +621,13 @@ class CipherPassApp(QMainWindow):
     def check_hibp(self) -> None:
         pwd = self.ui.lineEdit_validar_pass.text()
         if not pwd:
-            QMessageBox.warning(self, "Vacío", "Ingresa una contraseña para validar.")
+            QMessageBox.warning(self, QCoreApplication.translate("CipherPassApp", "Vacío"), QCoreApplication.translate("CipherPassApp", "Ingresa una contraseña para validar."))
             return
 
         self.ui.btn_hibp_check.setEnabled(False)
         self.ui.progressBar_hibp.setVisible(True)
         self.ui.progressBar_hibp.setMaximum(0)
-        self.ui.label_hibp_resultado.setText("Consultando de forma anónima...")
+        self.ui.label_hibp_resultado.setText(QCoreApplication.translate("CipherPassApp", "Consultando de forma anónima..."))
         self.ui.label_hibp_resultado.setStyleSheet("color: #fff;")
         self.ui.label_hibp_resultado.setVisible(True)
 
@@ -627,50 +641,54 @@ class CipherPassApp(QMainWindow):
         self.ui.btn_hibp_check.setEnabled(True)
 
         if count == -1:
-            self.ui.label_hibp_resultado.setText(f"⚠️ Error: {error_msg}")
+            error_prefix = QCoreApplication.translate("CipherPassApp", "⚠️ Error:")
+            self.ui.label_hibp_resultado.setText(f"{error_prefix} {error_msg}")
             self.ui.label_hibp_resultado.setStyleSheet("background-color: #333; color: #ffc107;")
         elif count == 0:
-            self.ui.label_hibp_resultado.setText("✅ Excelente. Esta contraseña no aparece en brechas de datos conocidas.")
+            self.ui.label_hibp_resultado.setText(QCoreApplication.translate("CipherPassApp", "✅ Excelente. Esta contraseña no aparece en brechas de datos conocidas."))
             self.ui.label_hibp_resultado.setStyleSheet("background-color: #198754; color: #fff;")
         else:
-            self.ui.label_hibp_resultado.setText(f"🚨 PELIGRO: Esta contraseña ha sido expuesta {count:,} veces.")
+            danger_prefix = QCoreApplication.translate("CipherPassApp", "🚨 PELIGRO: Esta contraseña ha sido expuesta")
+            times_suffix = QCoreApplication.translate("CipherPassApp", "veces.")
+            self.ui.label_hibp_resultado.setText(f"{danger_prefix} {count:,} {times_suffix}")
             self.ui.label_hibp_resultado.setStyleSheet("background-color: #dc3545; color: #fff;")
 
     @Slot()
     def export_vault_ui(self) -> None:
         data = self.ui.textEdit_export_data.toPlainText()
         if not data:
-            QMessageBox.warning(self, "Error", "No hay datos para exportar.")
+            QMessageBox.warning(self, QCoreApplication.translate("CipherPassApp", "Error"), QCoreApplication.translate("CipherPassApp", "No hay datos para exportar."))
             return
 
-        pwd, ok = QInputDialog.getText(self, "Cifrar Bóveda", "Ingresa la contraseña maestra:", QLineEdit.Password)
+        pwd, ok = QInputDialog.getText(self, QCoreApplication.translate("CipherPassApp", "Cifrar Bóveda"), QCoreApplication.translate("CipherPassApp", "Ingresa la contraseña maestra:"), QLineEdit.Password)
         if not ok or not pwd: return
 
         use_argon2 = (self.ui.comboBox_vault_kdf.currentIndex() == 0) and HAS_ARGON2
         try:
             enc_data = self.vault_exporter.export_vault(data, pwd, use_argon2)
-            save_path, _ = QFileDialog.getSaveFileName(self, "Guardar Bóveda", "", "CipherPass Vault (*.cpv);;JSON Files (*.json)")
+            save_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("CipherPassApp", "Guardar Bóveda"), "", "CipherPass Vault (*.cpv);;JSON Files (*.json)")
             if save_path:
                 with open(save_path, 'w', encoding='utf-8') as f:
                     f.write(enc_data)
-                self.ui.label_vault_estado.setText("✅ Bóveda exportada exitosamente.")
+                self.ui.label_vault_estado.setText(QCoreApplication.translate("CipherPassApp", "✅ Bóveda exportada exitosamente."))
                 self.ui.label_vault_estado.setStyleSheet("color: #2ecc71;")
         except Exception as e:
-            QMessageBox.critical(self, "Error Crítico", f"Fallo al exportar: {e}")
+            error_prefix = QCoreApplication.translate("CipherPassApp", "Fallo al exportar:")
+            QMessageBox.critical(self, QCoreApplication.translate("CipherPassApp", "Error Crítico"), f"{error_prefix} {e}")
 
     @Slot()
     def browse_vault_file(self) -> None:
-        file_path, _ = QFileDialog.getOpenFileName(self, "Abrir Bóveda", "", "CipherPass Vault (*.cpv *.json);;All Files (*)")
+        file_path, _ = QFileDialog.getOpenFileName(self, QCoreApplication.translate("CipherPassApp", "Abrir Bóveda"), "", "CipherPass Vault (*.cpv *.json);;All Files (*)")
         if file_path: self.ui.lineEdit_import_path.setText(file_path)
 
     @Slot()
     def import_vault_ui(self) -> None:
         path = self.ui.lineEdit_import_path.text()
         if not os.path.exists(path):
-            QMessageBox.warning(self, "Error", "Archivo no encontrado.")
+            QMessageBox.warning(self, QCoreApplication.translate("CipherPassApp", "Error"), QCoreApplication.translate("CipherPassApp", "Archivo no encontrado."))
             return
 
-        pwd, ok = QInputDialog.getText(self, "Descifrar Bóveda", "Ingresa la contraseña maestra:", QLineEdit.Password)
+        pwd, ok = QInputDialog.getText(self, QCoreApplication.translate("CipherPassApp", "Descifrar Bóveda"), QCoreApplication.translate("CipherPassApp", "Ingresa la contraseña maestra:"), QLineEdit.Password)
         if not ok or not pwd: return
 
         try:
@@ -679,20 +697,23 @@ class CipherPassApp(QMainWindow):
             decrypted = self.vault_exporter.import_vault(enc_data, pwd)
             if decrypted:
                 self.ui.textEdit_import_data.setPlainText(decrypted)
-                self.ui.label_vault_estado.setText("✅ Bóveda descifrada exitosamente.")
+                self.ui.label_vault_estado.setText(QCoreApplication.translate("CipherPassApp", "✅ Bóveda descifrada exitosamente."))
                 self.ui.label_vault_estado.setStyleSheet("color: #2ecc71;")
             else:
-                QMessageBox.critical(self, "Acceso Denegado", "Contraseña maestra incorrecta o archivo dañado.")
-                self.ui.label_vault_estado.setText("❌ Fallo de descifrado.")
+                QMessageBox.critical(self, QCoreApplication.translate("CipherPassApp", "Acceso Denegado"), QCoreApplication.translate("CipherPassApp", "Contraseña maestra incorrecta o archivo dañado."))
+                self.ui.label_vault_estado.setText(QCoreApplication.translate("CipherPassApp", "❌ Fallo de descifrado."))
                 self.ui.label_vault_estado.setStyleSheet("color: #e74c3c;")
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Fallo de E/S: {e}")
+            error_prefix = QCoreApplication.translate("CipherPassApp", "Fallo de E/S:")
+            QMessageBox.critical(self, QCoreApplication.translate("CipherPassApp", "Error"), f"{error_prefix} {e}")
 
     @Slot()
     def generate_totp_ui(self) -> None:
-        name = self.ui.lineEdit_service_name.text().strip() or "ServicioDesconocido"
+        issuer = self.ui.lineEdit_service_name.text().strip() or "Servicio"
+        account = self.ui.lineEdit_account_name.text().strip() or "Usuario"
+        
         secret = TOTPEngine.generate_secret()
-        uri = TOTPEngine.build_uri(secret, account_name="User", issuer=name)
+        uri = TOTPEngine.build_uri(secret, account_name=account, issuer=issuer)
 
         self.ui.lineEdit_totp_secret.setText(secret)
         self.ui.lineEdit_totp_uri.setText(uri)
@@ -703,19 +724,19 @@ class CipherPassApp(QMainWindow):
                 self.ui.label_qr_image.setPixmap(pixmap)
                 self.ui.btn_save_qr.setEnabled(True)
         else:
-            self.ui.label_qr_image.setText("Módulo 'qrcode' no instalado.\nUsa el secreto manual.")
+            self.ui.label_qr_image.setText(QCoreApplication.translate("CipherPassApp", "Módulo 'qrcode' no instalado.\nUsa el secreto manual."))
             self.ui.btn_save_qr.setEnabled(False)
 
     @Slot()
     def save_qr_ui(self) -> None:
         pixmap = self.ui.label_qr_image.pixmap()
         if pixmap and not pixmap.isNull():
-            save_path, _ = QFileDialog.getSaveFileName(self, "Guardar Código QR", "totp_qr.png", "Images (*.png)")
+            save_path, _ = QFileDialog.getSaveFileName(self, QCoreApplication.translate("CipherPassApp", "Guardar Código QR"), "totp_qr.png", "Images (*.png)")
             if save_path:
                 pixmap.save(save_path, "PNG")
-                QMessageBox.information(self, "Éxito", "Código QR guardado correctamente.")
+                QMessageBox.information(self, QCoreApplication.translate("CipherPassApp", "Éxito"), QCoreApplication.translate("CipherPassApp", "Código QR guardado correctamente."))
         else:
-            QMessageBox.warning(self, "Error", "No hay un código QR para guardar.")
+            QMessageBox.warning(self, QCoreApplication.translate("CipherPassApp", "Error"), QCoreApplication.translate("CipherPassApp", "No hay un código QR para guardar."))
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
