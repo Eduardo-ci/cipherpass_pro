@@ -4,6 +4,8 @@ import sys
 import getpass
 import json
 import pyperclip
+import threading
+import time
 from zxcvbn import zxcvbn
 from rich.console import Console
 from rich.table import Table
@@ -13,6 +15,32 @@ from cipherpass_core.hibp import HIBPClient
 from cipherpass_core.crypto_vault import VaultExporter
 
 console = Console()
+
+def clear_clipboard(original_text):
+    try:
+        if pyperclip.paste() == original_text:
+            pyperclip.copy("")
+    except Exception:
+        pass
+
+def output_result(data_to_copy, json_dict, json_flag, copy_flag, success_msg, rich_text_lines):
+    if json_flag:
+        print(json.dumps(json_dict))
+    else:
+        if copy_flag:
+            try:
+                pyperclip.copy(data_to_copy)
+                console.print(f"[bold green]✔ {success_msg}[/bold green]")
+                timer = threading.Timer(15.0, clear_clipboard, args=[data_to_copy])
+                timer.daemon = True
+                timer.start()
+            except Exception as e:
+                console.print(f"[bold red]❌ Failed to copy to clipboard (is a display server running?): {e}[/bold red]")
+                for line in rich_text_lines:
+                    console.print(line)
+        else:
+            for line in rich_text_lines:
+                console.print(line)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -139,6 +167,10 @@ Examples:
     args = parser.parse_args()
 
     if args.command == "generate":
+        if args.length < 8:
+            console.print("[red]Error: Minimum password length is 8[/red]")
+            sys.exit(1)
+            
         engine = PasswordEngine()
         pwd = engine.generate_password(
             length=args.length,
@@ -151,59 +183,67 @@ Examples:
             avoid_amb=args.avoid_ambiguous
         )
         
-        if args.json:
-            print(json.dumps({"password": pwd, "length": len(pwd)}))
-        else:
-            if args.copy:
-                pyperclip.copy(pwd)
-                console.print("[bold green]✔ Password copied to clipboard![/bold green]")
-            else:
-                console.print(f"[bold cyan]{pwd}[/bold cyan]")
+        output_result(
+            data_to_copy=pwd,
+            json_dict={"password": pwd, "length": len(pwd)},
+            json_flag=args.json,
+            copy_flag=args.copy,
+            success_msg="Password copied to clipboard! (Will be cleared in 15 seconds)",
+            rich_text_lines=[f"[bold cyan]{pwd}[/bold cyan]"]
+        )
                 
-            if args.analyze:
-                analysis = zxcvbn(pwd)
-                table = Table(title="Password Analysis")
-                table.add_column("Metric", style="cyan")
-                table.add_column("Value", style="magenta")
-                table.add_row("Score", f"{analysis['score']} / 4")
-                table.add_row("Entropy (Guesses)", str(analysis['guesses']))
-                table.add_row("Crack Time", analysis['crack_times_display']['offline_fast_hashing_1e10_per_second'])
-                if analysis['feedback']['warning']:
-                    table.add_row("Warning", f"[red]{analysis['feedback']['warning']}[/red]")
-                console.print(table)
+        if not args.json and args.analyze:
+            analysis = zxcvbn(pwd)
+            table = Table(title="Password Analysis")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Value", style="magenta")
+            table.add_row("Score", f"{analysis['score']} / 4")
+            table.add_row("Entropy (Guesses)", str(analysis['guesses']))
+            table.add_row("Crack Time", analysis['crack_times_display']['offline_fast_hashing_1e10_per_second'])
+            if analysis['feedback']['warning']:
+                table.add_row("Warning", f"[red]{analysis['feedback']['warning']}[/red]")
+            console.print(table)
 
     elif args.command == "totp":
         secret = TOTPEngine.generate_secret()
         uri = TOTPEngine.build_uri(secret, account_name=args.account, issuer=args.issuer)
-        if args.json:
-            print(json.dumps({"totp_secret": secret, "totp_uri": uri}))
-        else:
-            if args.copy:
-                pyperclip.copy(uri)
-                console.print("[bold green]✔ TOTP URI copied to clipboard![/bold green]")
-            else:
-                console.print(f"Secret: [bold cyan]{secret}[/bold cyan]")
-                console.print(f"URI: [bold cyan]{uri}[/bold cyan]")
+        output_result(
+            data_to_copy=uri,
+            json_dict={"totp_secret": secret, "totp_uri": uri},
+            json_flag=args.json,
+            copy_flag=args.copy,
+            success_msg="TOTP URI copied to clipboard! (Will be cleared in 15 seconds)",
+            rich_text_lines=[f"Secret: [bold cyan]{secret}[/bold cyan]", f"URI: [bold cyan]{uri}[/bold cyan]"]
+        )
 
     elif args.command == "token":
+        if args.mode == 2 and args.length != 32:
+            console.print("[yellow]Warning: Custom length is ignored for UUIDv4 (mode 2)[/yellow]")
+        elif args.length < 8 and args.mode != 2:
+            console.print("[red]Error: Minimum token length is 8[/red]")
+            sys.exit(1)
+            
         engine = PasswordEngine()
         token = engine.generate_api_token(mode=args.mode, length=args.length)
-        if args.json:
-            print(json.dumps({"token": token, "mode": args.mode}))
-        else:
-            if args.copy:
-                pyperclip.copy(token)
-                console.print("[bold green]✔ Token copied to clipboard![/bold green]")
-            else:
-                console.print(f"[bold cyan]{token}[/bold cyan]")
+        output_result(
+            data_to_copy=token,
+            json_dict={"token": token, "mode": args.mode},
+            json_flag=args.json,
+            copy_flag=args.copy,
+            success_msg="Token copied to clipboard! (Will be cleared in 15 seconds)",
+            rich_text_lines=[f"[bold cyan]{token}[/bold cyan]"]
+        )
 
     elif args.command == "hibp":
         if not sys.stdin.isatty():
-            password = sys.stdin.read().strip()
+            password = sys.stdin.read(256).strip()
         else:
             password = getpass.getpass("🔑 Password to check (hidden): ")
             
-        count, error = HIBPClient.check_password(password)
+        try:
+            count, error = HIBPClient.check_password(password)
+        except Exception as e:
+            count, error = -1, str(e)
         del password
         
         if args.json:
@@ -217,35 +257,61 @@ Examples:
                 console.print(f"[bold green]✔ Safe (0 times)[/bold green]")
         
     elif args.command == "vault-export":
-        data = sys.stdin.read() if args.data == '-' else args.data
+        if args.data == '-':
+            if sys.stdin.isatty():
+                console.print("[yellow]Waiting for input from stdin... (Press Ctrl+D to finish or Ctrl+C to cancel)[/yellow]")
+            data = sys.stdin.read()
+        else:
+            data = args.data
+            
         password = getpass.getpass("🔑 Master password: ")
         exporter = VaultExporter()
-        result = exporter.export_vault(data, password, args.argon2)
-        del password
-        
-        if args.json:
-            print(json.dumps({"vault": result}))
-        else:
-            console.print(f"[bold cyan]{result}[/bold cyan]")
+        try:
+            result = exporter.export_vault(data, password, args.argon2)
+            if args.json:
+                print(json.dumps({"vault": result}))
+            else:
+                console.print(f"[bold cyan]{result}[/bold cyan]")
+        except Exception as e:
+            if args.json:
+                print(json.dumps({"error": str(e)}))
+            else:
+                console.print(f"[bold red]❌ Export Error: {e}[/bold red]")
+            sys.exit(1)
+        finally:
+            del password
         
     elif args.command == "vault-import":
-        data = sys.stdin.read() if args.data == '-' else args.data
+        if args.data == '-':
+            if sys.stdin.isatty():
+                console.print("[yellow]Waiting for input from stdin... (Press Ctrl+D to finish or Ctrl+C to cancel)[/yellow]")
+            data = sys.stdin.read()
+        else:
+            data = args.data
+            
         password = getpass.getpass("🔑 Master password: ")
         exporter = VaultExporter()
-        result = exporter.import_vault(data, password)
-        del password
-        
-        if result:
-            if args.json:
-                print(json.dumps({"data": result}))
+        try:
+            result = exporter.import_vault(data, password)
+            if result:
+                if args.json:
+                    print(json.dumps({"data": result}))
+                else:
+                    console.print(result)
             else:
-                console.print(result)
-        else:
+                if args.json:
+                    print(json.dumps({"error": "Incorrect password or corrupted data"}))
+                else:
+                    console.print("[bold red]❌ Error: Incorrect password or corrupted data.[/bold red]")
+                sys.exit(1)
+        except Exception as e:
             if args.json:
-                print(json.dumps({"error": "Incorrect password or corrupted data"}))
+                print(json.dumps({"error": str(e)}))
             else:
-                console.print("[bold red]❌ Error: Incorrect password or corrupted data.[/bold red]")
+                console.print(f"[bold red]❌ Import Error: {e}[/bold red]")
             sys.exit(1)
+        finally:
+            del password
             
     else:
         parser.print_help()
