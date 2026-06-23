@@ -113,7 +113,7 @@ if [ ! -d "$VENV_DIR" ]; then
     else
         # Dependencias core de la CLI si no hay requirements.txt
         # NOTA: En un entorno de producción estricto, es mejor fijar las versiones exactas aquí (ej. cryptography==42.0.5)
-        $PIP_CMD install --quiet cryptography platformdirs argon2-cffi requests zxcvbn qrcode rich
+        $PIP_CMD install --quiet cryptography platformdirs argon2-cffi requests zxcvbn-python qrcode rich pyperclip
     fi
 else
     echo_info "Entorno virtual (.venv) ya existente."
