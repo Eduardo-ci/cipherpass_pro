@@ -51,7 +51,7 @@ jobs:
         run: iscc installer.iss
 
       - name: Subir Artefacto (Instalador Windows)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cipherpass-windows-setup
           path: dist/CipherPass_Setup.exe
