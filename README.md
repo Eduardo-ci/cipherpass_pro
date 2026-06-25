@@ -109,13 +109,13 @@ Una vez instalada, puedes usar el comando `cipherpass-cli` de forma global.
 # Generar una contraseña de 24 caracteres evitando ambiguos
 cipherpass-cli generate --length 24 --avoid-ambiguous
 
-# Generate a secret TOTP
-# Generar un secreto TOTP
-cipherpass-cli totp
+# Generate a secret TOTP and its URI
+# Generar un secreto TOTP y su URI
+cipherpass-cli totp -a user@correo.com -i "Mi Empresa"
 
-# Check if a password has been compromised
-# Comprobar si una contraseña está comprometida
-cipherpass-cli hibp "mi_contraseña_secreta"
+# Check if a password has been compromised (will prompt for hidden input)
+# Comprobar si una contraseña está comprometida (pedirá la contraseña de forma oculta)
+cipherpass-cli hibp
 
 # Encrypt the contents of a file directly to the vault
 # Cifrar el contenido de un archivo directamente hacia la bóveda
