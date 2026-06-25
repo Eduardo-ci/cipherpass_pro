@@ -91,13 +91,18 @@ if [ -f "$CURRENT_DIR/cipherpass_cli.py" ] && [ -d "$CURRENT_DIR/cipherpass_core
     INSTALL_DIR="$CURRENT_DIR"
     CLI_SCRIPT="$INSTALL_DIR/cipherpass_cli.py"
     VENV_DIR="$INSTALL_DIR/.venv"
-    
+    # CORE_REPO_PATH apunta a la carpeta clonada de cipherpass_core tal cual
+    # está en disco. Puede o no tener anidamiento (cipherpass_core/cipherpass_core/);
+    # eso se resuelve más abajo de forma común para ambos modos.
+    CORE_REPO_PATH="$INSTALL_DIR/cipherpass_core"
+
     chmod +x "$CLI_SCRIPT"
 else
     echo_info "Ejecutando en Modo Standalone (Instalación limpia en /opt)..."
     INSTALL_DIR="/opt/cipherpass-cli"
     CLI_SCRIPT="$INSTALL_DIR/cipherpass_cli.py"
     VENV_DIR="$INSTALL_DIR/.venv"
+    CORE_REPO_PATH="$INSTALL_DIR/cipherpass_core_repo"
     
     mkdir -p "$INSTALL_DIR"
     
@@ -111,57 +116,91 @@ else
     fi
     chmod +x "$CLI_SCRIPT"
     
-    if [ ! -d "$INSTALL_DIR/cipherpass_core_repo" ]; then
+    if [ ! -d "$CORE_REPO_PATH" ]; then
         echo_info "Clonando repositorio criptográfico base (versión: $CORE_VERSION)..."
-        git clone -q "https://github.com/Eduardo-ci/cipherpass_core.git" "$INSTALL_DIR/cipherpass_core_repo"
-        git -C "$INSTALL_DIR/cipherpass_core_repo" checkout -q "$CORE_VERSION"
+        git clone -q "https://github.com/Eduardo-ci/cipherpass_core.git" "$CORE_REPO_PATH"
+        git -C "$CORE_REPO_PATH" checkout -q "$CORE_VERSION"
     else
         echo_info "Actualizando repositorio criptográfico base (versión: $CORE_VERSION)..."
-        git -C "$INSTALL_DIR/cipherpass_core_repo" fetch -q origin
-        git -C "$INSTALL_DIR/cipherpass_core_repo" checkout -q "$CORE_VERSION"
+        git -C "$CORE_REPO_PATH" fetch -q origin
+        git -C "$CORE_REPO_PATH" checkout -q "$CORE_VERSION"
         # Solo hacemos pull si estamos en una rama (no en un hash/tag fijo)
-        if git -C "$INSTALL_DIR/cipherpass_core_repo" symbolic-ref -q HEAD >/dev/null 2>&1; then
-             git -C "$INSTALL_DIR/cipherpass_core_repo" pull -q origin "$CORE_VERSION"
+        if git -C "$CORE_REPO_PATH" symbolic-ref -q HEAD >/dev/null 2>&1; then
+             git -C "$CORE_REPO_PATH" pull -q origin "$CORE_VERSION"
         fi
     fi
+fi
+
+# El repo de cipherpass_core puede venir anidado (la raíz del repo clonado
+# contiene OTRA carpeta cipherpass_core/ adentro, que es el paquete real con
+# generators.py, hibp.py, etc.) o plano (setup.py/pyproject.toml directamente
+# en la raíz). Detectamos cuál es el caso e instalamos la carpeta correcta
+# con pip, en vez de asumir una estructura fija. Esto cubre tanto Modo Local
+# como Standalone con la misma lógica, evitando que se desincronicen entre sí.
+if [ -f "$CORE_REPO_PATH/setup.py" ] || [ -f "$CORE_REPO_PATH/pyproject.toml" ]; then
+    PIP_INSTALL_TARGET="$CORE_REPO_PATH"
+elif [ -f "$CORE_REPO_PATH/cipherpass_core/setup.py" ] || [ -f "$CORE_REPO_PATH/cipherpass_core/pyproject.toml" ]; then
+    PIP_INSTALL_TARGET="$CORE_REPO_PATH/cipherpass_core"
+else
+    echo_err "No se encontró 'setup.py' ni 'pyproject.toml' en '$CORE_REPO_PATH' (ni en su posible subcarpeta anidada). No es posible instalar cipherpass_core como paquete de Python. Verifica que el repositorio tenga metadata de empaquetado válida."
 fi
 
 echo_info "Preparando CipherPass CLI en $INSTALL_DIR..."
 
 # Detectar y preparar entorno virtual
+VENV_IS_NEW=0
 if [ ! -d "$VENV_DIR" ]; then
+    VENV_IS_NEW=1
     echo_info "Creando entorno virtual aislado para dependencias..."
-    
+
     # Prevención de escalada accidental de permisos en desarrollo:
     # Si la instalación es local, creamos el entorno virtual a nombre del usuario
     # original (SUDO_USER) para no dejar carpetas propiedad de root en su workspace.
     # En instalaciones standalone (/opt), el dueño será root (comportamiento estándar).
     if [ "$INSTALL_DIR" == "$CURRENT_DIR" ] && [ -n "${SUDO_USER:-}" ]; then
-    # NOTA: usamos un array (PIP_CMD=(...)) en vez de un string para PIP_CMD.
-    # Con un string, "$PIP_CMD install ..." sin comillas hace word-splitting
-    # y rompe si $VENV_DIR o $SUDO_USER contienen espacios. Con un array y
-    # "${PIP_CMD[@]}" cada elemento se preserva intacto.
         sudo -u "$SUDO_USER" python3 -m venv "$VENV_DIR"
-        PIP_CMD=(sudo -u "$SUDO_USER" "$VENV_DIR/bin/pip")
     else
         python3 -m venv "$VENV_DIR"
-        PIP_CMD=("$VENV_DIR/bin/pip")
     fi
-    
+else
+    echo_info "Entorno virtual (.venv) ya existente."
+fi
+
+# NOTA: usamos un array (PIP_CMD=(...)) en vez de un string para PIP_CMD.
+# Con un string, "$PIP_CMD install ..." sin comillas hace word-splitting
+# y rompe si $VENV_DIR o $SUDO_USER contienen espacios. Con un array y
+# "${PIP_CMD[@]}" cada elemento se preserva intacto.
+# IMPORTANTE: definimos PIP_CMD siempre, fuera del bloque de creación del venv,
+# porque lo necesitamos también en reinstalaciones (ver más abajo).
+if [ "$INSTALL_DIR" == "$CURRENT_DIR" ] && [ -n "${SUDO_USER:-}" ]; then
+    PIP_CMD=(sudo -u "$SUDO_USER" "$VENV_DIR/bin/pip")
+else
+    PIP_CMD=("$VENV_DIR/bin/pip")
+fi
+
+if [ "$VENV_IS_NEW" -eq 1 ]; then
     echo_info "Instalando dependencias requeridas..."
     "${PIP_CMD[@]}" install --quiet --upgrade pip
     if [ -f "$INSTALL_DIR/requirements.txt" ]; then
         "${PIP_CMD[@]}" install --quiet -r "$INSTALL_DIR/requirements.txt"
     else
-        # Instalamos las dependencias explícitamente y luego el paquete base local
+        # Instalamos las dependencias explícitas. El paquete cipherpass_core
+        # se instala siempre más abajo (tanto en venv nuevo como existente),
+        # para no quedar desincronizados con el repo tras un git pull.
         "${PIP_CMD[@]}" install --quiet cryptography platformdirs argon2-cffi requests zxcvbn-python "qrcode[pil]" rich pyperclip
-        
-        if [ -d "$INSTALL_DIR/cipherpass_core_repo" ]; then
-             "${PIP_CMD[@]}" install --quiet "$INSTALL_DIR/cipherpass_core_repo"
-        fi
     fi
-else
-    echo_info "Entorno virtual (.venv) ya existente."
+fi
+
+# IMPORTANTE: esto corre SIEMPRE, tanto si el venv es nuevo como si ya existía.
+# Si solo instalamos cipherpass_core cuando el venv se crea por primera vez,
+# un "git pull" en una reinstalación deja el código fuente actualizado en
+# disco pero el paquete en site-packages queda con la versión vieja: el
+# wrapper sigue ejecutando código desactualizado sin ningún error visible.
+# PIP_INSTALL_TARGET ya resuelve el posible anidamiento del repo (ver arriba),
+# por lo que esta misma lógica cubre tanto Modo Local como Standalone.
+if [ -d "$PIP_INSTALL_TARGET" ]; then
+    echo_info "Instalando/actualizando paquete cipherpass_core en el entorno virtual..."
+    "${PIP_CMD[@]}" install --quiet --force-reinstall --no-deps "$PIP_INSTALL_TARGET"
 fi
 
 # Crear el acceso global (wrapper)
