@@ -28,8 +28,8 @@ fi
 # ==========================================
 # Cambia estas versiones por un tag específico (ej. 'v1.0.3') o un hash de commit
 # para garantizar instalaciones inmutables y 100% predecibles en producción.
-CLI_VERSION="v1.0.3"
-CORE_VERSION="v1.0.3"
+CLI_VERSION="main"
+CORE_VERSION="main"
 
 # Ubicación del ejecutable global
 BIN_LINK="/usr/local/bin/cipherpass-cli"
