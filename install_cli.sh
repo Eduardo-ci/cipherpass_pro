@@ -41,6 +41,10 @@ for cmd in python3 git; do
     fi
 done
 
+if ! python3 -c "import ensurepip" >/dev/null 2>&1; then
+    echo_err "El módulo 'ensurepip' (venv) de Python no está disponible.\n- En sistemas basados en Debian/Ubuntu, instala el paquete requerido con: sudo apt install python3-venv\n- En otras distribuciones (Fedora, Arch, etc.), asegúrate de tener instalado el entorno completo de Python 3."
+fi
+
 # ==========================================
 # DETERMINAR MODO DE EJECUCIÓN
 # ==========================================
