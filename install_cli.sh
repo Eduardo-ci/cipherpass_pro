@@ -111,17 +111,17 @@ else
     fi
     chmod +x "$CLI_SCRIPT"
     
-    if [ ! -d "$INSTALL_DIR/cipherpass_core" ]; then
+    if [ ! -d "$INSTALL_DIR/cipherpass_core_repo" ]; then
         echo_info "Clonando repositorio criptográfico base (versión: $CORE_VERSION)..."
-        git clone -q "https://github.com/Eduardo-ci/cipherpass_core.git" "$INSTALL_DIR/cipherpass_core"
-        git -C "$INSTALL_DIR/cipherpass_core" checkout -q "$CORE_VERSION"
+        git clone -q "https://github.com/Eduardo-ci/cipherpass_core.git" "$INSTALL_DIR/cipherpass_core_repo"
+        git -C "$INSTALL_DIR/cipherpass_core_repo" checkout -q "$CORE_VERSION"
     else
         echo_info "Actualizando repositorio criptográfico base (versión: $CORE_VERSION)..."
-        git -C "$INSTALL_DIR/cipherpass_core" fetch -q origin
-        git -C "$INSTALL_DIR/cipherpass_core" checkout -q "$CORE_VERSION"
+        git -C "$INSTALL_DIR/cipherpass_core_repo" fetch -q origin
+        git -C "$INSTALL_DIR/cipherpass_core_repo" checkout -q "$CORE_VERSION"
         # Solo hacemos pull si estamos en una rama (no en un hash/tag fijo)
-        if git -C "$INSTALL_DIR/cipherpass_core" symbolic-ref -q HEAD >/dev/null 2>&1; then
-             git -C "$INSTALL_DIR/cipherpass_core" pull -q origin "$CORE_VERSION"
+        if git -C "$INSTALL_DIR/cipherpass_core_repo" symbolic-ref -q HEAD >/dev/null 2>&1; then
+             git -C "$INSTALL_DIR/cipherpass_core_repo" pull -q origin "$CORE_VERSION"
         fi
     fi
 fi
@@ -153,11 +153,12 @@ if [ ! -d "$VENV_DIR" ]; then
     if [ -f "$INSTALL_DIR/requirements.txt" ]; then
         "${PIP_CMD[@]}" install --quiet -r "$INSTALL_DIR/requirements.txt"
     else
-        # Dependencias core de la CLI si no hay requirements.txt
-        # NOTA: En un entorno de producción estricto, es mejor fijar las versiones exactas aquí (ej. cryptography==42.0.5)
-        # qrcode necesita el extra [pil] para poder renderizar el código QR como imagen (PNG/etc.);
-        # sin Pillow, qrcode solo puede generar representaciones de texto/ASCII.
+        # Instalamos las dependencias explícitamente y luego el paquete base local
         "${PIP_CMD[@]}" install --quiet cryptography platformdirs argon2-cffi requests zxcvbn-python "qrcode[pil]" rich pyperclip
+        
+        if [ -d "$INSTALL_DIR/cipherpass_core_repo" ]; then
+             "${PIP_CMD[@]}" install --quiet "$INSTALL_DIR/cipherpass_core_repo"
+        fi
     fi
 else
     echo_info "Entorno virtual (.venv) ya existente."
