@@ -66,7 +66,7 @@ fetch_core() {
     echo_info "🌐 Obteniendo el núcleo criptográfico (cipherpass_core)..."
     if [ -d "cipherpass_core/.git" ]; then
         echo_info "Actualizando el repositorio público local..."
-        git -C cipherpass_core pull origin main
+        git -C cipherpass_core fetch origin
     elif [ -d "cipherpass_core" ]; then
         echo_warn "La carpeta 'cipherpass_core' ya existe pero no es un repositorio Git. Se usará la versión local sin actualizar."
     else
@@ -80,6 +80,7 @@ fetch_core() {
     
     # Solo verificamos si realmente es un repositorio clonado (evita errores con tu código local)
     if [ -d "cipherpass_core/.git" ]; then
+        git -C cipherpass_core checkout -q "$EXPECTED_COMMIT"
         local actual_commit
         actual_commit=$(git -C cipherpass_core rev-parse HEAD)
         if [ "${actual_commit}" != "${EXPECTED_COMMIT}" ]; then

@@ -13,6 +13,8 @@ fi
 echo "[INFO] Instalando dependencias en: ${VIRTUAL_ENV}"
 
 # --require-virtualenv evita instalar accidentalmente en el pip del sistema
+# NOTA: Estas dependencias no tienen versiones fijadas. Para producción,
+# usa requirements.txt o requirements-cli.txt con versiones pinneadas.
 pip install --require-virtualenv \
     PySide6 \
     zxcvbn \
@@ -20,6 +22,8 @@ pip install --require-virtualenv \
     platformdirs \
     requests \
     argon2-cffi \
+    rich \
+    pyperclip \
     "qrcode[pil]"
 
 echo "[OK] Dependencias instaladas correctamente."

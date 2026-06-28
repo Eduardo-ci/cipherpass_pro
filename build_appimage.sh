@@ -56,12 +56,26 @@ fetch_core() {
     echo_info "🌐 Obteniendo el núcleo criptográfico (cipherpass_core)..."
     if [ -d "cipherpass_core/.git" ]; then
         echo_info "Actualizando el repositorio público local..."
-        git -C cipherpass_core pull origin main
+        git -C cipherpass_core fetch origin
     elif [ -d "cipherpass_core" ]; then
-        echo_warn "La carpeta 'cipherpass_core' ya existe. Se usará la versión local."
+        echo_warn "La carpeta 'cipherpass_core' ya existe pero no es un repositorio Git. Se usará la versión local sin actualizar."
     else
         echo_info "Clonando repositorio público cipherpass_core..."
         git clone "git@github.com:${gh_user}/cipherpass_core.git" cipherpass_core
+    fi
+    # SEGURIDAD (A-02): Verificación estricta contra un commit conocido
+    local EXPECTED_COMMIT="025db8e9f88251accfc9a09f64483c216fc1c080"
+    
+    if [ -d "cipherpass_core/.git" ]; then
+        git -C cipherpass_core checkout -q "$EXPECTED_COMMIT"
+        local actual_commit
+        actual_commit=$(git -C cipherpass_core rev-parse HEAD)
+        if [ "${actual_commit}" != "${EXPECTED_COMMIT}" ]; then
+            echo_err "Hash de cipherpass_core (${actual_commit:0:7}) no coincide con el esperado (${EXPECTED_COMMIT:0:7}). ¡Posible manipulación de código!"
+        fi
+        echo_info "✅ Integridad verificada correctamente (Commit seguro: ${actual_commit:0:7})"
+    else
+        echo_warn "Se omitió la verificación de seguridad A-02 porque estás usando la carpeta local (sin .git)."
     fi
 }
 
