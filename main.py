@@ -70,7 +70,7 @@ logging.basicConfig(
 )
 
 # --- CONSTANTES ---
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 # --- GESTIÓN DE RUTAS ---
 def resource_path(relative_path: str) -> str:

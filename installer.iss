@@ -1,7 +1,7 @@
 [Setup]
 ; Información de la Aplicación
 AppName=CipherPass
-AppVersion=1.0.3
+AppVersion=1.0.4
 AppPublisher=Eduardo
 AppPublisherURL=https://github.com/Eduardo-ci/Cipherpass_Pro
 AppSupportURL=https://github.com/Eduardo-ci/Cipherpass_Pro/issues
