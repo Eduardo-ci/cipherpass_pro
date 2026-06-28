@@ -4,7 +4,7 @@ set -euo pipefail
 
 # 📦 Configuración del paquete
 APP_NAME="cipherpass"
-VERSION="1.0.3"
+VERSION="1.0.4"
 ARCH="x86_64"
 APPDIR="AppDir"
 DIST_DIR="dist"

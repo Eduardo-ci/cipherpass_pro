@@ -16,26 +16,19 @@ echo_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
 echo_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 echo_err()  { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 
-# Validar permisos de administrador
-# NOTA: usamos `id -u` en lugar de $EUID porque $EUID no está garantizado en
-# todos los shells que podrían invocar este script (p.ej. si alguien lo
-# corre con `sh script.sh` en vez de `bash script.sh`). `id -u` es universal.
-if [ "$(id -u)" -ne 0 ]; then
-  echo_warn "Este script requiere permisos de administrador para instalar en el sistema."
-  echo_warn "Por favor, ejecútalo usando: sudo bash $0"
-  exit 1
-fi
+# Permisos de administrador ya no son obligatorios en todo el script.
+# La instalación se realizará en el espacio del usuario (~/.local).
+# Si se requieren dependencias del sistema, se solicitará instalarlas manualmente.
 
 # ==========================================
 # CONFIGURACIÓN DE INSTALACIÓN
 # ==========================================
-# Cambia estas versiones por un tag específico (ej. 'v1.0.3') o un hash de commit
-# para garantizar instalaciones inmutables y 100% predecibles en producción.
-CLI_VERSION="main"
-CORE_VERSION="main"
+# Versiones fijadas para evitar ataques de cadena de suministro en ramas mutables (ej. main).
+CLI_VERSION="v1.0.4"
+CORE_VERSION="v1.0.4"
 
-# Ubicación del ejecutable global
-BIN_LINK="/usr/local/bin/cipherpass-cli"
+# Ubicación del ejecutable a nivel de usuario (evita requerir sudo)
+BIN_LINK="$HOME/.local/bin/cipherpass-cli"
 
 # Validar dependencias esenciales
 for cmd in python3 git; do
@@ -98,8 +91,8 @@ if [ -f "$CURRENT_DIR/cipherpass_cli.py" ] && [ -d "$CURRENT_DIR/cipherpass_core
 
     chmod +x "$CLI_SCRIPT"
 else
-    echo_info "Ejecutando en Modo Standalone (Instalación limpia en /opt)..."
-    INSTALL_DIR="/opt/cipherpass-cli"
+    echo_info "Ejecutando en Modo Standalone (Instalación en ~/.local/share)..."
+    INSTALL_DIR="$HOME/.local/share/cipherpass-cli"
     CLI_SCRIPT="$INSTALL_DIR/cipherpass_cli.py"
     VENV_DIR="$INSTALL_DIR/.venv"
     CORE_REPO_PATH="$INSTALL_DIR/cipherpass_core_repo"
@@ -114,6 +107,15 @@ else
     else
         echo_err "Necesitas tener instalado 'curl' o 'wget' para descargar los archivos."
     fi
+
+    # Verificación de integridad del script descargado (SHA256 para la versión v1.0.4)
+    EXPECTED_SHA="b99c50386d3520b8e080f5c973eeffc892a66e4dc09c64204f5514725c0ec93e"
+    ACTUAL_SHA=$(sha256sum "$CLI_SCRIPT" | cut -d' ' -f1)
+    if [ "$ACTUAL_SHA" != "$EXPECTED_SHA" ]; then
+        rm -f "$CLI_SCRIPT"
+        echo_err "Verificación de integridad fallida. El archivo descargado no coincide con el checksum esperado. Posible compromiso en la red o repositorio."
+    fi
+
     chmod +x "$CLI_SCRIPT"
     
     if [ ! -d "$CORE_REPO_PATH" ]; then
@@ -153,40 +155,30 @@ if [ ! -d "$VENV_DIR" ]; then
     VENV_IS_NEW=1
     echo_info "Creando entorno virtual aislado para dependencias..."
 
-    # Prevención de escalada accidental de permisos en desarrollo:
-    # Si la instalación es local, creamos el entorno virtual a nombre del usuario
-    # original (SUDO_USER) para no dejar carpetas propiedad de root en su workspace.
-    # En instalaciones standalone (/opt), el dueño será root (comportamiento estándar).
-    if [ "$INSTALL_DIR" == "$CURRENT_DIR" ] && [ -n "${SUDO_USER:-}" ]; then
-        sudo -u "$SUDO_USER" python3 -m venv "$VENV_DIR"
-    else
-        python3 -m venv "$VENV_DIR"
-    fi
+    python3 -m venv "$VENV_DIR"
 else
     echo_info "Entorno virtual (.venv) ya existente."
 fi
 
 # NOTA: usamos un array (PIP_CMD=(...)) en vez de un string para PIP_CMD.
 # Con un string, "$PIP_CMD install ..." sin comillas hace word-splitting
-# y rompe si $VENV_DIR o $SUDO_USER contienen espacios. Con un array y
+# y rompe si $VENV_DIR contiene espacios. Con un array y
 # "${PIP_CMD[@]}" cada elemento se preserva intacto.
 # IMPORTANTE: definimos PIP_CMD siempre, fuera del bloque de creación del venv,
 # porque lo necesitamos también en reinstalaciones (ver más abajo).
-if [ "$INSTALL_DIR" == "$CURRENT_DIR" ] && [ -n "${SUDO_USER:-}" ]; then
-    PIP_CMD=(sudo -u "$SUDO_USER" "$VENV_DIR/bin/pip")
-else
-    PIP_CMD=("$VENV_DIR/bin/pip")
-fi
+PIP_CMD=("$VENV_DIR/bin/pip")
 
 if [ "$VENV_IS_NEW" -eq 1 ]; then
     echo_info "Instalando dependencias requeridas..."
     "${PIP_CMD[@]}" install --quiet --upgrade pip
-    if [ -f "$INSTALL_DIR/requirements.txt" ]; then
+    # Instalamos las dependencias explícitas usando un archivo bloqueado con hashes
+    # para evitar ataques de cadena de suministro en PyPI.
+    if [ -f "$INSTALL_DIR/requirements-cli.txt" ]; then
+        "${PIP_CMD[@]}" install --quiet --require-hashes -r "$INSTALL_DIR/requirements-cli.txt"
+    elif [ -f "$INSTALL_DIR/requirements.txt" ]; then
         "${PIP_CMD[@]}" install --quiet -r "$INSTALL_DIR/requirements.txt"
     else
-        # Instalamos las dependencias explícitas. El paquete cipherpass_core
-        # se instala siempre más abajo (tanto en venv nuevo como existente),
-        # para no quedar desincronizados con el repo tras un git pull.
+        echo_warn "No se encontró requirements-cli.txt. Usando instalación insegura por defecto (sin hashes)."
         "${PIP_CMD[@]}" install --quiet cryptography platformdirs argon2-cffi requests zxcvbn-python "qrcode[pil]" rich pyperclip
     fi
 fi

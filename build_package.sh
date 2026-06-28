@@ -5,7 +5,7 @@ set -euo pipefail
 
 # 📦 Configuración del paquete
 APP_NAME="cipherpass"
-VERSION="1.0.3"
+VERSION="1.0.4"
 ARCH="amd64"
 DEB_FILE="${APP_NAME}_${VERSION}_${ARCH}.deb"
 BUILD_DIR="build"
