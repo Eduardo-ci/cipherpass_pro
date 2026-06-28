@@ -25,7 +25,10 @@ echo_err()  { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 # ==========================================
 # Versiones fijadas para evitar ataques de cadena de suministro en ramas mutables (ej. main).
 CLI_VERSION="v1.0.4"
-CORE_VERSION="v1.0.4"
+# CORE_VERSION usa el hash completo del commit porque el repositorio
+# cipherpass_core aún no tiene tags de release. Un hash de commit es
+# inmutable y más seguro que apuntar a una rama.
+CORE_VERSION="025db8e9f88251accfc9a09f64483c216fc1c080"
 
 # Ubicación del ejecutable a nivel de usuario (evita requerir sudo)
 BIN_LINK="$HOME/.local/bin/cipherpass-cli"
@@ -76,7 +79,7 @@ fi
 # DETERMINAR MODO DE EJECUCIÓN
 # ==========================================
 # Local: Instalación orientada a desarrollo (se asume repositorio clonado).
-# Standalone: Instalación global en el sistema (descarga e instala en /opt).
+# Standalone: Instalación a nivel de usuario (descarga e instala en ~/.local/share).
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 
 if [ -f "$CURRENT_DIR/cipherpass_cli.py" ] && [ -d "$CURRENT_DIR/cipherpass_core" ]; then
@@ -126,10 +129,16 @@ else
         echo_info "Actualizando repositorio criptográfico base (versión: $CORE_VERSION)..."
         git -C "$CORE_REPO_PATH" fetch -q origin
         git -C "$CORE_REPO_PATH" checkout -q "$CORE_VERSION"
-        # Solo hacemos pull si estamos en una rama (no en un hash/tag fijo)
-        if git -C "$CORE_REPO_PATH" symbolic-ref -q HEAD >/dev/null 2>&1; then
-             git -C "$CORE_REPO_PATH" pull -q origin "$CORE_VERSION"
-        fi
+    fi
+
+    # Verificación de integridad del repositorio criptográfico base.
+    # Comparamos el commit HEAD actual contra el hash esperado para asegurar
+    # que el código clonado no fue alterado.
+    EXPECTED_CORE_COMMIT="025db8e9f88251accfc9a09f64483c216fc1c080"
+    ACTUAL_CORE_COMMIT=$(git -C "$CORE_REPO_PATH" rev-parse HEAD)
+    if [ "$ACTUAL_CORE_COMMIT" != "$EXPECTED_CORE_COMMIT" ]; then
+        rm -rf "$CORE_REPO_PATH"
+        echo_err "Verificación de integridad fallida para cipherpass_core. Commit esperado: $EXPECTED_CORE_COMMIT, obtenido: $ACTUAL_CORE_COMMIT. Posible compromiso del repositorio."
     fi
 fi
 
@@ -178,8 +187,7 @@ if [ "$VENV_IS_NEW" -eq 1 ]; then
     elif [ -f "$INSTALL_DIR/requirements.txt" ]; then
         "${PIP_CMD[@]}" install --quiet -r "$INSTALL_DIR/requirements.txt"
     else
-        echo_warn "No se encontró requirements-cli.txt. Usando instalación insegura por defecto (sin hashes)."
-        "${PIP_CMD[@]}" install --quiet cryptography platformdirs argon2-cffi requests zxcvbn-python "qrcode[pil]" rich pyperclip
+        echo_err "No se encontró requirements-cli.txt ni requirements.txt. Abortando instalación: no es posible verificar la integridad de las dependencias."
     fi
 fi
 
