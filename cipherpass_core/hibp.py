@@ -20,7 +20,9 @@ class HIBPClient:
         if not HAS_REQUESTS:
             return -1, QT_TRANSLATE_NOOP("CipherPassApp", "La librería 'requests' no está instalada.")
             
-        sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+        # SHA-1 is required by the HIBP k-anonymity API protocol.
+        # This is NOT used for password storage or integrity — only for API lookup.
+        sha1_hash = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()  # nosec B324
         prefix = sha1_hash[:5]
         suffix = sha1_hash[5:]
 
